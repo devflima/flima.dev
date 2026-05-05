@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-background min-h-screen flex flex-col font-body-base text-body-base selection:bg-primary-container selection:text-on-primary-container grid-bg;
+  }
+}
+
+@layer utilities {
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, rgba(132, 150, 126, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(132, 150, 126, 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .glow-border {
+    box-shadow: 0 0 8px 0 theme('colors.primary-container');
+  }
+
+  .glow-border-sm {
+    box-shadow: 0 0 4px 0 theme('colors.primary-container');
+  }
+
+  .glow-border-active {
+    box-shadow: 0 0 8px 0 theme('colors.primary-container');
+    border-color: theme('colors.primary-container');
+  }
+
+  .glow-border-hover:hover {
+    box-shadow: 0 0 8px 0 theme('colors.primary-container');
+    border-color: theme('colors.primary-container');
+  }
+
+  .cursor-blink {
+    animation: blink 1s step-end infinite;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
