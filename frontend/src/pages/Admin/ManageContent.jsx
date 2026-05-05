@@ -1,0 +1,166 @@
+import { useState, useEffect } from 'react';
+import { useGetPageContentQuery, useAddPageContentMutation, useUpdatePageContentMutation } from '../../store/apiSlice';
+
+export default function ManageContent() {
+  const { data: content, isLoading } = useGetPageContentQuery();
+  const [addPageContent, { isLoading: isAdding }] = useAddPageContentMutation();
+  const [updateContent, { isLoading: isUpdating }] = useUpdatePageContentMutation();
+  
+  const [formData, setFormData] = useState({
+    homeTitle: '', homeSubtitle: '',
+    projectsTitle: '', projectsSubtitle: '',
+    experienceTitle: '', experienceSubtitle: '',
+    educationTitle: '', educationSubtitle: '',
+    contactTitle: '', contactSubtitle: ''
+  });
+
+  useEffect(() => {
+    if (content) {
+      setFormData({
+        homeTitle: content.home?.title || '',
+        homeSubtitle: content.home?.subtitle || '',
+        projectsTitle: content.projects?.title || '',
+        projectsSubtitle: content.projects?.subtitle || '',
+        experienceTitle: content.experience?.title || '',
+        experienceSubtitle: content.experience?.subtitle || '',
+        educationTitle: content.education?.title || '',
+        educationSubtitle: content.education?.subtitle || '',
+        contactTitle: content.contact?.title || '',
+        contactSubtitle: content.contact?.subtitle || ''
+      });
+    }
+  }, [content]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      home: {
+        title: formData.homeTitle,
+        subtitle: formData.homeSubtitle
+      },
+      projects: {
+        title: formData.projectsTitle,
+        subtitle: formData.projectsSubtitle
+      },
+      experience: {
+        title: formData.experienceTitle,
+        subtitle: formData.experienceSubtitle
+      },
+      education: {
+        title: formData.educationTitle,
+        subtitle: formData.educationSubtitle
+      },
+      contact: {
+        title: formData.contactTitle,
+        subtitle: formData.contactSubtitle
+      }
+    };
+
+    try {
+      // Backend expects List<ContentDTORequest> or individual?
+      // Based on my apiSlice, I'm sending the object.
+      await addPageContent(payload).unwrap();
+    } catch (err) {
+      console.error('Failed to update Page Content', err);
+    }
+  };
+
+  if (isLoading) return <div className="font-label-mono text-primary-container"><span className="cursor-blink">Loading...</span></div>;
+
+  return (
+    <div>
+      <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
+        <span className="material-symbols-outlined text-primary-container">edit_document</span>
+        Manage Page Content
+      </h2>
+      <div className="bg-surface-container border border-surface-container-highest p-6 max-w-3xl">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          
+          {/* Home Page Content */}
+          <div>
+            <h3 className="font-label-mono text-primary-container mb-4">HOME_PAGE</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
+                <input type="text" name="homeTitle" value={formData.homeTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+              </div>
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
+                <textarea name="homeSubtitle" value={formData.homeSubtitle} onChange={handleChange} rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          {/* Projects Page Content */}
+          <div className="border-t border-surface-container-highest pt-6">
+            <h3 className="font-label-mono text-primary-container mb-4">PROJECTS_PAGE</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
+                <input type="text" name="projectsTitle" value={formData.projectsTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+              </div>
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
+                <textarea name="projectsSubtitle" value={formData.projectsSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          {/* Experience Page Content */}
+          <div className="border-t border-surface-container-highest pt-6">
+            <h3 className="font-label-mono text-primary-container mb-4">EXPERIENCE_PAGE</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
+                <input type="text" name="experienceTitle" value={formData.experienceTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+              </div>
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
+                <textarea name="experienceSubtitle" value={formData.experienceSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          {/* Education Page Content */}
+          <div className="border-t border-surface-container-highest pt-6">
+            <h3 className="font-label-mono text-primary-container mb-4">EDUCATION_PAGE</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
+                <input type="text" name="educationTitle" value={formData.educationTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+              </div>
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
+                <textarea name="educationSubtitle" value={formData.educationSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Page Content */}
+          <div className="border-t border-surface-container-highest pt-6">
+            <h3 className="font-label-mono text-primary-container mb-4">CONTACT_PAGE</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
+                <input type="text" name="contactTitle" value={formData.contactTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+              </div>
+              <div className="space-y-2">
+                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
+                <textarea name="contactSubtitle" value={formData.contactSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" disabled={isUpdating || isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
+            {isUpdating || isAdding ? '[ Saving... ]' : '[ Save_Content ]'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
