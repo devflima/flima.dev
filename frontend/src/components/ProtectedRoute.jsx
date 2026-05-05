@@ -1,0 +1,31 @@
+import { Navigate, Outlet } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
+export default function ProtectedRoute() {
+  const token = localStorage.getItem('token');
+  let isValid = false;
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      
+      // Quarkus/SmallRye JWT usually puts roles in 'groups' claim
+      const roles = decoded.groups || [];
+      if (decoded.exp > currentTime && (roles.includes('OWNER') || decoded.role === 'OWNER')) {
+        isValid = true;
+      }
+    } catch (err) {
+      console.error('Invalid token format');
+    }
+  }
+
+  if (!isValid) {
+    // Clear any invalid state
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('token');
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
+}
