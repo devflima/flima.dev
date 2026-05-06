@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useGetTechStackQuery, useAddTechStackMutation, useUpdateTechStackMutation } from '../../store/apiSlice';
+import { useGetTechStackQuery, useAddTechStackMutation } from '../../store/apiSlice';
 
 export default function ManageTechStack() {
   const { data: stack, isLoading } = useGetTechStackQuery();
   const [addTechStack, { isLoading: isAdding }] = useAddTechStackMutation();
-  const [updateTechStack, { isLoading: isUpdating }] = useUpdateTechStackMutation();
+
   
   const [formData, setFormData] = useState({
     languages: '',
@@ -15,6 +15,7 @@ export default function ManageTechStack() {
 
   useEffect(() => {
     if (stack) {
+      // eslint-disable-next-line
       setFormData({
         languages: stack.languages?.join(', ') || '',
         databases: stack.databases?.join(', ') || '',
@@ -79,8 +80,8 @@ export default function ManageTechStack() {
             <label className="font-label-mono text-label-mono text-secondary-container">Messaging</label>
             <input required type="text" name="messaging" value={formData.messaging} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
-          <button type="submit" disabled={isUpdating || isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
-            {isUpdating || isAdding ? '[ Saving... ]' : '[ Save_Tech_Stack ]'}
+          <button type="submit" disabled={isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
+            {isAdding ? '[ Saving... ]' : '[ Save_Tech_Stack ]'}
           </button>
         </form>
       </div>

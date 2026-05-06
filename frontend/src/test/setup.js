@@ -1,3 +1,4 @@
+/* global global, beforeAll, afterEach, afterAll */
 import '@testing-library/jest-dom';
 import { fetch } from 'cross-fetch';
 import { server } from './mocks/server';

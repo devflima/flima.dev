@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useGetPageContentQuery, useAddPageContentMutation, useUpdatePageContentMutation } from '../../store/apiSlice';
+import { useGetPageContentQuery, useAddPageContentMutation } from '../../store/apiSlice';
 
 export default function ManageContent() {
   const { data: content, isLoading } = useGetPageContentQuery();
   const [addPageContent, { isLoading: isAdding }] = useAddPageContentMutation();
-  const [updateContent, { isLoading: isUpdating }] = useUpdatePageContentMutation();
+
   
   const [formData, setFormData] = useState({
     homeTitle: '', homeSubtitle: '',
@@ -16,6 +16,7 @@ export default function ManageContent() {
 
   useEffect(() => {
     if (content) {
+      // eslint-disable-next-line
       setFormData({
         homeTitle: content.home?.title || '',
         homeSubtitle: content.home?.subtitle || '',
@@ -65,8 +66,8 @@ export default function ManageContent() {
       // Backend expects List<ContentDTORequest> or individual?
       // Based on my apiSlice, I'm sending the object.
       await addPageContent(payload).unwrap();
-    } catch (err) {
-      console.error('Failed to update Page Content', err);
+    } catch {
+      console.error('Failed to update Page Content');
     }
   };
 
@@ -156,8 +157,8 @@ export default function ManageContent() {
             </div>
           </div>
 
-          <button type="submit" disabled={isUpdating || isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
-            {isUpdating || isAdding ? '[ Saving... ]' : '[ Save_Content ]'}
+          <button type="submit" disabled={isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
+            {isAdding ? '[ Saving... ]' : '[ Save_Content ]'}
           </button>
         </form>
       </div>

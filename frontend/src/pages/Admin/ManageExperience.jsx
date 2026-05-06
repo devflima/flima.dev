@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGetExperienceQuery, useAddExperienceMutation, useUpdateExperienceMutation, useDeleteExperienceMutation } from '../../store/apiSlice';
 
 export default function ManageExperience() {

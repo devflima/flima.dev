@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGetEducationQuery, useAddEducationMutation, useUpdateEducationMutation, useDeleteEducationMutation } from '../../store/apiSlice';
 
 export default function ManageEducation() {
