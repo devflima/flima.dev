@@ -1,0 +1,108 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Experience Page Regression > matches DOM snapshot when loaded 1`] = `
+<div>
+  <main
+    class="flex-grow pt-[120px] pb-24 px-6 md:px-12 w-full max-w-[1000px] mx-auto"
+  >
+    <h1
+      class="font-headline-xl text-[40px] md:text-[64px] text-on-surface tracking-tighter font-black mb-4"
+    >
+      MOCK_EXPERIENCE
+    </h1>
+    <p
+      class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-16"
+    >
+      Mock experience subtitle
+    </p>
+    <div
+      class="relative border-l border-surface-container-highest ml-4 md:ml-6 pl-8 md:pl-12 space-y-16"
+    >
+      <div
+        class="relative group"
+      >
+        <div
+          class="absolute -left-[41px] md:-left-[57px] top-0 w-8 h-8 rounded-full bg-surface border-2 border-surface-container-highest flex items-center justify-center group-hover:border-primary-container transition-colors duration-300 z-10"
+        >
+          <div
+            class="w-2 h-2 rounded-full bg-primary-container glow-border-sm"
+          />
+        </div>
+        <article
+          class="border border-surface-container-highest bg-surface-container-lowest p-6 md:p-8 hover:border-surface-variant transition-colors duration-300"
+        >
+          <header
+            class="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-4"
+          >
+            <div>
+              <h2
+                class="font-headline-md text-headline-md text-on-surface mb-1 flex items-center gap-2"
+              >
+                <span
+                  class="material-symbols-outlined text-primary-container"
+                >
+                  dns
+                </span>
+                Mock Architect
+              </h2>
+              <div
+                class="font-code-snippet text-code-snippet text-surface-variant"
+              >
+                @
+                Mock Corp
+              </div>
+            </div>
+            <div
+              class="font-label-mono text-label-mono text-on-surface-variant bg-surface-container px-3 py-1 border border-surface-container-highest inline-block"
+            >
+              2020 - 2024
+            </div>
+          </header>
+          <ul
+            class="space-y-4 mb-8"
+          >
+            <li
+              class="font-body-base text-body-base text-on-surface-variant flex items-start gap-3"
+            >
+              <span
+                class="text-primary-container mt-1"
+              >
+                &gt;
+              </span>
+              Mock bullet 1
+            </li>
+            <li
+              class="font-body-base text-body-base text-on-surface-variant flex items-start gap-3"
+            >
+              <span
+                class="text-primary-container mt-1"
+              >
+                &gt;
+              </span>
+              Mock bullet 2
+            </li>
+          </ul>
+          <footer
+            class="pt-4 border-t border-surface-container-highest"
+          >
+            <div
+              class="flex flex-wrap gap-2"
+            >
+              <span
+                class="font-label-mono text-[10px] text-on-surface bg-surface-container-high px-2 py-1 uppercase tracking-wider"
+              >
+                React
+              </span>
+              <span
+                class="font-label-mono text-[10px] text-on-surface bg-surface-container-high px-2 py-1 uppercase tracking-wider"
+              >
+                Redux
+              </span>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>
+`;
