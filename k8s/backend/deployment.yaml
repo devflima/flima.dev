@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flima-backend
+  namespace: portfolio
+  labels:
+    app: flima-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flima-backend
+  template:
+    metadata:
+      labels:
+        app: flima-backend
+    spec:
+      containers:
+      - name: flima-backend
+        image: ghcr.io/seu-usuario/flima-dev-backend:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: backend-secrets
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flima-backend-service
+  namespace: portfolio
+spec:
+  selector:
+    app: flima-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
