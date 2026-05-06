@@ -17,7 +17,7 @@ public class DatabaseHealthCheck implements HealthCheck {
     @Override
     public HealthCheckResponse call() {
         try {
-            userRepository.count();
+            userRepository.countUsers();
             return HealthCheckResponse.named("PostgreSQL Connection")
                     .up()
                     .withData("database", "PostgreSQL")
