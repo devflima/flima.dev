@@ -1,2 +1,13 @@
 .DS_Store
 .frontend/agents/
+target/
+*.class
+*.log
+.idea/
+.vscode/
+*.swp
+*.pem
+*.pk8
+node_modules/
+dist/
+.env

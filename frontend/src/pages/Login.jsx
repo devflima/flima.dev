@@ -41,7 +41,7 @@ export default function Login() {
         <div className="p-8">
           <h1 className="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
             <span className="material-symbols-outlined text-primary-container">lock</span>
-            ADMIN_AUTH_REQUIRED
+            {' ADMIN_AUTH_REQUIRED'}
           </h1>
           
           {error && (
@@ -52,23 +52,23 @@ export default function Login() {
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+              <label htmlFor="username" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                 <span className="material-symbols-outlined text-[16px]">person</span>
-                Username
+                {' Username'}
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                <input required type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet pl-8 py-3 outline-none" />
+                <input id="username" required type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet pl-8 py-3 outline-none" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+              <label htmlFor="password" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                 <span className="material-symbols-outlined text-[16px]">key</span>
-                Password
+                {' Password'}
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet pl-8 py-3 outline-none" />
+                <input id="password" required type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet pl-8 py-3 outline-none" />
               </div>
             </div>
             

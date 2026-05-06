@@ -48,8 +48,8 @@ export default function Experience() {
               </header>
 
               <ul className="space-y-4 mb-8">
-                {exp.bullets.map((bullet, i) => (
-                  <li key={i} className="font-body-base text-body-base text-on-surface-variant flex items-start gap-3">
+                {exp.bullets.map((bullet) => (
+                  <li key={bullet} className="font-body-base text-body-base text-on-surface-variant flex items-start gap-3">
                     <span className="text-primary-container mt-1">&gt;</span>
                     {bullet}
                   </li>

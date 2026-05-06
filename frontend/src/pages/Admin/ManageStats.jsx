@@ -8,7 +8,6 @@ export default function ManageStats() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    // eslint-disable-next-line
     if (data) setStats(data);
   }, [data]);
 
@@ -41,29 +40,29 @@ export default function ManageStats() {
       <form onSubmit={handleSave} className="space-y-6 max-w-2xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-on-surface-variant">YEARS_EXP</label>
-            <input type="text" name="yearsExperience" value={stats.yearsExperience} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="yearsExperience" className="font-label-mono text-label-mono text-on-surface-variant">YEARS_EXP</label>
+            <input id="yearsExperience" type="text" name="yearsExperience" value={stats.yearsExperience} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-on-surface-variant">SYS_DEPLOYED</label>
-            <input type="text" name="systemDeployed" value={stats.systemDeployed} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="systemDeployed" className="font-label-mono text-label-mono text-on-surface-variant">SYS_DEPLOYED</label>
+            <input id="systemDeployed" type="text" name="systemDeployed" value={stats.systemDeployed} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-on-surface-variant">UPTIME_SLA</label>
-            <input type="text" name="uptimeSLA" value={stats.uptimeSLA} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="uptimeSLA" className="font-label-mono text-label-mono text-on-surface-variant">UPTIME_SLA</label>
+            <input id="uptimeSLA" type="text" name="uptimeSLA" value={stats.uptimeSLA} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-on-surface-variant">COMMITS_LOGGED</label>
-            <input type="text" name="commitsLogged" value={stats.commitsLogged} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="commitsLogged" className="font-label-mono text-label-mono text-on-surface-variant">COMMITS_LOGGED</label>
+            <input id="commitsLogged" type="text" name="commitsLogged" value={stats.commitsLogged} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-on-surface-variant">Status Label</label>
-            <input type="text" name="status" value={stats.status} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="status_label" className="font-label-mono text-label-mono text-on-surface-variant">Status Label</label>
+            <input id="status_label" type="text" name="status" value={stats.status} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
         </div>
         <div className="space-y-2">
-          <label className="font-label-mono text-label-mono text-on-surface-variant">Objective</label>
-          <input type="text" name="objective" value={stats.objective} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+          <label htmlFor="objective" className="font-label-mono text-label-mono text-on-surface-variant">Objective</label>
+          <input id="objective" type="text" name="objective" value={stats.objective} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
         </div>
         <button type="submit" disabled={isUpdating || isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
           {isUpdating || isAdding ? '[ Executing_Save... ]' : '[ Save_Changes ]'}

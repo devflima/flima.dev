@@ -1,3 +1,3 @@
-export const API_URL = import.meta.env.VITE_API_URL !== undefined
+export const API_URL = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL
   : (import.meta.env.MODE === 'test' ? 'http://localhost:8080' : '');

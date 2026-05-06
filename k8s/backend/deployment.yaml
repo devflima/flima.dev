@@ -15,6 +15,7 @@ spec:
       labels:
         app: flima-backend
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: flima-backend
         image: ghcr.io/devflima/flima.dev-backend:latest
@@ -23,13 +24,27 @@ spec:
         envFrom:
         - secretRef:
             name: backend-secrets
+        env:
+        - name: JWT_PRIVATE_KEY_LOCATION
+          value: /deployments/config/jwt/privateKey.pk8
+        - name: JWT_PUBLIC_KEY_LOCATION
+          value: /deployments/config/jwt/publicKey.pem
+        volumeMounts:
+        - name: jwt-keys
+          mountPath: /deployments/config/jwt
+          readOnly: true
         resources:
           limits:
             memory: "512Mi"
             cpu: "500m"
+            ephemeral-storage: "1Gi"
           requests:
             memory: "256Mi"
-            cpu: "250m"
+            ephemeral-storage: "512Mi"
+      volumes:
+      - name: jwt-keys
+        secret:
+          secretName: backend-jwt-keys
 ---
 apiVersion: v1
 kind: Service

@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="w-full py-8 bg-slate-950 dark:bg-slate-950 border-t border-slate-800 mt-auto">
       <div className="flex flex-col md:flex-row justify-between items-center px-12 max-w-screen-2xl mx-auto gap-4">
         <div className="font-mono text-[10px] uppercase tracking-widest text-[#00FF41]">
-          &copy; {new Date().getFullYear()} // ALL RIGHTS RESERVED
+          &copy; {new Date().getFullYear()} {'// ALL RIGHTS RESERVED'}
         </div>
         <div className="flex gap-6 font-mono text-[10px] uppercase tracking-widest text-slate-600">
           <a className="hover:text-white transition-opacity duration-300 relative group" href="https://github.com/devflima" target="_blank" rel="noopener noreferrer">
