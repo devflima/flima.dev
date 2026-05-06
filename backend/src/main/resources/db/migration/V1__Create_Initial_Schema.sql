@@ -10,23 +10,23 @@ CREATE TYPE role_enum AS ENUM ('OWNER');
 CREATE TABLE contents (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     section_type section_type_enum NOT NULL,
-    title VARCHAR(255) NOT NULL CHECK (trim(title) <> ''),
-    subtitle VARCHAR(255) NOT NULL CHECK (trim(title) <> '')
+    title VARCHAR(255) NOT NULL CHECK (length(trim(title)) > 0),
+    subtitle VARCHAR(255) NOT NULL CHECK (length(trim(subtitle)) > 0)
 );
 
 CREATE TABLE educations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     education_type education_type_enum NOT NULL,
-    degree VARCHAR(255) NOT NULL CHECK (trim(degree) <> ''),
-    title VARCHAR(255) NOT NULL CHECK (trim(title) <> ''),
-    institution VARCHAR(255) NOT NULL CHECK (trim(institution) <> ''),
-    period VARCHAR(100) NOT NULL CHECK (trim(period) <> ''),
-    specialization VARCHAR(255) NOT NULL CHECK (trim(specialization) <> '')
+    degree VARCHAR(255) NOT NULL CHECK (length(trim(degree)) > 0),
+    title VARCHAR(255) NOT NULL CHECK (length(trim(title)) > 0),
+    institution VARCHAR(255) NOT NULL CHECK (length(trim(institution)) > 0),
+    period VARCHAR(100) NOT NULL CHECK (length(trim(period)) > 0),
+    specialization VARCHAR(255) NOT NULL CHECK (length(trim(specialization)) > 0)
 );
 
 CREATE TABLE education_skills (
     education_id UUID NOT NULL,
-    skill VARCHAR(150) NOT NULL CHECK (trim(skill) <> ''),
+    skill VARCHAR(150) NOT NULL CHECK (length(trim(skill)) > 0),
 
     PRIMARY KEY (education_id, skill),
 
@@ -38,7 +38,7 @@ CREATE TABLE education_skills (
 
 CREATE TABLE education_architectures (
     education_id UUID NOT NULL,
-    architecture VARCHAR(150) NOT NULL CHECK (trim(architecture) <> ''),
+    architecture VARCHAR(150) NOT NULL CHECK (length(trim(architecture)) > 0),
 
     PRIMARY KEY (education_id, architecture),
 
@@ -50,15 +50,15 @@ CREATE TABLE education_architectures (
 
 CREATE TABLE experiences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR(255) NOT NULL CHECK (trim(title) <> ''),
-    company VARCHAR(255) NOT NULL CHECK (trim(company) <> ''),
-    period VARCHAR(100) NOT NULL CHECK (trim(period) <> ''),
-    icon VARCHAR(50) NOT NULL CHECK (trim(icon) <> '')
+    title VARCHAR(255) NOT NULL CHECK (length(trim(title)) > 0),
+    company VARCHAR(255) NOT NULL CHECK (length(trim(company)) > 0),
+    period VARCHAR(100) NOT NULL CHECK (length(trim(period)) > 0),
+    icon VARCHAR(50) NOT NULL CHECK (length(trim(icon)) > 0)
 );
 
 CREATE TABLE experience_bullets (
     experience_id UUID NOT NULL,
-    bullet VARCHAR(150) NOT NULL CHECK (trim(bullet) <> ''),
+    bullet VARCHAR(150) NOT NULL CHECK (length(trim(bullet)) > 0),
 
     PRIMARY KEY (experience_id, bullet),
 
@@ -70,7 +70,7 @@ CREATE TABLE experience_bullets (
 
 CREATE TABLE experience_technologies (
     experience_id UUID NOT NULL,
-    technology VARCHAR(150) NOT NULL CHECK (trim(technology) <> ''),
+    technology VARCHAR(150) NOT NULL CHECK (length(trim(technology)) > 0),
 
     PRIMARY KEY (experience_id, technology),
 
@@ -82,26 +82,26 @@ CREATE TABLE experience_technologies (
 
 CREATE TABLE messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(150) NOT NULL CHECK (trim(username) <> ''),
-    email VARCHAR(255) NOT NULL CHECK (trim(email) <> '') CHECK (position('@' in email) > 1),
-    subject VARCHAR(255) NOT NULL CHECK (trim(subject) <> ''),
-    message TEXT NOT NULL CHECK (trim(message) <> ''),
+    username VARCHAR(150) NOT NULL CHECK (length(trim(username)) > 0),
+    email VARCHAR(255) NOT NULL CHECK (length(trim(email)) > 0) CHECK (position('@' in email) > 1),
+    subject VARCHAR(255) NOT NULL CHECK (length(trim(subject)) > 0),
+    message TEXT NOT NULL CHECK (length(trim(message)) > 0),
     timestamp TIMESTAMP NOT NULL,
     status_message status_message_enum NOT NULL
 );
 
 CREATE TABLE projects (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR(255) NOT NULL CHECK (trim(title) <> ''),
-    subtitle VARCHAR(255) NOT NULL CHECK (trim(subtitle) <> ''),
-    description VARCHAR(255) NOT NULL CHECK (trim(description) <> ''),
+    title VARCHAR(255) NOT NULL CHECK (length(trim(title)) > 0),
+    subtitle VARCHAR(255) NOT NULL CHECK (length(trim(subtitle)) > 0),
+    description VARCHAR(255) NOT NULL CHECK (length(trim(description)) > 0),
     codeSnippet VARCHAR(200),
     icon VARCHAR(50)
 );
 
 CREATE TABLE project_technologies (
     project_id UUID NOT NULL,
-    technology VARCHAR(150) NOT NULL CHECK (trim(technology) <> ''),
+    technology VARCHAR(150) NOT NULL CHECK (length(trim(technology)) > 0),
 
     PRIMARY KEY (project_id, technology),
 
@@ -118,7 +118,7 @@ CREATE TABLE stacks (
 
 CREATE TABLE stack_technologies (
     stack_id UUID NOT NULL,
-    technology VARCHAR(150) NOT NULL CHECK (trim(technology) <> ''),
+    technology VARCHAR(150) NOT NULL CHECK (length(trim(technology)) > 0),
 
     PRIMARY KEY (stack_id, technology),
 
@@ -130,22 +130,22 @@ CREATE TABLE stack_technologies (
 
 CREATE TABLE stats (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    yearsExperience VARCHAR(10) NOT NULL CHECK (trim(yearsExperience) <> ''),
-    systemDeployed VARCHAR(10) NOT NULL CHECK (trim(systemDeployed) <> ''),
-    uptimeSLA VARCHAR(15) NOT NULL CHECK (trim(uptimeSLA) <> ''),
-    commitsLogged VARCHAR(10) NOT NULL CHECK (trim(commitsLogged) <> ''),
-    status VARCHAR(10) NOT NULL CHECK (trim(status) <> ''),
-    objective VARCHAR(10) NOT NULL CHECK (trim(objective) <> '')
+    yearsExperience VARCHAR(10) NOT NULL CHECK (length(trim(yearsExperience)) > 0),
+    systemDeployed VARCHAR(10) NOT NULL CHECK (length(trim(systemDeployed)) > 0),
+    uptimeSLA VARCHAR(15) NOT NULL CHECK (length(trim(uptimeSLA)) > 0),
+    commitsLogged VARCHAR(10) NOT NULL CHECK (length(trim(commitsLogged)) > 0),
+    status VARCHAR(10) NOT NULL CHECK (length(trim(status)) > 0),
+    objective VARCHAR(10) NOT NULL CHECK (length(trim(objective)) > 0)
 );
 
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(15) UNIQUE NOT NULL CHECK (trim(username) <> ''),
-    name VARCHAR(15) NOT NULL CHECK (trim(name) <> ''),
-    last_name VARCHAR(15) NOT NULL CHECK (trim(last_name) <> ''),
-    email VARCHAR(255) UNIQUE NOT NULL CHECK (trim(email) <> '') CHECK (position('@' in email) > 1),
+    username VARCHAR(15) UNIQUE NOT NULL CHECK (length(trim(username)) > 0),
+    name VARCHAR(15) NOT NULL CHECK (length(trim(name)) > 0),
+    last_name VARCHAR(15) NOT NULL CHECK (length(trim(last_name)) > 0),
+    email VARCHAR(255) UNIQUE NOT NULL CHECK (length(trim(email)) > 0) CHECK (position('@' in email) > 1),
     role role_enum NOT NULL,
-    password VARCHAR(255) NOT NULL CHECK (trim(password) <> '')
+    password VARCHAR(255) NOT NULL CHECK (length(trim(password)) > 0)
 );
 
 -- Índices

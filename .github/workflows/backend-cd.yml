@@ -29,10 +29,10 @@ jobs:
       MAIL_FROM: test@flima.dev
     steps:
       - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@8df1039502502c38075306913e1115b3c8597b95 # v4.5.0
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -42,7 +42,7 @@ jobs:
         run: backend/mvnw package -DskipTests -f backend/pom.xml
 
       - name: Log in to the Container registry
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@369ebfd91f94d124872d50b9100c302061f6c010 # v5.6.1
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
@@ -58,7 +58,7 @@ jobs:
             type=sha
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@0565240e2d4ab88bba5387471f7bd7514b1f68af # v6.10.0
+        uses: docker/build-push-action@v5
         with:
           context: ./backend
           file: ./backend/src/main/docker/Dockerfile.jvm
