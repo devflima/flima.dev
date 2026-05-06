@@ -72,12 +72,12 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
                   <div
                     class="font-label-mono text-label-mono text-surface-variant mb-3"
                   >
-                    CONCENTRATION:
+                    SPECIALIZATION:
                   </div>
                   <div
                     class="font-body-base text-body-base text-on-surface"
                   >
-                    Mock Concentration
+                    Mock Specialization
                   </div>
                 </div>
               </div>
