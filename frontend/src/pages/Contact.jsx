@@ -146,32 +146,32 @@ export default function Contact() {
               <div className="font-label-mono text-label-mono text-on-surface-variant border-b border-surface-container-highest pb-2 mb-2">
                 // DIRECT_LINKS
               </div>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="#">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://github.com/devflima" target="_blank" rel="noopener noreferrer">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">code</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">GitHub</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/backend_arch</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/devflima</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="#">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://www.linkedin.com/in/felipe-lima-19873a14b/" target="_blank" rel="noopener noreferrer">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">work</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">LinkedIn</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/backend_arch</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/felipe-lima</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="mailto:hello@example.com">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="mailto:contato@flima.dev">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">mail</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">Email</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">sysadmin@backend.local</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">contato@flima.dev</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
