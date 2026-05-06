@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flima-frontend
+  namespace: portfolio
+  labels:
+    app: flima-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flima-frontend
+  template:
+    metadata:
+      labels:
+        app: flima-frontend
+    spec:
+      containers:
+      - name: flima-frontend
+        image: ghcr.io/seu-usuario/flima-dev:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flima-frontend-service
+  namespace: portfolio
+spec:
+  selector:
+    app: flima-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+  type: NodePort
