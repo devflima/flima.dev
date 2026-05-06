@@ -56,4 +56,5 @@ jobs:
             -Dsonar.projectKey=devflima \
             -Dsonar.organization=devflima \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${SONAR_TOKEN}
+            -Dsonar.token=${SONAR_TOKEN} \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
