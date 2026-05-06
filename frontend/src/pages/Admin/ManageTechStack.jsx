@@ -15,7 +15,7 @@ export default function ManageTechStack() {
 
   useEffect(() => {
     if (stack) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setFormData({
         languages: stack.languages?.join(', ') || '',
         databases: stack.databases?.join(', ') || '',
@@ -33,18 +33,13 @@ export default function ManageTechStack() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      languages: formData.languages.split(',').map(s => s.trim()).filter(s => s),
-      databases: formData.databases.split(',').map(s => s.trim()).filter(s => s),
-      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(s => s),
-      messaging: formData.messaging.split(',').map(s => s.trim()).filter(s => s)
+      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
+      databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean),
+      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean),
+      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean)
     };
 
     try {
-      // Backend expects a list of stacks or a specific structure?
-      // Based on my apiSlice, I'm sending the object.
-      // But the backend expects List<StackDTORequest>.
-      // I should adjust apiSlice or transform here.
-      // For now, let's assume the backend takes individual posts or we send the list.
       await addTechStack(payload).unwrap(); 
     } catch (err) {
       console.error('Failed to update Tech Stack', err);
@@ -57,7 +52,7 @@ export default function ManageTechStack() {
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
         <span className="material-symbols-outlined text-primary-container">terminal</span>
-        Manage Tech Stack
+        <span>Manage Tech Stack</span>
       </h2>
       <div className="bg-surface-container border border-surface-container-highest p-6 max-w-3xl">
         <p className="font-code-snippet text-on-surface-variant mb-6 text-sm">
@@ -65,20 +60,28 @@ export default function ManageTechStack() {
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-secondary-container">Languages</label>
-            <input required type="text" name="languages" value={formData.languages} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="languages" className="font-label-mono text-label-mono text-secondary-container">
+              <span>Languages</span>
+            </label>
+            <input id="languages" required type="text" name="languages" value={formData.languages} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-secondary-container">Databases</label>
-            <input required type="text" name="databases" value={formData.databases} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="databases" className="font-label-mono text-label-mono text-secondary-container">
+              <span>Databases</span>
+            </label>
+            <input id="databases" required type="text" name="databases" value={formData.databases} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-secondary-container">Infrastructure</label>
-            <input required type="text" name="infrastructure" value={formData.infrastructure} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="infrastructure" className="font-label-mono text-label-mono text-secondary-container">
+              <span>Infrastructure</span>
+            </label>
+            <input id="infrastructure" required type="text" name="infrastructure" value={formData.infrastructure} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <div className="space-y-2">
-            <label className="font-label-mono text-label-mono text-secondary-container">Messaging</label>
-            <input required type="text" name="messaging" value={formData.messaging} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
+            <label htmlFor="messaging" className="font-label-mono text-label-mono text-secondary-container">
+              <span>Messaging</span>
+            </label>
+            <input id="messaging" required type="text" name="messaging" value={formData.messaging} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-3 outline-none" />
           </div>
           <button type="submit" disabled={isAdding} className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-6 py-3 mt-4 transition-all duration-200">
             {isAdding ? '[ Saving... ]' : '[ Save_Tech_Stack ]'}

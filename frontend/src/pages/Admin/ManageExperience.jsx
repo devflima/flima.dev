@@ -19,8 +19,8 @@ export default function ManageExperience() {
     e.preventDefault();
     const payload = {
       ...formData,
-      bullets: typeof formData.bullets === 'string' ? formData.bullets.split('\\n').map(b => b.trim()).filter(b => b) : formData.bullets,
-      technologies: typeof formData.technologies === 'string' ? formData.technologies.split(',').map(t => t.trim()) : formData.technologies
+      bullets: typeof formData.bullets === 'string' ? formData.bullets.split(String.raw`\n`).map(b => b.trim()).filter(Boolean) : formData.bullets,
+      technologies: typeof formData.technologies === 'string' ? formData.technologies.split(',').map(t => t.trim()).filter(Boolean) : formData.technologies
     };
 
     try {
@@ -39,7 +39,7 @@ export default function ManageExperience() {
   const handleEdit = (exp) => {
     setFormData({
       ...exp,
-      bullets: exp.bullets.join('\\n'),
+      bullets: exp.bullets.join(String.raw`\n`),
       technologies: exp.technologies.join(', ')
     });
     setIsEditing(true);
@@ -65,7 +65,7 @@ export default function ManageExperience() {
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
         <span className="material-symbols-outlined text-primary-container">work</span>
-        Manage Experience
+        <span>Manage Experience</span>
       </h2>
 
       {/* Form */}
@@ -82,18 +82,39 @@ export default function ManageExperience() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Job Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Company" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="period" value={formData.period} onChange={handleChange} placeholder="Period (e.g. 2021 - PRESENT)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="technologies" value={formData.technologies} onChange={handleChange} placeholder="Technologies (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon (e.g. dns, database)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <select name="colorClass" value={formData.colorClass} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none">
-              <option value="primary">Primary (Green)</option>
-              <option value="secondary">Secondary (Cyan)</option>
-              <option value="surface-variant">Neutral (Gray)</option>
-            </select>
+            <div className="space-y-1">
+              <label htmlFor="title" className="font-label-mono text-[10px] text-surface-variant">Title</label>
+              <input id="title" required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Job Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="company" className="font-label-mono text-[10px] text-surface-variant">Company</label>
+              <input id="company" required type="text" name="company" value={formData.company} onChange={handleChange} placeholder="Company" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="period" className="font-label-mono text-[10px] text-surface-variant">Period</label>
+              <input id="period" required type="text" name="period" value={formData.period} onChange={handleChange} placeholder="Period (e.g. 2021 - PRESENT)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="technologies" className="font-label-mono text-[10px] text-surface-variant">Technologies</label>
+              <input id="technologies" required type="text" name="technologies" value={formData.technologies} onChange={handleChange} placeholder="Technologies (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="icon" className="font-label-mono text-[10px] text-surface-variant">Icon</label>
+              <input id="icon" required type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon (e.g. dns, database)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="colorClass" className="font-label-mono text-[10px] text-surface-variant">Color</label>
+              <select id="colorClass" name="colorClass" value={formData.colorClass} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none">
+                <option value="primary">Primary (Green)</option>
+                <option value="secondary">Secondary (Cyan)</option>
+                <option value="surface-variant">Neutral (Gray)</option>
+              </select>
+            </div>
           </div>
-          <textarea required name="bullets" value={formData.bullets} onChange={handleChange} placeholder="Bullets (separate by \n)" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+          <div className="space-y-1">
+            <label htmlFor="bullets" className="font-label-mono text-[10px] text-surface-variant">Bullets</label>
+            <textarea id="bullets" required name="bullets" value={formData.bullets} onChange={handleChange} placeholder="Bullets (separate by \n)" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+          </div>
           <button type="submit" className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-4 py-2 transition-all duration-200">
              {isEditing ? '[ Update_Experience ]' : '[ Add_Experience ]'}
           </button>

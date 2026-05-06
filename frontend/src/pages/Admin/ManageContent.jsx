@@ -16,7 +16,7 @@ export default function ManageContent() {
 
   useEffect(() => {
     if (content) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setFormData({
         homeTitle: content.home?.title || '',
         homeSubtitle: content.home?.subtitle || '',
@@ -87,12 +87,16 @@ export default function ManageContent() {
             <h3 className="font-label-mono text-primary-container mb-4">HOME_PAGE</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
-                <input type="text" name="homeTitle" value={formData.homeTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <label htmlFor="homeTitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Title</span>
+                </label>
+                <input id="homeTitle" type="text" name="homeTitle" value={formData.homeTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
-                <textarea name="homeSubtitle" value={formData.homeSubtitle} onChange={handleChange} rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+                <label htmlFor="homeSubtitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Subtitle</span>
+                </label>
+                <textarea id="homeSubtitle" name="homeSubtitle" value={formData.homeSubtitle} onChange={handleChange} rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -102,12 +106,16 @@ export default function ManageContent() {
             <h3 className="font-label-mono text-primary-container mb-4">PROJECTS_PAGE</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
-                <input type="text" name="projectsTitle" value={formData.projectsTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <label htmlFor="projectsTitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Title</span>
+                </label>
+                <input id="projectsTitle" type="text" name="projectsTitle" value={formData.projectsTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
-                <textarea name="projectsSubtitle" value={formData.projectsSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+                <label htmlFor="projectsSubtitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Subtitle</span>
+                </label>
+                <textarea id="projectsSubtitle" name="projectsSubtitle" value={formData.projectsSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -117,12 +125,16 @@ export default function ManageContent() {
             <h3 className="font-label-mono text-primary-container mb-4">EXPERIENCE_PAGE</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
-                <input type="text" name="experienceTitle" value={formData.experienceTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <label htmlFor="experienceTitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Title</span>
+                </label>
+                <input id="experienceTitle" type="text" name="experienceTitle" value={formData.experienceTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
-                <textarea name="experienceSubtitle" value={formData.experienceSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+                <label htmlFor="experienceSubtitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Subtitle</span>
+                </label>
+                <textarea id="experienceSubtitle" name="experienceSubtitle" value={formData.experienceSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -132,12 +144,16 @@ export default function ManageContent() {
             <h3 className="font-label-mono text-primary-container mb-4">EDUCATION_PAGE</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
-                <input type="text" name="educationTitle" value={formData.educationTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <label htmlFor="educationTitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Title</span>
+                </label>
+                <input id="educationTitle" type="text" name="educationTitle" value={formData.educationTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
-                <textarea name="educationSubtitle" value={formData.educationSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+                <label htmlFor="educationSubtitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Subtitle</span>
+                </label>
+                <textarea id="educationSubtitle" name="educationSubtitle" value={formData.educationSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -147,12 +163,16 @@ export default function ManageContent() {
             <h3 className="font-label-mono text-primary-container mb-4">CONTACT_PAGE</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Title</label>
-                <input type="text" name="contactTitle" value={formData.contactTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <label htmlFor="contactTitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Title</span>
+                </label>
+                <input id="contactTitle" type="text" name="contactTitle" value={formData.contactTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-surface-variant">Subtitle</label>
-                <textarea name="contactSubtitle" value={formData.contactSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+                <label htmlFor="contactSubtitle" className="font-label-mono text-label-mono text-surface-variant">
+                  <span>Subtitle</span>
+                </label>
+                <textarea id="contactSubtitle" name="contactSubtitle" value={formData.contactSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
