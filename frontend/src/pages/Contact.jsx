@@ -82,43 +82,43 @@ export default function Contact() {
             {/* Form Section */}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+                <label htmlFor="user_name" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                   <span className="material-symbols-outlined text-[16px]">terminal</span>
                   Input: user_name
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                  <input required name="user_name" value={formData.user_name} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="Enter string..." type="text" />
+                  <input id="user_name" required name="user_name" value={formData.user_name} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="Enter string..." type="text" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+                <label htmlFor="user_email" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                   <span className="material-symbols-outlined text-[16px]">terminal</span>
                   Input: user_email
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                  <input required name="user_email" value={formData.user_email} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="user@domain.tld" type="email" />
+                  <input id="user_email" required name="user_email" value={formData.user_email} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="user@domain.tld" type="email" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+                <label htmlFor="title_header" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                   <span className="material-symbols-outlined text-[16px]">terminal</span>
                   Input: title_header
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                  <input required name="title_header" value={formData.title_header} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="Enter metadata..." type="text" />
+                  <input id="title_header" required name="title_header" value={formData.title_header} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors" placeholder="Enter metadata..." type="text" />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
+                <label htmlFor="message_body" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
                   <span className="material-symbols-outlined text-[16px]">terminal</span>
                   Input: message_body
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-4 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
-                  <textarea required name="message_body" value={formData.message_body} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors resize-none" placeholder="Enter payload data..." rows="5"></textarea>
+                  <textarea id="message_body" required name="message_body" value={formData.message_body} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors resize-none" placeholder="Enter payload data..." rows="5"></textarea>
                 </div>
               </div>
               
@@ -135,7 +135,7 @@ export default function Contact() {
 
               <div className="pt-4">
                 <button disabled={isLoading || cooldown > 0} className="w-full font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container py-4 transition-all duration-200 flex justify-center items-center gap-2 uppercase tracking-widest group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-on-surface disabled:hover:border-surface-container-highest" type="submit">
-                  {isLoading ? '[ Transmitting... ]' : cooldown > 0 ? `[ Rate_Limit: ${cooldown}s ]` : '[ Execute_Transmission ]'}
+                  {isLoading ? '[ Transmitting... ]' : (cooldown > 0 ? `[ Rate_Limit: ${cooldown}s ]` : '[ Execute_Transmission ]')}
                   {!isLoading && cooldown === 0 && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>}
                 </button>
               </div>
@@ -144,34 +144,34 @@ export default function Contact() {
             {/* Direct Links Section */}
             <div className="flex flex-col gap-6">
               <div className="font-label-mono text-label-mono text-on-surface-variant border-b border-surface-container-highest pb-2 mb-2">
-                // DIRECT_LINKS
+                {'// DIRECT_LINKS'}
               </div>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="#">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://github.com/devflima" target="_blank" rel="noopener noreferrer">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">code</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">GitHub</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/backend_arch</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/devflima</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="#">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://www.linkedin.com/in/felipe-lima-19873a14b/" target="_blank" rel="noopener noreferrer">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">work</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">LinkedIn</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/backend_arch</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/felipe-lima</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="mailto:hello@example.com">
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="mailto:contato@flima.dev">
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-secondary-container">mail</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">Email</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">sysadmin@backend.local</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">contato@flima.dev</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>

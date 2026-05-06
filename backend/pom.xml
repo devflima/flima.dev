@@ -64,7 +64,6 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-jwt-build</artifactId>
-            <version>3.35.0</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

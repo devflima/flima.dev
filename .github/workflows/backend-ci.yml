@@ -43,6 +43,14 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Generate JWT Keys for Testing
+        run: |
+          mkdir -p src/main/resources
+          openssl genrsa -out privateKey.pem 2048
+          openssl pkcs8 -topk8 -inform PEM -outform PEM -in privateKey.pem -out src/main/resources/privateKey.pk8 -nocrypt
+          openssl rsa -in privateKey.pem -pubout -outform PEM -out src/main/resources/publicKey.pem
+          rm privateKey.pem
+
       - name: Build and Test
         run: ./mvnw clean verify
 
