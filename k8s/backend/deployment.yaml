@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: flima-backend
-        image: ghcr.io/seu-usuario/flima-dev-backend:latest
+        image: ghcr.io/devflima/flima.dev-backend:latest
         ports:
         - containerPort: 8080
         envFrom:
