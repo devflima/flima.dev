@@ -28,7 +28,7 @@ class MessageResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/messages")
+                .post("/api/v1/messages")
                 .then()
                 .statusCode(201);
     }
@@ -38,7 +38,7 @@ class MessageResourceTest {
     void shouldReturnUnauthorizedForGetAll() {
         given()
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(401);
     }
@@ -49,7 +49,7 @@ class MessageResourceTest {
     void shouldReturnForbiddenForGetAll() {
         given()
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(403);
     }
@@ -60,7 +60,7 @@ class MessageResourceTest {
     void shouldGetAllMessagesAsOwner() {
         given()
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(200);
     }

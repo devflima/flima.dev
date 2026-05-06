@@ -12,8 +12,22 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
+import jakarta.inject.Inject;
+import dev.flima.domain.users.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import jakarta.transaction.Transactional;
+
 @QuarkusTest
 class UserResourceTest {
+
+    @Inject
+    UserRepository userRepository;
+
+    @BeforeEach
+    @Transactional
+    void setup() {
+        ((dev.flima.infrastructure.users.UserRepositoryImpl)userRepository).deleteAll();
+    }
 
     @Test
     @DisplayName("Should create a user successfully")
@@ -31,7 +45,7 @@ class UserResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/__users")
+                .post("/api/v1/users")
                 .then()
                 .statusCode(201);
     }
@@ -53,11 +67,11 @@ class UserResourceTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/__users");
+                .post("/api/v1/users");
 
         given()
                 .when()
-                .get("/__users/tester2")
+                .get("/api/v1/users/tester2")
                 .then()
                 .statusCode(200)
                 .body("username", is("tester2"))
@@ -70,7 +84,7 @@ class UserResourceTest {
     void shouldReturnForbidden() {
         given()
                 .when()
-                .get("/__users/tester")
+                .get("/api/v1/users/tester")
                 .then()
                 .statusCode(403);
     }

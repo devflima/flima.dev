@@ -21,7 +21,7 @@ class ExceptionHandlerTest {
     void shouldReturnConsistentErrorResponse() {
         given()
                 .when()
-                .get("/educations/" + UUID.randomUUID())
+                .get("/api/v1/educations/" + UUID.randomUUID())
                 .then()
                 .statusCode(404)
                 .body("message", is("Education record not found."))

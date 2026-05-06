@@ -16,8 +16,8 @@ public class UserRepositoryImpl implements UserRepository, PanacheRepositoryBase
     private final ResourceBundle messages = ResourceBundle.getBundle("messages");
 
     @Override
-    public long count() {
-        return PanacheRepositoryBase.super.count();
+    public long countUsers() {
+        return count();
     }
 
     @Override

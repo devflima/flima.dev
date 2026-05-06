@@ -18,7 +18,7 @@ class StatResourceTest {
     void shouldReturnPublicStats() {
         given()
                 .when()
-                .get("/stats")
+                .get("/api/v1/stats")
                 .then()
                 .statusCode(200);
     }
@@ -30,7 +30,7 @@ class StatResourceTest {
                 .contentType(ContentType.JSON)
                 .body("{}")
                 .when()
-                .put("/stats/id")
+                .put("/api/v1/stats/id")
                 .then()
                 .statusCode(401);
     }
@@ -43,7 +43,7 @@ class StatResourceTest {
                 .contentType(ContentType.JSON)
                 .body("{}")
                 .when()
-                .put("/stats/id")
+                .put("/api/v1/stats/id")
                 .then()
                 .statusCode(403);
     }

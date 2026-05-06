@@ -2,25 +2,30 @@ import { http, HttpResponse } from 'msw';
 import { API_URL } from '../../config';
 
 export const handlers = [
+  // Mock Auth for Login Test
+  http.post(`${API_URL}/api/v1/auth`, () => {
+    return HttpResponse.json({ token: 'mock-admin-token' });
+  }),
+
   // Mock Stats
-  http.get(`${API_URL}/stats`, () => {
-    return HttpResponse.json({
-      yearsExp: "08",
-      sysDeployed: "40+",
+  http.get(`${API_URL}/api/v1/stats`, () => {
+    return HttpResponse.json([{
+      yearsExperience: "08",
+      systemDeployed: "40+",
       uptimeSLA: "99.9%",
       commitsLogged: "12k",
       status: "Online"
-    });
+    }]);
   }),
 
   // Mock Messages POST for Contact Form
-  http.post(`${API_URL}/messages`, async ({ request }) => {
+  http.post(`${API_URL}/api/v1/messages`, async ({ request }) => {
     const body = await request.json();
     return HttpResponse.json({ id: 'mocked-id', ...body }, { status: 201 });
   }),
   
   // Mock Experience
-  http.get(`${API_URL}/experience`, () => {
+  http.get(`${API_URL}/api/v1/experiences`, () => {
     return HttpResponse.json([
       {
         id: "1",
@@ -36,7 +41,7 @@ export const handlers = [
   }),
 
   // Mock Projects
-  http.get(`${API_URL}/projects`, () => {
+  http.get(`${API_URL}/api/v1/projects`, () => {
     return HttpResponse.json([
       {
         id: "1",
@@ -51,16 +56,16 @@ export const handlers = [
   }),
 
   // Mock Education
-  http.get(`${API_URL}/education`, () => {
+  http.get(`${API_URL}/api/v1/educations`, () => {
     return HttpResponse.json([
       {
         id: "1",
-        type: "degree",
+        typeEducation: "DEGREE",
         degree: "BS",
         title: "Mock Degree",
         institution: "Mock University",
         period: "2015 - 2019",
-        concentration: "Mock Concentration",
+        specialization: "Mock Specialization",
         architectures: ["Arch1", "Arch2"],
         colorClass: "primary"
       }
@@ -68,38 +73,23 @@ export const handlers = [
   }),
 
   // Mock Page Content
-  http.get(`${API_URL}/pageContent`, () => {
-    return HttpResponse.json({
-      home: {
-        title: "MOCK_ARCHITECTING DISTRIBUTED SYSTEMS.",
-        subtitle: "Mock subtitle"
-      },
-      projects: {
-        title: "MOCK_PROJECTS",
-        subtitle: "Mock project subtitle"
-      },
-      experience: {
-        title: "MOCK_EXPERIENCE",
-        subtitle: "Mock experience subtitle"
-      },
-      education: {
-        title: "MOCK_EDUCATION",
-        subtitle: "Mock education subtitle"
-      },
-      contact: {
-        title: "MOCK_CONTACT",
-        subtitle: "Mock contact subtitle"
-      }
-    });
+  http.get(`${API_URL}/api/v1/contents`, () => {
+    return HttpResponse.json([
+      { sectionType: "HOME", sectionContent: { title: "MOCK_ARCHITECTING DISTRIBUTED SYSTEMS.", subtitle: "Mock subtitle" } },
+      { sectionType: "PROJECTS", sectionContent: { title: "MOCK_PROJECTS", subtitle: "Mock project subtitle" } },
+      { sectionType: "EXPERIENCE", sectionContent: { title: "MOCK_EXPERIENCE", subtitle: "Mock experience subtitle" } },
+      { sectionType: "EDUCATION", sectionContent: { title: "MOCK_EDUCATION", subtitle: "Mock education subtitle" } },
+      { sectionType: "CONTACT", sectionContent: { title: "MOCK_CONTACT", subtitle: "Mock contact subtitle" } }
+    ]);
   }),
 
   // Mock Tech Stack
-  http.get(`${API_URL}/techStack`, () => {
-    return HttpResponse.json({
-      languages: ["MockLang"],
-      databases: ["MockDB"],
-      infrastructure: ["MockInfra"],
-      messaging: ["MockMsg"]
-    });
+  http.get(`${API_URL}/api/v1/stacks`, () => {
+    return HttpResponse.json([
+      { stackType: "LANGUAGES", technologies: ["MockLang"] },
+      { stackType: "DATABASES", technologies: ["MockDB"] },
+      { stackType: "INFRASTRUCTURE", technologies: ["MockInfra"] },
+      { stackType: "MESSAGING", technologies: ["MockMsg"] }
+    ]);
   }),
 ];

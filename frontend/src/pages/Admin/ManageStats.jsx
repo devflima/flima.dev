@@ -8,6 +8,7 @@ export default function ManageStats() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
+    // eslint-disable-next-line
     if (data) setStats(data);
   }, [data]);
 

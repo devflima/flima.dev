@@ -6,7 +6,7 @@ import { renderWithProviders } from '../utils';
 describe('Navbar Component', () => {
   it('renders without crashing and displays the logo', () => {
     renderWithProviders(<Navbar />);
-    expect(screen.getByText('FLIMA.DEV_v1.0')).toBeInTheDocument();
+    expect(screen.getByAltText('logo')).toBeInTheDocument();
   });
 
   it('renders navigation links correctly', () => {

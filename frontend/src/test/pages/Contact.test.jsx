@@ -10,18 +10,20 @@ describe('Contact Page Integration', () => {
     const nameInput = await screen.findByPlaceholderText('Enter string...');
     const emailInput = screen.getByPlaceholderText('user@domain.tld');
     const bodyInput = screen.getByPlaceholderText('Enter payload data...');
+    const titleInput = screen.getByPlaceholderText('Enter metadata...');
     const submitBtn = screen.getByText('[ Execute_Transmission ]');
     
     // Fill form
     fireEvent.change(nameInput, { target: { value: 'Test User' } });
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
-    fireEvent.change(bodyInput, { target: { value: 'Testing contact flow' } });
+    fireEvent.change(bodyInput, { target: { name: 'message_body', value: 'Testing contact flow' } });
+    fireEvent.change(titleInput, { target: { name: 'title_header', value: 'Test Subject' } });
     
     // Submit
     fireEvent.click(submitBtn);
     
     // Expect Loading state
-    expect(screen.getByText('[ Transmitting... ]')).toBeInTheDocument();
+    await screen.findByText('[ Transmitting... ]');
     
     // Wait for success and cooldown
     await waitFor(() => {

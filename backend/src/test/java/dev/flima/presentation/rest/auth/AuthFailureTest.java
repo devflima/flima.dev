@@ -25,7 +25,7 @@ class AuthFailureTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/auth")
+                .post("/api/v1/auth")
                 .then()
                 .statusCode(404)
                 .body("message", is("Invalid credentials. Please try again."));

@@ -30,7 +30,7 @@ describe('ProtectedRoute JWT Validation', () => {
   it('renders admin content if valid admin JWT is present', () => {
     // Generate valid mock JWT
     const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-    const payload = btoa(JSON.stringify({ sub: "admin", role: "admin", exp: Math.floor(Date.now() / 1000) + 3600 }));
+    const payload = btoa(JSON.stringify({ sub: "admin", groups: ["OWNER"], role: "OWNER", exp: Math.floor(Date.now() / 1000) + 3600 }));
     const token = `${header}.${payload}.mocksignature`;
     
     localStorage.setItem('token', token);
@@ -42,7 +42,7 @@ describe('ProtectedRoute JWT Validation', () => {
   it('redirects to login if token is expired', () => {
     // Generate EXPIRED mock JWT
     const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-    const payload = btoa(JSON.stringify({ sub: "admin", role: "admin", exp: Math.floor(Date.now() / 1000) - 3600 }));
+    const payload = btoa(JSON.stringify({ sub: "admin", groups: ["OWNER"], role: "OWNER", exp: Math.floor(Date.now() / 1000) - 3600 }));
     const token = `${header}.${payload}.mocksignature`;
     
     localStorage.setItem('token', token);
@@ -54,7 +54,7 @@ describe('ProtectedRoute JWT Validation', () => {
   it('redirects to login if token role is not admin', () => {
     // Generate GUEST mock JWT
     const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-    const payload = btoa(JSON.stringify({ sub: "guest", role: "guest", exp: Math.floor(Date.now() / 1000) + 3600 }));
+    const payload = btoa(JSON.stringify({ sub: "guest", groups: ["guest"], exp: Math.floor(Date.now() / 1000) + 3600 }));
     const token = `${header}.${payload}.mocksignature`;
     
     localStorage.setItem('token', token);

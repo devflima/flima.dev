@@ -14,7 +14,7 @@ class ExperienceResourceTest {
     void shouldReturnPublicExperiences() {
         given()
                 .when()
-                .get("/experiences")
+                .get("/api/v1/experiences")
                 .then()
                 .statusCode(200);
     }

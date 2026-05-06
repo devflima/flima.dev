@@ -32,7 +32,7 @@ class AuthResourceTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(userRequest)
-                .post("/__users")
+                .post("/api/v1/users")
                 .then()
                 .statusCode(201);
 
@@ -46,7 +46,7 @@ class AuthResourceTest {
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/auth")
+                .post("/api/v1/auth")
                 .then()
                 .statusCode(202)
                 .body("username", is("auth_tester"))
@@ -65,7 +65,7 @@ class AuthResourceTest {
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/auth")
+                .post("/api/v1/auth")
                 .then()
                 .statusCode(404);
     }

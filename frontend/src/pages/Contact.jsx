@@ -39,7 +39,7 @@ export default function Contact() {
       setCooldown(60); // 60 seconds cooldown to prevent spam
       
       setTimeout(() => setStatus('idle'), 5000);
-    } catch (err) {
+    } catch {
       setStatus('error');
     }
   };

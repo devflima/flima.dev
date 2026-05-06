@@ -24,7 +24,7 @@ export default function Experience() {
       </p>
 
       <div className="relative border-l border-surface-container-highest ml-4 md:ml-6 pl-8 md:pl-12 space-y-16">
-        {experiences.map((exp, index) => (
+        {experiences.map((exp) => (
           <div key={exp.id} className="relative group">
             {/* Timeline Node */}
             <div className={`absolute -left-[41px] md:-left-[57px] top-0 w-8 h-8 rounded-full bg-surface border-2 border-surface-container-highest flex items-center justify-center group-hover:border-primary-container transition-colors duration-300 z-10`}>
