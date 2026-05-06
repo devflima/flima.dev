@@ -7,7 +7,7 @@ describe('Footer Component', () => {
   it('renders the dynamic copyright text', () => {
     renderWithProviders(<Footer />);
     const year = new Date().getFullYear();
-    expect(screen.getByText(`© ${year} FLIMA.DEV // ALL RIGHTS RESERVED`)).toBeInTheDocument();
+    expect(screen.getByText(`© ${year} // ALL RIGHTS RESERVED`)).toBeInTheDocument();
   });
 
   it('renders social and contact links', () => {
