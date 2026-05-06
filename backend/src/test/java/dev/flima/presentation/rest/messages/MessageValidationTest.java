@@ -27,7 +27,7 @@ class MessageValidationTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/messages")
+                .post("/api/v1/messages")
                 .then()
                 .statusCode(400)
                 .body("message", is("Validation failed"))

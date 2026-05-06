@@ -38,7 +38,7 @@ class EducationResourceCRUDTest {
         CreateEducationDTOResponse createResponse = given()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/educations")
+                .post("/api/v1/educations")
                 .then()
                 .statusCode(201)
                 .extract().as(CreateEducationDTOResponse.class);
@@ -60,7 +60,7 @@ class EducationResourceCRUDTest {
         given()
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
-                .put("/educations/" + id)
+                .put("/api/v1/educations/" + id)
                 .then()
                 .statusCode(200)
                 .body("title", is("AWS Solutions Architect Professional"));
@@ -68,7 +68,7 @@ class EducationResourceCRUDTest {
         // 3. Delete
         given()
                 .when()
-                .delete("/educations/" + id)
+                .delete("/api/v1/educations/" + id)
                 .then()
                 .statusCode(204);
     }
@@ -80,7 +80,7 @@ class EducationResourceCRUDTest {
                 .contentType(ContentType.JSON)
                 .body("{}")
                 .when()
-                .put("/educations/" + UUID.randomUUID())
+                .put("/api/v1/educations/" + UUID.randomUUID())
                 .then()
                 .statusCode(401);
     }

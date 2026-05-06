@@ -25,7 +25,7 @@ public class CreateUserUseCase {
 
     @Transactional
     public UserDTOResponse execute(UserDTORequest userDTO) {
-        if (userRepository.count() > 0) {
+        if (userRepository.countUsers() > 0) {
             throw new BusinessRuleException("System is already initialized. New registrations are disabled.");
         }
         String passwordHashed = passwordHasher.hash(new Password(userDTO.password().password()));

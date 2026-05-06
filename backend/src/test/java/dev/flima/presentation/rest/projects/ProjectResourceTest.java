@@ -15,7 +15,7 @@ class ProjectResourceTest {
     void shouldReturnPublicProjects() {
         given()
                 .when()
-                .get("/projects")
+                .get("/api/v1/projects")
                 .then()
                 .statusCode(200);
     }
@@ -27,7 +27,7 @@ class ProjectResourceTest {
                 .contentType(ContentType.JSON)
                 .body("{}")
                 .when()
-                .post("/projects")
+                .post("/api/v1/projects")
                 .then()
                 .statusCode(401);
     }

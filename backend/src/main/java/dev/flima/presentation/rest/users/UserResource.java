@@ -12,10 +12,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/__users")
+@Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({Role.Labels.OWNER})
+@RolesAllowed({ Role.Labels.OWNER })
 public class UserResource {
 
     private final CreateUserUseCase createUserUseCase;

@@ -14,7 +14,7 @@ class StackResourceTest {
     void shouldReturnPublicStacks() {
         given()
                 .when()
-                .get("/stacks")
+                .get("/api/v1/stacks")
                 .then()
                 .statusCode(200);
     }

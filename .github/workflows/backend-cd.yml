@@ -17,6 +17,16 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      DB_USER: test
+      DB_PASSWORD: test
+      DB_HOST: localhost
+      DB_NAME: test_db
+      MAIL_HOST: localhost
+      MAIL_PORT: 25
+      MAIL_USERNAME: test
+      MAIL_PASSWORD: test
+      MAIL_FROM: test@flima.dev
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4

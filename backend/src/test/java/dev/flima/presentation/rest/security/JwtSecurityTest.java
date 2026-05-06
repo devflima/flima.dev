@@ -21,7 +21,7 @@ class JwtSecurityTest {
         given()
                 .header("Authorization", "Bearer this_is_not_a_valid_jwt")
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(401);
     }
@@ -39,7 +39,7 @@ class JwtSecurityTest {
         given()
                 .header("Authorization", "Bearer " + expiredToken)
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(401);
     }
@@ -56,7 +56,7 @@ class JwtSecurityTest {
         given()
                 .header("Authorization", "Bearer " + wrongIssuerToken)
                 .when()
-                .get("/messages")
+                .get("/api/v1/messages")
                 .then()
                 .statusCode(401);
     }
