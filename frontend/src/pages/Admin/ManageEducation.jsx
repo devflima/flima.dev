@@ -62,8 +62,7 @@ export default function ManageEducation() {
   return (
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary-container">school</span>
-        <span>Manage Education</span>
+        <span className="material-symbols-outlined text-primary-container">school</span><span>Manage Education</span>
       </h2>
 
       {/* Add Form */}

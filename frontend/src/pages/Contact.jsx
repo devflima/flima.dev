@@ -83,8 +83,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label htmlFor="user_name" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  <span>Input: user_name</span>
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: user_name</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -93,8 +92,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="user_email" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  <span>Input: user_email</span>
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: user_email</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -103,8 +101,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="title_header" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  <span>Input: title_header</span>
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: title_header</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -113,8 +110,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="message_body" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  <span>Input: message_body</span>
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: message_body</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-4 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>

@@ -64,8 +64,7 @@ export default function ManageExperience() {
   return (
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary-container">work</span>
-        <span>Manage Experience</span>
+        <span className="material-symbols-outlined text-primary-container">work</span><span>Manage Experience</span>
       </h2>
 
       {/* Form */}

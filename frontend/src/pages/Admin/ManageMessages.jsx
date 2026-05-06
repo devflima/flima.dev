@@ -66,7 +66,10 @@ export default function ManageMessages() {
           {currentMessages.map(msg => (
             <div 
               key={msg.id} 
+              role="button"
+              tabIndex="0"
               onClick={() => handleReplyClick(msg)}
+              onKeyDown={(e) => e.key === 'Enter' && handleReplyClick(msg)}
               className={`p-4 cursor-pointer hover:bg-surface-container-high transition-colors ${replyingTo?.id === msg.id ? 'bg-surface-container-high border-l-2 border-primary-container' : 'border-l-2 border-transparent'}`}
             >
               <div className="flex justify-between items-center mb-1">
@@ -130,7 +133,9 @@ export default function ManageMessages() {
             <div className="p-6 flex-grow flex flex-col">
               <h4 className="font-label-mono text-primary-container mb-2">COMPOSE_REPLY</h4>
               <form onSubmit={handleSendReply} className="flex flex-col flex-grow">
+                <label htmlFor="replyText" className="sr-only">Reply Text</label>
                 <textarea 
+                  id="replyText"
                   required
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}

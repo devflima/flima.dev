@@ -27,8 +27,7 @@ export default function Education() {
         {/* Degrees Section */}
         <section>
           <div className="font-label-mono text-label-mono text-on-surface-variant border-b border-surface-container-highest pb-2 mb-8 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary-container">school</span>
-            ACADEMIC_DEGREES
+            <span className="material-symbols-outlined text-primary-container">school</span><span>ACADEMIC_DEGREES</span>
           </div>
           <div className="space-y-6">
             {education.filter(e => e.typeEducation === 'DEGREE').map(deg => (
@@ -66,8 +65,7 @@ export default function Education() {
         {/* Certifications Section */}
         <section>
           <div className="font-label-mono text-label-mono text-on-surface-variant border-b border-surface-container-highest pb-2 mb-8 flex items-center gap-2 mt-16">
-            <span className="material-symbols-outlined text-secondary-container">verified</span>
-            CERTIFICATIONS_&_MODULES
+            <span className="material-symbols-outlined text-secondary-container">verified</span><span>CERTIFICATIONS_&_MODULES</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {education.filter(e => e.typeEducation === 'CERTIFICATION').map(cert => (
