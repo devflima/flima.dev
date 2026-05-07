@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @QuarkusTest
 class DashboardResourceTest {
@@ -36,5 +37,20 @@ class DashboardResourceTest {
                 .body("totalVisitors", notNullValue())
                 .body("uptime", notNullValue())
                 .body("unreadMessages", notNullValue());
+    }
+
+    @Test
+    @DisplayName("Should format uptime correctly for different durations")
+    void shouldFormatUptime() {
+        DashboardResource resource = new DashboardResource();
+        
+        // Minutes only
+        assertThat(resource.formatUptime(60 * 1000 * 5), is("5m"));
+        
+        // Hours and minutes
+        assertThat(resource.formatUptime(60 * 1000 * 65), is("1h 5m"));
+        
+        // Days and hours
+        assertThat(resource.formatUptime(1000L * 60 * 60 * 25), is("1d 1h"));
     }
 }

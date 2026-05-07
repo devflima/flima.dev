@@ -31,7 +31,8 @@ public class GetExperienceUseCase {
                 experience.getPeriod(),
                 experience.getBullets(),
                 experience.getTechnologies(),
-                experience.getIcon()
+                experience.getIcon(),
+                experience.getColorClass()
         );
     }
 

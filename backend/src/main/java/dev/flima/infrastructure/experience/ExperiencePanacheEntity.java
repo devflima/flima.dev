@@ -42,4 +42,7 @@ public class ExperiencePanacheEntity {
     @NotBlank
     public String icon;
 
+    @Column(nullable = false)
+    public String colorClass = "primary";
+
 }

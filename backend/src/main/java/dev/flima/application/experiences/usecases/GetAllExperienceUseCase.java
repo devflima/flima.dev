@@ -26,7 +26,8 @@ public class GetAllExperienceUseCase {
                         experience.getPeriod(),
                         experience.getBullets(),
                         experience.getTechnologies(),
-                        experience.getIcon()
+                        experience.getIcon(),
+                        experience.getColorClass()
                 ))
                 .toList();
     }
