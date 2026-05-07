@@ -10,5 +10,6 @@ public record ExperienceDTOResponse(
         String period,
         List<String> bullets,
         List<String> technologies,
-        String icon
+        String icon,
+        String colorClass
 ) {}

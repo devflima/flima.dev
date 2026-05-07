@@ -24,7 +24,8 @@ public class CreateExperienceUseCase {
                 experienceDTO.period(),
                 experienceDTO.bullets(),
                 experienceDTO.technologies(),
-                experienceDTO.icon()
+                experienceDTO.icon(),
+                experienceDTO.colorClass()
         );
 
         experienceRepository.save(experience);

@@ -29,5 +29,7 @@ public record ExperienceDTORequest(
 
         @NotNull(message = "{experience.icon.not_null}")
         @NotBlank(message = "{experience.icon.not_null}")
-        String icon
+        String icon,
+
+        String colorClass
 ) {}

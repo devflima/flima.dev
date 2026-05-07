@@ -32,6 +32,7 @@ public class UpdateExperienceUseCase {
         experience.setBullets(experienceDTO.bullets());
         experience.setTechnologies(experienceDTO.technologies());
         experience.setIcon(experienceDTO.icon());
+        experience.setColorClass(experienceDTO.colorClass());
 
         experienceRepository.modify(experience);
 
@@ -42,7 +43,8 @@ public class UpdateExperienceUseCase {
                 experience.getPeriod(),
                 experience.getBullets(),
                 experience.getTechnologies(),
-                experience.getIcon()
+                experience.getIcon(),
+                experience.getColorClass()
         );
     }
 
