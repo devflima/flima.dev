@@ -2,6 +2,7 @@ package dev.flima.application.educations.dtos.request;
 
 import dev.flima.domain.educations.TypeEducation;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -26,7 +27,15 @@ public record EducationDTORequest(
         @NotBlank(message = "{period.not_null_or_empty}")
         String period,
 
+        @NotNull(message = "{education.specialization.not_null}")
+        @NotBlank(message = "{education.specialization.not_null}")
         String specialization,
+
+        @NotNull(message = "{education.skills.not_null}")
+        @NotEmpty(message = "{education.skills.not_null}")
         List<String> skills,
+
+        @NotNull(message = "{education.architectures.not_null}")
+        @NotEmpty(message = "{education.architectures.not_null}")
         List<String> architectures
 ) {}
