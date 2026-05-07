@@ -36,7 +36,7 @@ public class DashboardResource {
         String uptime = formatUptime(uptimeMillis);
 
         // 3. Unread messages count (queried directly)
-        Long unreadMessages = (Long) em.createQuery("SELECT COUNT(m) FROM messages m WHERE m.status = 'unread'")
+        Long unreadMessages = (Long) em.createQuery("SELECT COUNT(m) FROM messages m WHERE m.statusMessage = 'UNREAD'")
                 .getSingleResult();
 
         return new DashboardDTO(totalVisitors, uptime, unreadMessages);
