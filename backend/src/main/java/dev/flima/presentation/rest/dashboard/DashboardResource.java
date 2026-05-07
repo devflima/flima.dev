@@ -27,9 +27,9 @@ public class DashboardResource {
 
     @GET
     public DashboardDTO getDashboardData() {
-        // 1. Get Visitor Count
-        VisitorCountPanacheEntity visitor = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
-        Long totalVisitors = (visitor != null) ? visitor.count : 0L;
+        // 1. Get Unique Visitor Count
+        Long totalVisitors = (Long) em.createQuery("SELECT COUNT(v) FROM daily_visitors v")
+                .getSingleResult();
 
         // 2. Get Uptime
         long uptimeMillis = ManagementFactory.getRuntimeMXBean().getUptime();
