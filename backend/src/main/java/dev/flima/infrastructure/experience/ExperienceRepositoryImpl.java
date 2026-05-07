@@ -28,6 +28,7 @@ public class ExperienceRepositoryImpl implements ExperienceRepository, PanacheRe
         entity.bullets = experience.getBullets();
         entity.technologies = experience.getTechnologies();
         entity.icon = experience.getIcon();
+        entity.colorClass = experience.getColorClass();
 
         persist(entity);
     }
@@ -46,6 +47,7 @@ public class ExperienceRepositoryImpl implements ExperienceRepository, PanacheRe
         entity.bullets = experience.getBullets();
         entity.technologies = experience.getTechnologies();
         entity.icon = experience.getIcon();
+        entity.colorClass = experience.getColorClass();
     }
 
     @Override
@@ -63,7 +65,8 @@ public class ExperienceRepositoryImpl implements ExperienceRepository, PanacheRe
                 entity.period,
                 entity.bullets,
                 entity.technologies,
-                entity.icon
+                entity.icon,
+                entity.colorClass
         ));
     }
 
@@ -77,7 +80,8 @@ public class ExperienceRepositoryImpl implements ExperienceRepository, PanacheRe
                         entity.period,
                         entity.bullets,
                         entity.technologies,
-                        entity.icon
+                        entity.icon,
+                        entity.colorClass
                 ))
                 .toList();
     }
