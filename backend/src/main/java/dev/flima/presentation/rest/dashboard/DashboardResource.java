@@ -42,7 +42,7 @@ public class DashboardResource {
         return new DashboardDTO(totalVisitors, uptime, unreadMessages);
     }
 
-    private String formatUptime(long millis) {
+    String formatUptime(long millis) {
         long days = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis);
         long hours = java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis) % 24;
         long minutes = java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis) % 60;

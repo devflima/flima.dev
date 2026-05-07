@@ -5,8 +5,11 @@ import dev.flima.domain.users.Role;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -82,5 +85,62 @@ class StatResourceTest {
                 .statusCode(200)
                 .body("yearsExperience", is("10+"))
                 .body("commitsLogged", is("15k+"));
+    }
+
+    @Test
+    @TestSecurity(user = "admin", roles = Role.Labels.OWNER)
+    @DisplayName("Should return 404 when updating non-existent stats")
+    void shouldReturn404OnUpdateNotFound() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(createValidStatJson("7y"))
+                .when()
+                .put("/api/v1/stats/" + UUID.randomUUID())
+                .then()
+                .statusCode(404);
+    }
+
+    @Test
+    @TestSecurity(user = "admin", roles = Role.Labels.OWNER)
+    @DisplayName("Should return 404 for non-existent stat ID")
+    void shouldReturn404OnGetNotFound() {
+        given()
+                .when()
+                .get("/api/v1/stats/" + UUID.randomUUID())
+                .then()
+                .statusCode(404);
+    }
+
+    @Test
+    @TestSecurity(user = "admin", roles = Role.Labels.OWNER)
+    @DisplayName("Should delete stats")
+    void shouldDeleteStats() {
+        String id = given()
+                .contentType(ContentType.JSON)
+                .body(createValidStatJson("5y"))
+                .when()
+                .post("/api/v1/stats")
+                .then()
+                .statusCode(201)
+                .extract().path("id");
+
+        given()
+                .when()
+                .delete("/api/v1/stats/" + id)
+                .then()
+                .statusCode(204);
+    }
+
+    private String createValidStatJson(String years) {
+        return """
+                {
+                    "yearsExperience": "%s",
+                    "systemDeployed": "10",
+                    "uptimeSLA": "99.0",
+                    "commitsLogged": "1k",
+                    "status": "active",
+                    "objective": "obj"
+                }
+                """.formatted(years);
     }
 }
