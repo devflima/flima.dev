@@ -12,8 +12,9 @@ public class Experience {
     private List<String> bullets;
     private List<String> technologies;
     private String icon;
+    private String colorClass;
 
-    public Experience(String title, String company, String period, List<String> bullets, List<String> technologies, String icon) {
+    public Experience(String title, String company, String period, List<String> bullets, List<String> technologies, String icon, String colorClass) {
         this.id = UUID.randomUUID();
         this.title = title;
         this.company = company;
@@ -21,9 +22,10 @@ public class Experience {
         this.bullets = bullets;
         this.technologies = technologies;
         this.icon = icon;
+        this.colorClass = (colorClass != null && !colorClass.isBlank()) ? colorClass : "primary";
     }
 
-    public Experience(UUID id, String title, String company, String period, List<String> bullets, List<String> technologies, String icon) {
+    public Experience(UUID id, String title, String company, String period, List<String> bullets, List<String> technologies, String icon, String colorClass) {
         this.id = id;
         this.title = title;
         this.company = company;
@@ -31,6 +33,7 @@ public class Experience {
         this.bullets = bullets;
         this.technologies = technologies;
         this.icon = icon;
+        this.colorClass = (colorClass != null && !colorClass.isBlank()) ? colorClass : "primary";
     }
 
     public UUID getId() {
@@ -87,5 +90,13 @@ public class Experience {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getColorClass() {
+        return colorClass;
+    }
+
+    public void setColorClass(String colorClass) {
+        this.colorClass = colorClass;
     }
 }
