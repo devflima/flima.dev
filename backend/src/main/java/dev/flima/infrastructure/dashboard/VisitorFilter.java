@@ -8,6 +8,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Provider
@@ -27,12 +28,35 @@ public class VisitorFilter implements ContainerRequestFilter {
             // Increment only for public portfolio views (contents, projects, experiences, educations, stacks, stats)
             // Skip auth, dashboard, users and messages (admin/internal)
             if (isPublicPath(path)) {
-                VisitorCountPanacheEntity entity = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
-                if (entity == null) {
-                    entity = new VisitorCountPanacheEntity();
-                    em.persist(entity);
+                // 1. Total hits (existing logic)
+                VisitorCountPanacheEntity totalHits = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
+                if (totalHits == null) {
+                    totalHits = new VisitorCountPanacheEntity();
+                    em.persist(totalHits);
                 }
-                entity.count++;
+                totalHits.count++;
+
+                // 2. Unique Daily Visitors
+                String ip = requestContext.getHeaderString("X-Forwarded-For");
+                if (ip == null || ip.isEmpty()) {
+                    // Fallback to direct remote address if no proxy header
+                    // In Quarkus/JAX-RS we might need to inject HttpFacade or use Vertx request
+                    // But for now, we'll try to get it from context if possible
+                    ip = "unknown"; 
+                } else {
+                    ip = ip.split(",")[0].trim();
+                }
+
+                LocalDate today = LocalDate.now();
+                Long count = (Long) em.createQuery("SELECT COUNT(v) FROM daily_visitors v WHERE v.ipAddress = :ip AND v.visitDate = :today")
+                        .setParameter("ip", ip)
+                        .setParameter("today", today)
+                        .getSingleResult();
+
+                if (count == 0) {
+                    DailyVisitorPanacheEntity uniqueVisitor = new DailyVisitorPanacheEntity(ip, today);
+                    em.persist(uniqueVisitor);
+                }
             }
         } catch (Exception e) {
             // Silently fail to not break the main application flow
