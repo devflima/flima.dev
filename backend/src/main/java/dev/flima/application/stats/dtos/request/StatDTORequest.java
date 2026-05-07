@@ -24,5 +24,7 @@ public record StatDTORequest(
         @NotBlank(message = "{stat.status.not_null}")
         String status,
 
+        @NotNull(message = "{stat.objective.not_null}")
+        @NotBlank(message = "{stat.objective.not_null}")
         String objective
 ) {}

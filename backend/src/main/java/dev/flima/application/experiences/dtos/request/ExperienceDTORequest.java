@@ -22,6 +22,12 @@ public record ExperienceDTORequest(
         @NotNull(message = "{experience.bullets.not_null}")
         @NotEmpty(message = "{experience.bullets.not_null}")
         List<String>bullets,
+
+        @NotNull(message = "{experience.technologies.not_null}")
+        @NotEmpty(message = "{experience.technologies.not_null}")
         List<String> technologies,
+
+        @NotNull(message = "{experience.icon.not_null}")
+        @NotBlank(message = "{experience.icon.not_null}")
         String icon
 ) {}
