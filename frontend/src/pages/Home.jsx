@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useGetStatsQuery, useGetPageContentQuery, useGetTechStackQuery } from '../store/apiSlice';
 
 export default function Home() {
@@ -51,12 +52,16 @@ export default function Home() {
         </p>
         
         <div className="flex flex-wrap gap-4">
-          <button className="font-label-mono text-label-mono bg-primary-container text-on-primary-container hover:bg-secondary-container px-6 py-3 transition-colors duration-200">
-            [ View_Architecture ]
-          </button>
-          <button className="font-label-mono text-label-mono border border-outline-variant text-on-surface hover:border-primary-container hover:text-primary-container px-6 py-3 transition-colors duration-200">
-            [ Contact_SysAdmin ]
-          </button>
+          <Link to="/projects">
+            <button className="font-label-mono text-label-mono bg-primary-container text-on-primary-container hover:bg-secondary-container px-6 py-3 transition-colors duration-200">
+              [ View_Architecture ]
+            </button>
+          </Link>
+          <Link to="/contact">
+            <button className="font-label-mono text-label-mono border border-outline-variant text-on-surface hover:border-primary-container hover:text-primary-container px-6 py-3 transition-colors duration-200">
+              [ Contact_SysAdmin ]
+            </button>
+          </Link>
         </div>
       </section>
 
