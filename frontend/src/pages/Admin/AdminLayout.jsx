@@ -22,7 +22,7 @@ export default function AdminLayout() {
         <div className="bg-surface-container border border-surface-container-highest p-6 sticky top-32">
           <div className="font-label-mono text-primary-container border-b border-surface-container-highest pb-4 mb-6 flex items-center gap-2">
             <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
-            ADMIN_CONSOLE
+            <span>ADMIN_CONSOLE</span>
           </div>
           <nav className="flex flex-col gap-2">
             {adminLinks.map((link) => {

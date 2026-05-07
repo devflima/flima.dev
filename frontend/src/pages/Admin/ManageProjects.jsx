@@ -62,8 +62,7 @@ export default function ManageProjects() {
   return (
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary-container">code</span>
-        Manage Projects
+        <span className="material-symbols-outlined text-primary-container">code</span><span>Manage Projects</span>
       </h2>
 
       {/* Form */}
@@ -80,13 +79,31 @@ export default function ManageProjects() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="subtitle" value={formData.subtitle} onChange={handleChange} placeholder="Subtitle" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon (e.g. code, terminal)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-            <input required type="text" name="technologies" value={formData.technologies} onChange={handleChange} placeholder="Technologies (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <div className="space-y-1">
+              <label htmlFor="title" className="font-label-mono text-[10px] text-surface-variant">Title</label>
+              <input id="title" required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="subtitle" className="font-label-mono text-[10px] text-surface-variant">Subtitle</label>
+              <input id="subtitle" required type="text" name="subtitle" value={formData.subtitle} onChange={handleChange} placeholder="Subtitle" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="icon" className="font-label-mono text-[10px] text-surface-variant">Icon</label>
+              <input id="icon" required type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon (e.g. code, terminal)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="technologies" className="font-label-mono text-[10px] text-surface-variant">Technologies</label>
+              <input id="technologies" required type="text" name="technologies" value={formData.technologies} onChange={handleChange} placeholder="Technologies (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
           </div>
-          <textarea required name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
-          <textarea required name="codeSnippet" value={formData.codeSnippet} onChange={handleChange} placeholder="Code Snippet" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+          <div className="space-y-1">
+            <label htmlFor="description" className="font-label-mono text-[10px] text-surface-variant">Description</label>
+            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+          </div>
+          <div className="space-y-1">
+            <label htmlFor="codeSnippet" className="font-label-mono text-[10px] text-surface-variant">Code Snippet</label>
+            <textarea id="codeSnippet" required name="codeSnippet" value={formData.codeSnippet} onChange={handleChange} placeholder="Code Snippet" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+          </div>
           <button type="submit" className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-4 py-2 transition-all duration-200">
             {isEditing ? '[ Update_Project ]' : '[ Add_Project ]'}
           </button>

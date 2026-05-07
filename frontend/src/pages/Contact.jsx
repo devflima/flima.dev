@@ -83,8 +83,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label htmlFor="user_name" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  Input: user_name
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: user_name</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -93,8 +92,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="user_email" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  Input: user_email
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: user_email</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -103,8 +101,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="title_header" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  Input: title_header
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: title_header</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -113,8 +110,7 @@ export default function Contact() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="message_body" className="font-label-mono text-label-mono text-primary-container flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px]">terminal</span>
-                  Input: message_body
+                  <span className="material-symbols-outlined text-[16px]">terminal</span><span>Input: message_body</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-4 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
@@ -135,7 +131,13 @@ export default function Contact() {
 
               <div className="pt-4">
                 <button disabled={isLoading || cooldown > 0} className="w-full font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container py-4 transition-all duration-200 flex justify-center items-center gap-2 uppercase tracking-widest group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-on-surface disabled:hover:border-surface-container-highest" type="submit">
-                  {isLoading ? '[ Transmitting... ]' : (cooldown > 0 ? `[ Rate_Limit: ${cooldown}s ]` : '[ Execute_Transmission ]')}
+                  {isLoading ? (
+                    ' [ Transmitting... ] '
+                  ) : cooldown > 0 ? (
+                    ` [ Rate_Limit: ${cooldown}s ] `
+                  ) : (
+                    ' [ Execute_Transmission ] '
+                  )}
                   {!isLoading && cooldown === 0 && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>}
                 </button>
               </div>

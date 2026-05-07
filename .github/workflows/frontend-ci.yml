@@ -46,7 +46,7 @@ jobs:
         run: npm audit --audit-level=high
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v3
         with:
           projectBaseDir: frontend
         env:

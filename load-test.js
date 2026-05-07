@@ -14,7 +14,7 @@ export const options = {
 
 const BASE_URL = 'https://flima.dev'; // Altere para seu domínio ou IP
 
-export default function () {
+export default function loadTest() {
   // Teste da Home
   const resHome = http.get(`${BASE_URL}/`);
   check(resHome, {

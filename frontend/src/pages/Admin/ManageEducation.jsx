@@ -19,7 +19,7 @@ export default function ManageEducation() {
     e.preventDefault();
     const payload = { ...formData };
     if (payload.type === 'degree') {
-      payload.architectures = typeof payload.architectures === 'string' ? payload.architectures.split(',').map(a => a.trim()).filter(a => a) : payload.architectures;
+      payload.architectures = typeof payload.architectures === 'string' ? payload.architectures.split(',').map(a => a.trim()).filter(Boolean) : payload.architectures;
     }
 
     try {
@@ -62,8 +62,7 @@ export default function ManageEducation() {
   return (
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary-container">school</span>
-        Manage Education
+        <span className="material-symbols-outlined text-primary-container">school</span><span>Manage Education</span>
       </h2>
 
       {/* Add Form */}
@@ -80,30 +79,58 @@ export default function ManageEducation() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-4">
-            <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none">
+            <label htmlFor="type" className="sr-only">Type</label>
+            <select id="type" name="type" value={formData.type} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none">
               <option value="degree">Degree</option>
               <option value="cert">Certification/Module</option>
             </select>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <div className="space-y-1">
+              <label htmlFor="title" className="font-label-mono text-[10px] text-surface-variant">Title</label>
+              <input id="title" required type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            </div>
             
             {formData.type === 'degree' && (
               <>
-                <input type="text" name="degree" value={formData.degree} onChange={handleChange} placeholder="Degree Type (e.g. BS, MS)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="institution" value={formData.institution} onChange={handleChange} placeholder="Institution" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="period" value={formData.period} onChange={handleChange} placeholder="Period" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="concentration" value={formData.concentration} onChange={handleChange} placeholder="Concentration" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="architectures" value={formData.architectures} onChange={handleChange} placeholder="Architectures (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <div className="space-y-1">
+                  <label htmlFor="degree" className="font-label-mono text-[10px] text-surface-variant">Degree Type</label>
+                  <input id="degree" type="text" name="degree" value={formData.degree} onChange={handleChange} placeholder="Degree Type (e.g. BS, MS)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="institution" className="font-label-mono text-[10px] text-surface-variant">Institution</label>
+                  <input id="institution" type="text" name="institution" value={formData.institution} onChange={handleChange} placeholder="Institution" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="period" className="font-label-mono text-[10px] text-surface-variant">Period</label>
+                  <input id="period" type="text" name="period" value={formData.period} onChange={handleChange} placeholder="Period" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="concentration" className="font-label-mono text-[10px] text-surface-variant">Concentration</label>
+                  <input id="concentration" type="text" name="concentration" value={formData.concentration} onChange={handleChange} placeholder="Concentration" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="architectures" className="font-label-mono text-[10px] text-surface-variant">Architectures</label>
+                  <input id="architectures" type="text" name="architectures" value={formData.architectures} onChange={handleChange} placeholder="Architectures (comma separated)" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
               </>
             )}
 
             {formData.type === 'cert' && (
               <>
-                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="issued" value={formData.issued} onChange={handleChange} placeholder="Issued text" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
-                <input type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon name" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                <div className="space-y-1">
+                  <label htmlFor="description" className="font-label-mono text-[10px] text-surface-variant">Description</label>
+                  <input id="description" type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="issued" className="font-label-mono text-[10px] text-surface-variant">Issued</label>
+                  <input id="issued" type="text" name="issued" value={formData.issued} onChange={handleChange} placeholder="Issued text" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label htmlFor="icon" className="font-label-mono text-[10px] text-surface-variant">Icon</label>
+                  <input id="icon" type="text" name="icon" value={formData.icon} onChange={handleChange} placeholder="Icon name" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+                </div>
               </>
             )}
           </div>

@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.svg';
 
 export default function Navbar() {
   const location = useLocation();
@@ -18,7 +17,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center px-12 h-16 w-full max-w-[1440px] mx-auto">
         <div className="text-xl font-black text-[#00FF41] tracking-widest font-mono">
           <Link to="/">
-            <img src={logo} alt="logo" className="h-8 w-auto" />
+            <img src="/logo.svg" alt="logo" className="h-8 w-auto" />
           </Link>
         </div>
         <div className="hidden md:flex gap-8 items-center font-mono uppercase tracking-tighter text-sm">

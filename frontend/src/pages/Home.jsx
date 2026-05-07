@@ -37,8 +37,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="mb-32">
         <div className="font-label-mono text-label-mono text-primary-container mb-4 flex items-center gap-2">
-          <span className="cursor-blink inline-block w-2 h-4 bg-primary-container"></span>
-          STATUS: ONLINE
+          <span className="cursor-blink inline-block w-2 h-4 bg-primary-container"></span><span>STATUS: ONLINE</span>
         </div>
         <h1 className="font-headline-xl text-[48px] leading-[1.1] md:text-[80px] text-on-surface tracking-tighter font-black mb-6">
           {getSplitTitle(pageContent?.home?.title).before} <br />

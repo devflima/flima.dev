@@ -78,8 +78,7 @@ export default function ManageStats() {
   return (
     <div>
       <h2 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-container-highest pb-2 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary-container">monitoring</span>
-        System Stats Overview
+        <span className="material-symbols-outlined text-primary-container">monitoring</span><span>System Stats Overview</span>
       </h2>
       <StatsForm 
         key={data.id || 'new'} 
