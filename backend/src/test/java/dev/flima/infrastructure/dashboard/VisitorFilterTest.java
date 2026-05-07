@@ -65,4 +65,17 @@ class VisitorFilterTest {
         VisitorCountPanacheEntity entity = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
         assertThat(entity.count, is(0L));
     }
+
+    @Test
+    @DisplayName("Should NOT increment visitor count for POST requests")
+    void shouldNotIncrementOnPostRequest() {
+        given()
+                .when()
+                .post("/api/v1/contents")
+                .then()
+                .statusCode(415); // Unsupported media type is fine, filter should abort early anyway
+
+        VisitorCountPanacheEntity entity = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
+        assertThat(entity.count, is(0L));
+    }
 }
