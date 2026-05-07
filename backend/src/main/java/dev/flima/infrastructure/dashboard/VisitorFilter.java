@@ -22,6 +22,11 @@ public class VisitorFilter implements ContainerRequestFilter {
     @Override
     @Transactional
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        // Only count visitors on GET requests. Prevents transaction issues on POST/PUT
+        if (!requestContext.getMethod().equalsIgnoreCase("GET")) {
+            return;
+        }
+
         try {
             String path = requestContext.getUriInfo().getPath();
             // Increment only for public portfolio views (contents, projects, experiences, educations, stacks, stats)
