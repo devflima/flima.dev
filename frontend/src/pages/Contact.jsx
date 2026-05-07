@@ -6,7 +6,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({ user_name: '', user_email: '', title_header: '', message_body: '' });
   const [status, setStatus] = useState('idle'); // idle, success, error
   const [cooldown, setCooldown] = useState(0);
-  
+
   const [addMessage, { isLoading }] = useAddMessageMutation();
 
   useEffect(() => {
@@ -33,11 +33,11 @@ export default function Contact() {
       };
 
       await addMessage(payload).unwrap();
-      
+
       setStatus('success');
       setFormData({ user_name: '', user_email: '', title_header: '', message_body: '' });
       setCooldown(60); // 60 seconds cooldown to prevent spam
-      
+
       setTimeout(() => setStatus('idle'), 5000);
     } catch {
       setStatus('error');
@@ -117,7 +117,7 @@ export default function Contact() {
                   <textarea id="message_body" required name="message_body" value={formData.message_body} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors resize-none" placeholder="Enter payload data..." rows="5"></textarea>
                 </div>
               </div>
-              
+
               {status === 'success' && (
                 <div className="p-3 border border-primary-container/50 bg-primary-container/10 text-primary-container font-code-snippet text-sm glow-border-sm">
                   &gt; Payload transmitted successfully. Connection closed.
@@ -153,7 +153,7 @@ export default function Contact() {
                   <span className="material-symbols-outlined text-secondary-container">code</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">GitHub</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/devflima</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/backend_arch</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
@@ -163,7 +163,7 @@ export default function Contact() {
                   <span className="material-symbols-outlined text-secondary-container">work</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">LinkedIn</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/felipe-lima</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/backend_arch</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
@@ -173,7 +173,7 @@ export default function Contact() {
                   <span className="material-symbols-outlined text-secondary-container">mail</span>
                   <div>
                     <div className="font-label-mono text-label-mono text-on-background">Email</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">contato@flima.dev</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">sysadmin@backend.local</div>
                   </div>
                 </div>
                 <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
