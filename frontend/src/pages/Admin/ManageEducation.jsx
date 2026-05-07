@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetEducationQuery, useAddEducationMutation, useUpdateEducationMutation, useDeleteEducationMutation } from '../../store/apiSlice';
 
 export default function ManageEducation() {
@@ -17,21 +18,31 @@ export default function ManageEducation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...formData };
-    if (payload.type === 'degree') {
-      payload.architectures = typeof payload.architectures === 'string' ? payload.architectures.split(',').map(a => a.trim()).filter(Boolean) : payload.architectures;
-    }
+    const payload = {
+      typeEducation: formData.type === 'degree' ? 'DEGREE' : 'CERTIFICATION',
+      degree: formData.degree || (formData.type === 'cert' ? 'Certification' : ''),
+      title: formData.title,
+      institution: formData.institution || formData.issued || 'N/A',
+      period: formData.period || 'N/A',
+      specialization: formData.concentration || formData.description || 'N/A',
+      skills: formData.description ? [formData.description] : ['General'], // Fallback for mandatory field
+      architectures: typeof formData.architectures === 'string' 
+        ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) 
+        : (Array.isArray(formData.architectures) ? formData.architectures : ['Standard'])
+    };
 
     try {
       if (isEditing) {
-        await updateEducation(payload).unwrap();
+        await updateEducation({ id: formData.id, ...payload }).unwrap();
+        toast.success('Education entry updated successfully!');
       } else {
-        delete payload.id;
         await addEducation(payload).unwrap();
+        toast.success('Education entry added successfully!');
       }
       resetForm();
     } catch (err) {
       console.error('Failed to save education', err);
+      toast.error('Failed to save education');
     }
   };
 
@@ -45,10 +56,13 @@ export default function ManageEducation() {
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this education entry?')) return;
     try {
       await deleteEducation(id).unwrap();
+      toast.success('Education entry deleted successfully!');
     } catch (err) {
       console.error('Failed to delete education', err);
+      toast.error('Failed to delete education');
     }
   };
 

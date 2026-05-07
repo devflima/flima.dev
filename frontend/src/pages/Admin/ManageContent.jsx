@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetPageContentQuery, useAddPageContentMutation } from '../../store/apiSlice';
 
 function ContentForm({ initialContent, onSave, isAdding }) {
@@ -140,9 +141,20 @@ export default function ManageContent() {
 
   const handleSave = async (payload) => {
     try {
-      await addPageContent(payload).unwrap();
-    } catch {
-      console.error('Failed to update Page Content');
+      const sections = ['HOME', 'PROJECTS', 'EXPERIENCE', 'EDUCATION', 'CONTACT'];
+      const requests = sections.map(section => {
+        const key = section.toLowerCase();
+        return addPageContent({
+          sectionType: section,
+          sectionContent: payload[key]
+        }).unwrap();
+      });
+      
+      await Promise.all(requests);
+      toast.success('Page Content updated successfully!');
+    } catch (err) {
+      console.error('Failed to update Page Content', err);
+      toast.error('Failed to update Page Content');
     }
   };
 
