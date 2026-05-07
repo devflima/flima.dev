@@ -32,7 +32,8 @@ public class CreateExperienceUseCase {
 
         return new CreateExperienceDTOResponse(
                 experience.getId(),
-                experience.getTitle()
+                experience.getTitle(),
+                experience.getColorClass()
         );
     }
 

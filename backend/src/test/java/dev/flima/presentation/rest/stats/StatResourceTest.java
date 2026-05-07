@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 @QuarkusTest
 class StatResourceTest {
@@ -36,15 +38,49 @@ class StatResourceTest {
     }
 
     @Test
-    @DisplayName("Should return 403 for update as common user")
-    @TestSecurity(user = "user", roles = "USER")
-    void shouldReturnForbiddenForUpdate() {
+    @DisplayName("Should update stats as OWNER and return 200")
+    @TestSecurity(user = "admin", roles = Role.Labels.OWNER)
+    void shouldUpdateStatsAsOwner() {
+        String createJson = """
+                {
+                    "yearsExperience": "5+",
+                    "systemDeployed": "10+",
+                    "uptimeSLA": "99.0%",
+                    "commitsLogged": "5k+",
+                    "status": "Online",
+                    "objective": "Old Objective"
+                }
+                """;
+
+        // First create one
+        String id = given()
+                .contentType(ContentType.JSON)
+                .body(createJson)
+                .when()
+                .post("/api/v1/stats")
+                .then()
+                .statusCode(201)
+                .extract().path("id");
+
+        String updateJson = """
+                {
+                    "yearsExperience": "10+",
+                    "systemDeployed": "50+",
+                    "uptimeSLA": "99.9%",
+                    "commitsLogged": "15k+",
+                    "status": "Online",
+                    "objective": "New Objective"
+                }
+                """;
+
         given()
                 .contentType(ContentType.JSON)
-                .body("{}")
+                .body(updateJson)
                 .when()
-                .put("/api/v1/stats/id")
+                .put("/api/v1/stats/" + id)
                 .then()
-                .statusCode(403);
+                .statusCode(200)
+                .body("yearsExperience", is("10+"))
+                .body("commitsLogged", is("15k+"));
     }
 }
