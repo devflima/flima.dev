@@ -15,7 +15,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     env:
       DB_USER: test
@@ -48,12 +48,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract backend version
+        id: version
+        run: |
+          VERSION=$(backend/mvnw help:evaluate -Dexpression=project.version -q -DforceStdout -f backend/pom.xml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=raw,value=${{ env.VERSION }}
             type=raw,value=latest
             type=sha
 
@@ -65,3 +72,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Update Kubernetes manifest
+        run: |
+          sed -i "s|image: ghcr.io/devflima/flima.dev-backend:.*|image: ghcr.io/devflima/flima.dev-backend:${{ env.VERSION }}|g" k8s/backend/deployment.yaml
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add k8s/backend/deployment.yaml
+          git commit -m "chore: update backend image tag to ${{ env.VERSION }} [skip ci]" || echo "No changes to commit"
+          git push
