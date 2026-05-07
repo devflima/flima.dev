@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { useLoginMutation } from '../store/apiSlice';
 
 export default function Login() {
@@ -17,6 +18,7 @@ export default function Login() {
       localStorage.setItem('token', response.token);
       localStorage.setItem('username', response.username);
       localStorage.setItem('role', response.role);
+      toast.success(`Welcome back, ${response.username}!`);
       navigate('/admin/dashboard');
     } catch (err) {
       console.error('Login error:', err);

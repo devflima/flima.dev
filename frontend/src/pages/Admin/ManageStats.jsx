@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetStatsQuery, useAddStatsMutation, useUpdateStatsMutation } from '../../store/apiSlice';
 
 function StatsForm({ initialData, onSave, isSaving }) {
@@ -65,11 +66,14 @@ export default function ManageStats() {
     try {
       if (updatedStats.id) {
         await updateStats(updatedStats).unwrap();
+        toast.success('Stats updated successfully!');
       } else {
         await addStats(updatedStats).unwrap();
+        toast.success('Stats created successfully!');
       }
     } catch (err) {
       console.error('Failed to save stats', err);
+      toast.error('Failed to save stats');
     }
   };
 

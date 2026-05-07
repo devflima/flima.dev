@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetProjectsQuery, useAddProjectMutation, useUpdateProjectMutation, useDeleteProjectMutation } from '../../store/apiSlice';
 
 export default function ManageProjects() {
@@ -25,30 +26,36 @@ export default function ManageProjects() {
     try {
       if (isEditing) {
         await updateProject(payload).unwrap();
+        toast.success('Project updated successfully!');
       } else {
         delete payload.id;
         await addProject(payload).unwrap();
+        toast.success('Project added successfully!');
       }
       resetForm();
     } catch (err) {
       console.error('Failed to save project', err);
+      toast.error('Failed to save project');
     }
   };
 
   const handleEdit = (proj) => {
     setFormData({
       ...proj,
-      technologies: proj.technologies.join(', ')
+      technologies: Array.isArray(proj.technologies) ? proj.technologies.join(', ') : proj.technologies
     });
     setIsEditing(true);
     window.scrollTo(0, 0);
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this project?')) return;
     try {
       await deleteProject(id).unwrap();
+      toast.success('Project deleted successfully!');
     } catch (err) {
       console.error('Failed to delete project', err);
+      toast.error('Failed to delete project');
     }
   };
 

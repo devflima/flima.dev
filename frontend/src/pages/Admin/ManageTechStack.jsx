@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetTechStackQuery, useAddTechStackMutation } from '../../store/apiSlice';
 
 function TechStackForm({ initialStack, onSave, isAdding }) {
@@ -67,9 +68,21 @@ export default function ManageTechStack() {
 
   const handleSave = async (payload) => {
     try {
-      await addTechStack(payload).unwrap(); 
+      // The backend expects one request per stack type
+      const types = ['LANGUAGES', 'DATABASES', 'INFRASTRUCTURE', 'MESSAGING'];
+      const requests = types.map(type => {
+        const techKey = type.toLowerCase();
+        return addTechStack({
+          stackType: type,
+          technologies: payload[techKey] || []
+        }).unwrap();
+      });
+      
+      await Promise.all(requests);
+      toast.success('Tech Stack updated successfully!');
     } catch (err) {
       console.error('Failed to update Tech Stack', err);
+      toast.error('Failed to update Tech Stack');
     }
   };
 

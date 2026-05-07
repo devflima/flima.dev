@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetMessagesQuery, useUpdateMessageStatusMutation, useDeleteMessageMutation } from '../../store/apiSlice';
 
 export default function ManageMessages() {
@@ -19,7 +20,7 @@ export default function ManageMessages() {
     setReplyText('');
     
     // mark as read if unread
-    if (msg.status === 'unread') {
+    if (msg.status === 'unread' || msg.statusMessage === 'UNREAD') {
       try {
         await updateMessageStatus({ id: msg.id, status: 'read' }).unwrap();
       } catch (err) {
@@ -32,18 +33,23 @@ export default function ManageMessages() {
     e.preventDefault();
     try {
       await updateMessageStatus({ id: replyingTo.id, status: 'replied' }).unwrap();
-      setReplyingTo(prev => ({...prev, status: 'replied'}));
+      setReplyingTo(prev => ({...prev, status: 'replied', statusMessage: 'REPLIED'}));
+      toast.success('Reply marked as sent!');
     } catch (err) {
       console.error('Failed to mark replied', err);
+      toast.error('Failed to update status');
     }
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this message?')) return;
     try {
       await deleteMessage(id).unwrap();
       if(replyingTo?.id === id) setReplyingTo(null);
+      toast.success('Message deleted successfully!');
     } catch (err) {
       console.error('Failed to delete message', err);
+      toast.error('Failed to delete message');
     }
   };
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useGetExperienceQuery, useAddExperienceMutation, useUpdateExperienceMutation, useDeleteExperienceMutation } from '../../store/apiSlice';
 
 export default function ManageExperience() {
@@ -26,13 +27,16 @@ export default function ManageExperience() {
     try {
       if (isEditing) {
         await updateExperience(payload).unwrap();
+        toast.success('Experience updated successfully!');
       } else {
         delete payload.id;
         await addExperience(payload).unwrap();
+        toast.success('Experience added successfully!');
       }
       resetForm();
     } catch (err) {
       console.error('Failed to save experience', err);
+      toast.error('Failed to save experience');
     }
   };
 
@@ -47,10 +51,13 @@ export default function ManageExperience() {
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this experience?')) return;
     try {
       await deleteExperience(id).unwrap();
+      toast.success('Experience deleted successfully!');
     } catch (err) {
       console.error('Failed to delete experience', err);
+      toast.error('Failed to delete experience');
     }
   };
 
@@ -124,9 +131,12 @@ export default function ManageExperience() {
       <div className="space-y-4">
         {experiences.map(exp => (
           <div key={exp.id} className="flex justify-between items-center p-4 border border-surface-container-highest bg-surface-container group">
-            <div>
-              <div className="font-headline-md text-on-surface text-lg">{exp.title}</div>
-              <div className="font-code-snippet text-on-surface-variant text-sm">{exp.company}</div>
+            <div className="flex items-center gap-4">
+              <div className={`w-2 h-10 ${exp.colorClass === 'secondary' ? 'bg-secondary-container' : (exp.colorClass === 'surface-variant' ? 'bg-surface-variant' : 'bg-primary-container')}`}></div>
+              <div>
+                <div className="font-headline-md text-on-surface text-lg">{exp.title}</div>
+                <div className="font-code-snippet text-on-surface-variant text-sm">{exp.company}</div>
+              </div>
             </div>
             <div className="flex gap-2">
               <button onClick={() => handleEdit(exp)} className="text-secondary-container hover:text-primary-container material-symbols-outlined transition-colors opacity-0 group-hover:opacity-100">

@@ -19,9 +19,29 @@ import ManageEducation from './pages/Admin/ManageEducation';
 import ManageTechStack from './pages/Admin/ManageTechStack';
 import ManageContent from './pages/Admin/ManageContent';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <Router>
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#1C1B1F',
+            color: '#E6E1E5',
+            border: '1px solid #49454F',
+            borderRadius: '0',
+            fontFamily: 'monospace',
+          },
+          success: {
+            iconTheme: {
+              primary: '#D0BCFF',
+              secondary: '#381E72',
+            },
+          },
+        }}
+      />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
