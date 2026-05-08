@@ -20,8 +20,9 @@ export default function ManageProjects() {
     e.preventDefault();
     const payload = {
       ...formData,
-      technologies: typeof formData.technologies === 'string' ? formData.technologies.split(',').map(t => t.trim()) : formData.technologies
+      technologies: (typeof formData.technologies === 'string' && formData.technologies.trim()) ? formData.technologies.split(',').map(t => t.trim()).filter(Boolean) : ['N/A']
     };
+    if (payload.technologies.length === 0) payload.technologies = ['N/A'];
 
     try {
       if (isEditing) {
@@ -105,11 +106,11 @@ export default function ManageProjects() {
           </div>
           <div className="space-y-1">
             <label htmlFor="description" className="font-label-mono text-[10px] text-surface-variant">Description</label>
-            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows="6" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
           <div className="space-y-1">
             <label htmlFor="codeSnippet" className="font-label-mono text-[10px] text-surface-variant">Code Snippet</label>
-            <textarea id="codeSnippet" required name="codeSnippet" value={formData.codeSnippet} onChange={handleChange} placeholder="Code Snippet" rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="codeSnippet" required name="codeSnippet" value={formData.codeSnippet} onChange={handleChange} placeholder="Code Snippet" rows="10" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
           <button type="submit" className="font-label-mono text-label-mono border border-surface-container-highest text-on-surface hover:text-surface-container-lowest hover:bg-primary-container hover:border-primary-container px-4 py-2 transition-all duration-200">
             {isEditing ? '[ Update_Project ]' : '[ Add_Project ]'}

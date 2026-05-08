@@ -27,8 +27,10 @@ export default function ManageEducation() {
       period: formData.period || 'N/A',
       specialization: formData.concentration || formData.description || 'N/A',
       architectures: (typeof formData.architectures === 'string' && formData.architectures.trim()) ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) : ['N/A'],
-      skills: formData.thesis ? [formData.thesis] : formData.issued ? [formData.issued] : ['N/A']
+      skills: (formData.type === 'cert' ? (formData.issued || formData.thesis) : formData.thesis) ? [formData.thesis || formData.issued] : ['N/A']
     };
+    if (payload.architectures.length === 0) payload.architectures = ['N/A'];
+    if (payload.skills.length === 0) payload.skills = ['N/A'];
     try {
       if (isEditing) {
         await updateEducation({ id: formData.id, ...payload }).unwrap();
@@ -46,8 +48,19 @@ export default function ManageEducation() {
 
   const handleEdit = (item) => {
     setFormData({
-      ...item,
-      architectures: item.architectures ? item.architectures.join(', ') : ''
+      id: item.id,
+      type: item.typeEducation === 'CERTIFICATION' ? 'cert' : 'degree',
+      degree: item.degree || '',
+      title: item.title || '',
+      institution: item.institution || '',
+      period: item.period || '',
+      concentration: item.typeEducation === 'DEGREE' ? item.specialization : '',
+      description: item.typeEducation === 'CERTIFICATION' ? item.specialization : '',
+      thesis: item.typeEducation === 'DEGREE' ? (item.skills?.[0] || '') : '',
+      issued: item.typeEducation === 'CERTIFICATION' ? (item.skills?.[0] || '') : '',
+      architectures: item.architectures ? item.architectures.join(', ') : '',
+      icon: item.icon || 'school',
+      colorClass: item.colorClass || 'primary'
     });
     setIsEditing(true);
     window.scrollTo(0, 0);

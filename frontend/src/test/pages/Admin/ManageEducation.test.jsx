@@ -1,9 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import ManageEducation from '../../../pages/Admin/ManageEducation';
 import { renderWithProviders } from '../../utils';
 import toast from 'react-hot-toast';
-import { vi } from 'vitest';
+import { server } from '../../mocks/server';
+import { http, HttpResponse } from 'msw';
+import { API_URL } from '../../../config';
 
 // Mock toast
 vi.mock('react-hot-toast', () => ({
@@ -26,7 +28,8 @@ describe('ManageEducation Component', () => {
     renderWithProviders(<ManageEducation />);
     
     // Fill form
-    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'New Degree' } });
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'New Degree' } });
     fireEvent.change(screen.getByPlaceholderText('Institution'), { target: { value: 'New Univ' } });
     
     const addButton = screen.getByText(/\[ Add_Entry \]/i);
@@ -40,7 +43,7 @@ describe('ManageEducation Component', () => {
   it('switches to certification and submits', async () => {
     renderWithProviders(<ManageEducation />);
     
-    const select = screen.getByLabelText(/^Type$/i);
+    const select = await screen.findByLabelText(/^Type$/i);
     fireEvent.change(select, { target: { value: 'cert' } });
     
     await waitFor(() => {
@@ -66,12 +69,131 @@ describe('ManageEducation Component', () => {
     });
 
     // Delete
-    const deleteBtn = screen.getByText('delete');
+    const deleteBtn = screen.getAllByText('delete')[0];
     vi.spyOn(window, 'confirm').mockReturnValue(true);
     fireEvent.click(deleteBtn);
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith('Education entry deleted successfully!');
+    });
+  });
+
+  it('submits a certification with N/A defaults for empty fields', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    const select = await screen.findByLabelText(/^Type$/i);
+    fireEvent.change(select, { target: { value: 'cert' } });
+    
+    // Fill only Title, leave others empty
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Minimal Cert' } });
+    
+    const addButton = screen.getByText(/\[ Add_Entry \]/i);
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Education entry added successfully!');
+    });
+  });
+
+  it('loads certification data for editing', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Mock Cert')).toBeInTheDocument();
+    });
+
+    const editBtns = screen.getAllByText('edit');
+    fireEvent.click(editBtns[1]); // The second one is the cert
+
+    expect(screen.getByDisplayValue('Mock Specialty')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Skill1')).toBeInTheDocument();
+  });
+
+  it('toggles between degree and certification fields', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    const select = await screen.findByLabelText(/^Type$/i);
+    
+    // Switch to cert
+    fireEvent.change(select, { target: { value: 'cert' } });
+    expect(screen.getByPlaceholderText('Description')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Degree Type (e.g. BS, MS)')).not.toBeInTheDocument();
+
+    // Switch back to degree
+    fireEvent.change(select, { target: { value: 'degree' } });
+    expect(screen.getByPlaceholderText('Degree Type (e.g. BS, MS)')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Description')).not.toBeInTheDocument();
+  });
+
+  it('handles edit and submit update', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    await waitFor(() => {
+      const editBtns = screen.getAllByText('edit');
+      fireEvent.click(editBtns[0]);
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Updated Degree' } });
+    fireEvent.click(screen.getByText(/\[ Update_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Education entry updated successfully!');
+    });
+  });
+
+  it('handles error on update', async () => {
+    server.use(
+      http.put(`${API_URL}/api/v1/educations/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    await waitFor(() => {
+      const editBtns = screen.getAllByText('edit');
+      fireEvent.click(editBtns[0]);
+    });
+    
+    fireEvent.click(screen.getByText(/\[ Update_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
+  it('handles error on save', async () => {
+    server.use(
+      http.post(`${API_URL}/api/v1/educations`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'Err Title' } });
+    fireEvent.click(screen.getByText(/\[ Add_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
+  it('handles error on delete', async () => {
+    server.use(
+      http.delete(`${API_URL}/api/v1/educations/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    await waitFor(() => {
+      const deleteBtn = screen.getAllByText('delete')[0];
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      fireEvent.click(deleteBtn);
+    });
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
     });
   });
 });

@@ -11,7 +11,7 @@ export default function Dashboard() {
     .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
     .slice(0, 5);
   
-  const unreadCount = messages.filter(m => m.status === 'unread').length;
+  const unreadCount = messages.filter(m => m.statusMessage === 'UNREAD').length;
 
   if (isLoading) return <div className="font-label-mono text-primary-container"><span className="cursor-blink">Loading...</span></div>;
 
@@ -59,11 +59,11 @@ export default function Dashboard() {
             <div key={msg.id} className="p-4 flex flex-col md:flex-row md:items-center justify-between hover:bg-surface-container-high transition-colors">
               <div className="mb-2 md:mb-0">
                 <div className="font-code-snippet text-sm text-on-surface flex items-center gap-2">
-                  {msg.status === 'unread' && <div className="w-2 h-2 rounded-full bg-error"></div>}
-                  {msg.user_name} &lt;{msg.user_email}&gt;
+                  {msg.statusMessage === 'UNREAD' && <div className="w-2 h-2 rounded-full bg-error"></div>}
+                  {msg.username} &lt;{msg.email}&gt;
                 </div>
                 <div className="font-body-base text-on-surface-variant truncate max-w-lg mt-1">
-                  {msg.message_body}
+                  {msg.message}
                 </div>
               </div>
               <div className="font-code-snippet text-xs text-surface-variant">

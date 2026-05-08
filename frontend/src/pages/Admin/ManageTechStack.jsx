@@ -18,10 +18,10 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
-      databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean),
-      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean),
-      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean),
+      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean).length > 0 ? formData.languages.split(',').map(s => s.trim()).filter(Boolean) : ['N/A'],
+      databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean).length > 0 ? formData.databases.split(',').map(s => s.trim()).filter(Boolean) : ['N/A'],
+      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean).length > 0 ? formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean) : ['N/A'],
+      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean).length > 0 ? formData.messaging.split(',').map(s => s.trim()).filter(Boolean) : ['N/A'],
       _ids: initialStack._ids
     });
   };

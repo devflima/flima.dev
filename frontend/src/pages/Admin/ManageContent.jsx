@@ -20,11 +20,11 @@ function ContentForm({ initialContent, onSave, isAdding }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      home: formData.home,
-      projects: formData.projects,
-      experience: formData.experience,
-      education: formData.education,
-      contact: formData.contact,
+      home: { title: formData.home.title || 'N/A', subtitle: formData.home.subtitle || 'N/A' },
+      projects: { title: formData.projects.title || 'N/A', subtitle: formData.projects.subtitle || 'N/A' },
+      experience: { title: formData.experience.title || 'N/A', subtitle: formData.experience.subtitle || 'N/A' },
+      education: { title: formData.education.title || 'N/A', subtitle: formData.education.subtitle || 'N/A' },
+      contact: { title: formData.contact.title || 'N/A', subtitle: formData.contact.subtitle || 'N/A' },
       _ids: initialContent._ids
     });
   };
