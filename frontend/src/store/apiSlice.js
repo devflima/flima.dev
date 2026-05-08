@@ -252,11 +252,19 @@ export const apiSlice = createApi({
       invalidatesTags: ['Messages'],
     }),
     updateMessageStatus: builder.mutation({
-      query: ({ id, status }) => ({
-        url: `/api/v1/messages/${id}`,
-        method: 'PATCH',
-        body: { status },
-      }),
+      query: ({ id, type, body }) => {
+        if (type === 'read') {
+          return {
+            url: `/api/v1/messages/read/${id}`,
+            method: 'POST',
+          };
+        }
+        return {
+          url: `/api/v1/messages/${id}`,
+          method: 'POST',
+          body: body,
+        };
+      },
       invalidatesTags: ['Messages'],
     }),
     deleteMessage: builder.mutation({

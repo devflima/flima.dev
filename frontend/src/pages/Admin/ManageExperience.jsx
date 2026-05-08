@@ -20,9 +20,11 @@ export default function ManageExperience() {
     e.preventDefault();
     const payload = {
       ...formData,
-      bullets: typeof formData.bullets === 'string' ? formData.bullets.split(String.raw`\n`).map(b => b.trim()).filter(Boolean) : formData.bullets,
-      technologies: typeof formData.technologies === 'string' ? formData.technologies.split(',').map(t => t.trim()).filter(Boolean) : formData.technologies
+      bullets: (typeof formData.bullets === 'string' && formData.bullets.trim()) ? formData.bullets.split(String.raw`\n`).map(b => b.trim()).filter(Boolean) : ['N/A'],
+      technologies: (typeof formData.technologies === 'string' && formData.technologies.trim()) ? formData.technologies.split(',').map(t => t.trim()).filter(Boolean) : ['N/A']
     };
+    if (payload.bullets.length === 0) payload.bullets = ['N/A'];
+    if (payload.technologies.length === 0) payload.technologies = ['N/A'];
 
     try {
       if (isEditing) {

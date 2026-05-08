@@ -20,9 +20,9 @@ export default function ManageMessages() {
     setReplyText('');
     
     // mark as read if unread
-    if (msg.status === 'unread' || msg.statusMessage === 'UNREAD') {
+    if (msg.statusMessage === 'UNREAD') {
       try {
-        await updateMessageStatus({ id: msg.id, status: 'read' }).unwrap();
+        await updateMessageStatus({ id: msg.id, type: 'read' }).unwrap();
       } catch (err) {
         console.error('Failed to mark read', err);
       }
@@ -32,12 +32,20 @@ export default function ManageMessages() {
   const handleSendReply = async (e) => {
     e.preventDefault();
     try {
-      await updateMessageStatus({ id: replyingTo.id, status: 'replied' }).unwrap();
-      setReplyingTo(prev => ({...prev, status: 'replied', statusMessage: 'REPLIED'}));
-      toast.success('Reply marked as sent!');
+      await updateMessageStatus({ 
+        id: replyingTo.id, 
+        type: 'reply',
+        body: {
+          email: replyingTo.email,
+          subject: `Re: ${replyingTo.subject || 'Portfolio Contact'}`,
+          message: replyText
+        }
+      }).unwrap();
+      setReplyingTo(prev => ({...prev, statusMessage: 'REPLIED'}));
+      toast.success('Reply sent successfully!');
     } catch (err) {
-      console.error('Failed to mark replied', err);
-      toast.error('Failed to update status');
+      console.error('Failed to send reply', err);
+      toast.error('Failed to send reply');
     }
   };
 
@@ -80,16 +88,16 @@ export default function ManageMessages() {
             >
               <div className="flex justify-between items-center mb-1">
                 <span className="font-label-mono text-on-surface flex items-center gap-2">
-                  {msg.status === 'unread' && <div className="w-2 h-2 rounded-full bg-error"></div>}
-                  {msg.status === 'replied' && <span className="material-symbols-outlined text-[14px] text-primary-container">done_all</span>}
-                  <span className="truncate max-w-[120px]">{msg.user_name}</span>
+                  {msg.statusMessage === 'UNREAD' && <div className="w-2 h-2 rounded-full bg-error"></div>}
+                  {msg.statusMessage === 'REPLIED' && <span className="material-symbols-outlined text-[14px] text-primary-container">done_all</span>}
+                  <span className="truncate max-w-[120px]">{msg.username}</span>
                 </span>
                 <span className="text-[10px] font-code-snippet text-surface-variant whitespace-nowrap">
                   {new Date(msg.timestamp).toLocaleDateString()}
                 </span>
               </div>
               <div className="text-xs font-code-snippet text-on-surface-variant truncate">
-                {msg.message_body}
+                {msg.message}
               </div>
             </div>
           ))}
@@ -125,15 +133,15 @@ export default function ManageMessages() {
             <div className="p-6 border-b border-surface-container-highest">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="font-headline-md text-on-surface">{replyingTo.user_name}</h3>
-                  <div className="font-code-snippet text-sm text-secondary-container break-all">&lt;{replyingTo.user_email}&gt;</div>
+                  <h3 className="font-headline-md text-on-surface">{replyingTo.username}</h3>
+                  <div className="font-code-snippet text-sm text-secondary-container break-all">&lt;{replyingTo.email}&gt;</div>
                 </div>
                 <button onClick={() => handleDelete(replyingTo.id)} className="text-error hover:bg-error/10 p-2 rounded transition-colors material-symbols-outlined flex-shrink-0">
                   delete
                 </button>
               </div>
               <div className="font-body-base text-on-surface-variant p-4 bg-surface-container-lowest border border-surface-container-highest rounded whitespace-pre-wrap">
-                {replyingTo.message_body}
+                {replyingTo.message}
               </div>
             </div>
             <div className="p-6 flex-grow flex flex-col">
@@ -148,8 +156,8 @@ export default function ManageMessages() {
                   className="flex-grow bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container p-4 font-code-snippet text-on-background outline-none resize-none mb-4" 
                   placeholder="&gt; Type response..."
                 ></textarea>
-                <button disabled={replyingTo.status === 'replied'} type="submit" className="font-label-mono text-label-mono border border-primary-container text-primary-container hover:bg-primary-container/10 px-6 py-3 transition-colors self-end flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                  {replyingTo.status === 'replied' ? '[ Already_Replied ]' : '[ Transmit_Reply ]'} <span className="material-symbols-outlined text-[18px]">send</span>
+                <button disabled={replyingTo.statusMessage === 'REPLIED'} type="submit" className="font-label-mono text-label-mono border border-primary-container text-primary-container hover:bg-primary-container/10 px-6 py-3 transition-colors self-end flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  {replyingTo.statusMessage === 'REPLIED' ? '[ Already_Replied ]' : '[ Transmit_Reply ]'} <span className="material-symbols-outlined text-[18px]">send</span>
                 </button>
               </form>
             </div>
