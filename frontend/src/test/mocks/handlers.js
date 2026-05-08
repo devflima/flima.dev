@@ -86,10 +86,46 @@ export const handlers = [
   // Mock Tech Stack
   http.get(`${API_URL}/api/v1/stacks`, () => {
     return HttpResponse.json([
-      { stackType: "LANGUAGES", technologies: ["MockLang"] },
-      { stackType: "DATABASES", technologies: ["MockDB"] },
-      { stackType: "INFRASTRUCTURE", technologies: ["MockInfra"] },
-      { stackType: "MESSAGING", technologies: ["MockMsg"] }
+      { id: "s1", stackType: "LANGUAGES", technologies: ["MockLang"] },
+      { id: "s2", stackType: "DATABASES", technologies: ["MockDB"] },
+      { id: "s3", stackType: "INFRASTRUCTURE", technologies: ["MockInfra"] },
+      { id: "s4", stackType: "MESSAGING", technologies: ["MockMsg"] }
     ]);
+  }),
+
+  http.post(`${API_URL}/api/v1/stacks`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: 'new-id', ...body }, { status: 201 });
+  }),
+
+  http.put(`${API_URL}/api/v1/stacks/:id`, async ({ request, params }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+
+  // Mock Page Content Mutations
+  http.post(`${API_URL}/api/v1/contents`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: 'new-id', ...body }, { status: 201 });
+  }),
+
+  http.put(`${API_URL}/api/v1/contents/:id`, async ({ request, params }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+
+  // Mock Education Mutations
+  http.post(`${API_URL}/api/v1/educations`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: 'new-id', ...body }, { status: 201 });
+  }),
+
+  http.put(`${API_URL}/api/v1/educations/:id`, async ({ request, params }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+
+  http.delete(`${API_URL}/api/v1/educations/:id`, () => {
+    return new HttpResponse(null, { status: 204 });
   }),
 ];
