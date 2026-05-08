@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useGetEducationQuery, useAddEducationMutation, useUpdateEducationMutation, useDeleteEducationMutation } from '../../store/apiSlice';
 import toast from 'react-hot-toast';
 
-
 export default function ManageEducation() {
   const { data: education = [], isLoading } = useGetEducationQuery();
   const [addEducation] = useAddEducationMutation();
@@ -30,8 +29,6 @@ export default function ManageEducation() {
       architectures: (typeof formData.architectures === 'string' && formData.architectures.trim()) ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) : ['N/A'],
       skills: formData.thesis ? [formData.thesis] : formData.issued ? [formData.issued] : ['N/A']
     };
-    };
-
     try {
       if (isEditing) {
         await updateEducation({ id: formData.id, ...payload }).unwrap();
@@ -58,6 +55,8 @@ export default function ManageEducation() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this education entry?')) return;
+    try {
+      await deleteEducation(id).unwrap();
     try {
       await deleteEducation(id).unwrap();
       toast.success('Education entry deleted successfully!');

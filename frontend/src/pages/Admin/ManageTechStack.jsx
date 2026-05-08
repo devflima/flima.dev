@@ -4,10 +4,10 @@ import toast from 'react-hot-toast';
 
 function TechStackForm({ initialStack, onSave, isAdding }) {
   const [formData, setFormData] = useState({
-    languages: initialStack.languages?.technologies?.join(', ') || '',
-    databases: initialStack.databases?.technologies?.join(', ') || '',
-    infrastructure: initialStack.infrastructure?.technologies?.join(', ') || '',
-    messaging: initialStack.messaging?.technologies?.join(', ') || ''
+    languages: initialStack.languages?.join(', ') || '',
+    databases: initialStack.databases?.join(', ') || '',
+    infrastructure: initialStack.infrastructure?.join(', ') || '',
+    messaging: initialStack.messaging?.join(', ') || ''
   });
 
   const handleChange = (e) => {
@@ -18,10 +18,11 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      languages: { id: initialStack.languages?.id, technologies: formData.languages.split(',').map(s => s.trim()).filter(Boolean) },
-      databases: { id: initialStack.databases?.id, technologies: formData.databases.split(',').map(s => s.trim()).filter(Boolean) },
-      infrastructure: { id: initialStack.infrastructure?.id, technologies: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean) },
-      messaging: { id: initialStack.messaging?.id, technologies: formData.messaging.split(',').map(s => s.trim()).filter(Boolean) }
+      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
+      databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean),
+      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean),
+      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean),
+      _ids: initialStack._ids
     });
   };
 
@@ -70,10 +71,10 @@ export default function ManageTechStack() {
   const handleSave = async (payload) => {
     try {
     try {
-      const promises = Object.entries(payload).map(([key, data]) => {
+      const ids = payload._ids || {};
+      const promises = Object.entries(payload).map(([key, technologies]) => {
         if (key === '_ids') return null;
-        const requestBody = { stackType: key.toUpperCase(), technologies: data };
-        const ids = payload._ids || {};
+        const requestBody = { stackType: key.toUpperCase(), technologies };
         if (ids[key]) {
           return updateTechStack({ id: ids[key], ...requestBody }).unwrap();
         } else {
@@ -85,7 +86,6 @@ export default function ManageTechStack() {
     } catch (err) {
       console.error('Failed to update Tech Stack', err);
       toast.error('Failed to save Tech Stack.');
-    }
     }
   };
 

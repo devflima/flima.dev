@@ -63,17 +63,19 @@ export const apiSlice = createApi({
       providesTags: ['TechStack'],
       transformResponse: (response) => {
         const result = {
-          languages: { id: null, technologies: [] },
-          databases: { id: null, technologies: [] },
-          infrastructure: { id: null, technologies: [] },
-          messaging: { id: null, technologies: [] }
+          languages: [],
+          databases: [],
+          infrastructure: [],
+          messaging: [],
+          _ids: {}
         };
         
         if (Array.isArray(response)) {
           response.forEach(stack => {
             const key = stack.stackType.toLowerCase();
-            if (result[key] !== undefined) {
-              result[key] = { id: stack.id, technologies: stack.technologies || [] };
+            if (result[key] !== undefined && stack.technologies) {
+              result[key] = stack.technologies;
+              result._ids[key] = stack.id;
             }
           });
         }
@@ -107,17 +109,19 @@ export const apiSlice = createApi({
       providesTags: ['PageContent'],
       transformResponse: (response) => {
         const result = {
-          home: { id: null, content: { title: '', subtitle: '' } },
-          projects: { id: null, content: { title: '', subtitle: '' } },
-          experience: { id: null, content: { title: '', subtitle: '' } },
-          education: { id: null, content: { title: '', subtitle: '' } },
-          contact: { id: null, content: { title: '', subtitle: '' } }
+          home: { title: '', subtitle: '' },
+          projects: { title: '', subtitle: '' },
+          experience: { title: '', subtitle: '' },
+          education: { title: '', subtitle: '' },
+          contact: { title: '', subtitle: '' },
+          _ids: {}
         };
         if (Array.isArray(response)) {
           response.forEach(content => {
             const key = content.sectionType.toLowerCase();
-            if (result[key]) {
-              result[key] = { id: content.id, content: content.sectionContent || { title: '', subtitle: '' } };
+            if (result[key] && content.sectionContent) {
+              result[key] = content.sectionContent;
+              result._ids[key] = content.id;
             }
           });
         }

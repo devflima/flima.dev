@@ -4,11 +4,11 @@ import toast from 'react-hot-toast';
 
 function ContentForm({ initialContent, onSave, isAdding }) {
   const [formData, setFormData] = useState({
-    home: { title: initialContent.home?.content?.title || '', subtitle: initialContent.home?.content?.subtitle || '' },
-    projects: { title: initialContent.projects?.content?.title || '', subtitle: initialContent.projects?.content?.subtitle || '' },
-    experience: { title: initialContent.experience?.content?.title || '', subtitle: initialContent.experience?.content?.subtitle || '' },
-    education: { title: initialContent.education?.content?.title || '', subtitle: initialContent.education?.content?.subtitle || '' },
-    contact: { title: initialContent.contact?.content?.title || '', subtitle: initialContent.contact?.content?.subtitle || '' }
+    home: { title: initialContent.home?.title || '', subtitle: initialContent.home?.subtitle || '' },
+    projects: { title: initialContent.projects?.title || '', subtitle: initialContent.projects?.subtitle || '' },
+    experience: { title: initialContent.experience?.title || '', subtitle: initialContent.experience?.subtitle || '' },
+    education: { title: initialContent.education?.title || '', subtitle: initialContent.education?.subtitle || '' },
+    contact: { title: initialContent.contact?.title || '', subtitle: initialContent.contact?.subtitle || '' }
   });
 
   const handleChange = (e) => {
@@ -20,11 +20,12 @@ function ContentForm({ initialContent, onSave, isAdding }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      home: { id: initialContent.home?.id, content: formData.home },
-      projects: { id: initialContent.projects?.id, content: formData.projects },
-      experience: { id: initialContent.experience?.id, content: formData.experience },
-      education: { id: initialContent.education?.id, content: formData.education },
-      contact: { id: initialContent.contact?.id, content: formData.contact }
+      home: formData.home,
+      projects: formData.projects,
+      experience: formData.experience,
+      education: formData.education,
+      contact: formData.contact,
+      _ids: initialContent._ids
     });
   };
 
@@ -137,7 +138,6 @@ export default function ManageContent() {
   const [updatePageContent] = useUpdatePageContentMutation();
 
   const handleSave = async (payload) => {
-    try {
     try {
       const ids = payload._ids || {};
       const promises = Object.entries(payload).map(([key, contentObj]) => {
