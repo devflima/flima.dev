@@ -67,7 +67,7 @@ describe('ManageTechStack Component', () => {
 
     renderWithProviders(<ManageTechStack />);
     
-    const saveButton = screen.getByText(/\[ Save_Tech_Stack \]/i);
+    const saveButton = await screen.findByText(/\[ Save_Tech_Stack \]/i);
     fireEvent.click(saveButton);
 
     await waitFor(() => {

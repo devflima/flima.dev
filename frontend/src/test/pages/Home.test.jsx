@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import Home from '../../pages/Home';
 import { renderWithProviders } from '../utils';
+import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw';
+import { API_URL } from '../../config';
 
 describe('Home Page Integration', () => {
   it('renders loading state initially', () => {

@@ -28,7 +28,8 @@ describe('ManageExperience Component', () => {
   it('submits a new experience entry', async () => {
     renderWithProviders(<ManageExperience />);
     
-    fireEvent.change(screen.getByPlaceholderText('Job Title'), { target: { value: 'New Job' } });
+    const jobTitleInput = await screen.findByPlaceholderText('Job Title');
+    fireEvent.change(jobTitleInput, { target: { value: 'New Job' } });
     fireEvent.change(screen.getByPlaceholderText('Company'), { target: { value: 'New Corp' } });
     fireEvent.change(screen.getByPlaceholderText('Period (e.g. 2021 - PRESENT)'), { target: { value: '2022 - 2023' } });
     fireEvent.change(screen.getByPlaceholderText('Technologies (comma separated)'), { target: { value: 'React, Node' } });
@@ -54,6 +55,13 @@ describe('ManageExperience Component', () => {
     const editBtn = screen.getByText('edit');
     fireEvent.click(editBtn);
     expect(screen.getByText(/Edit Experience: Mock Corp/i)).toBeInTheDocument();
+    
+    fireEvent.change(screen.getByPlaceholderText('Job Title'), { target: { value: 'Updated Job' } });
+    fireEvent.click(screen.getByText(/\[ Update_Experience \]/i));
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Experience updated successfully!');
+    });
 
     // Delete
     const deleteBtn = screen.getByText('delete');
@@ -65,6 +73,25 @@ describe('ManageExperience Component', () => {
     });
   });
 
+  it('handles error on update', async () => {
+    server.use(
+      http.put(`${API_URL}/api/v1/experiences/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageExperience />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('edit'));
+    });
+    
+    fireEvent.click(screen.getByText(/\[ Update_Experience \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
   it('handles error on save', async () => {
     server.use(
       http.post(`${API_URL}/api/v1/experiences`, () => {
@@ -73,7 +100,8 @@ describe('ManageExperience Component', () => {
     );
 
     renderWithProviders(<ManageExperience />);
-    fireEvent.change(screen.getByPlaceholderText('Job Title'), { target: { value: 'Err Title' } });
+    const jobTitleInput = await screen.findByPlaceholderText('Job Title');
+    fireEvent.change(jobTitleInput, { target: { value: 'Err Title' } });
     fireEvent.change(screen.getByPlaceholderText('Company'), { target: { value: 'Err Corp' } });
     fireEvent.change(screen.getByPlaceholderText('Period (e.g. 2021 - PRESENT)'), { target: { value: '2022 - 2023' } });
     fireEvent.change(screen.getByPlaceholderText('Technologies (comma separated)'), { target: { value: 'React' } });

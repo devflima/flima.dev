@@ -66,7 +66,7 @@ describe('ManageContent Component', () => {
 
     renderWithProviders(<ManageContent />);
     
-    const saveButton = screen.getByText(/\[ Save_Content \]/i);
+    const saveButton = await screen.findByText(/\[ Save_Content \]/i);
     fireEvent.click(saveButton);
 
     await waitFor(() => {

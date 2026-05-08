@@ -28,7 +28,8 @@ describe('ManageProjects Component', () => {
   it('submits a new project with correct payload', async () => {
     renderWithProviders(<ManageProjects />);
     
-    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'New Proj' } });
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'New Proj' } });
     fireEvent.change(screen.getByPlaceholderText('Subtitle'), { target: { value: 'Sub' } });
     fireEvent.change(screen.getByPlaceholderText('Icon (e.g. code, terminal)'), { target: { value: 'code' } });
     fireEvent.change(screen.getByPlaceholderText('Description'), { target: { value: 'Desc' } });
@@ -92,6 +93,59 @@ describe('ManageProjects Component', () => {
     });
   });
 
+  it('handles edit and submit update', async () => {
+    renderWithProviders(<ManageProjects />);
+    
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('edit'));
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Updated Project' } });
+    fireEvent.click(screen.getByText(/\[ Update_Project \]/i));
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Project updated successfully!');
+    });
+  });
+
+  it('handles error on update', async () => {
+    server.use(
+      http.put(`${API_URL}/api/v1/projects/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageProjects />);
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('edit'));
+    });
+    
+    fireEvent.click(screen.getByText(/\[ Update_Project \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
+  it('handles error on delete', async () => {
+    server.use(
+      http.delete(`${API_URL}/api/v1/projects/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageProjects />);
+    await waitFor(() => {
+      const deleteBtn = screen.getByText('delete');
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      fireEvent.click(deleteBtn);
+    });
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
   it('handles error on submit', async () => {
     server.use(
       http.post(`${API_URL}/api/v1/projects`, () => {
@@ -101,7 +155,8 @@ describe('ManageProjects Component', () => {
 
     renderWithProviders(<ManageProjects />);
     
-    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Err Proj' } });
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'Err Proj' } });
     fireEvent.change(screen.getByPlaceholderText('Subtitle'), { target: { value: 'Sub' } });
     fireEvent.change(screen.getByPlaceholderText('Icon (e.g. code, terminal)'), { target: { value: 'code' } });
     fireEvent.change(screen.getByPlaceholderText('Description'), { target: { value: 'Desc' } });

@@ -28,7 +28,8 @@ describe('ManageEducation Component', () => {
     renderWithProviders(<ManageEducation />);
     
     // Fill form
-    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'New Degree' } });
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'New Degree' } });
     fireEvent.change(screen.getByPlaceholderText('Institution'), { target: { value: 'New Univ' } });
     
     const addButton = screen.getByText(/\[ Add_Entry \]/i);
@@ -42,7 +43,7 @@ describe('ManageEducation Component', () => {
   it('switches to certification and submits', async () => {
     renderWithProviders(<ManageEducation />);
     
-    const select = screen.getByLabelText(/^Type$/i);
+    const select = await screen.findByLabelText(/^Type$/i);
     fireEvent.change(select, { target: { value: 'cert' } });
     
     await waitFor(() => {
@@ -80,7 +81,7 @@ describe('ManageEducation Component', () => {
   it('submits a certification with N/A defaults for empty fields', async () => {
     renderWithProviders(<ManageEducation />);
     
-    const select = screen.getByLabelText(/^Type$/i);
+    const select = await screen.findByLabelText(/^Type$/i);
     fireEvent.change(select, { target: { value: 'cert' } });
     
     // Fill only Title, leave others empty
@@ -111,7 +112,7 @@ describe('ManageEducation Component', () => {
   it('toggles between degree and certification fields', async () => {
     renderWithProviders(<ManageEducation />);
     
-    const select = screen.getByLabelText(/^Type$/i);
+    const select = await screen.findByLabelText(/^Type$/i);
     
     // Switch to cert
     fireEvent.change(select, { target: { value: 'cert' } });
@@ -124,6 +125,42 @@ describe('ManageEducation Component', () => {
     expect(screen.queryByPlaceholderText('Description')).not.toBeInTheDocument();
   });
 
+  it('handles edit and submit update', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    await waitFor(() => {
+      const editBtns = screen.getAllByText('edit');
+      fireEvent.click(editBtns[0]);
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Updated Degree' } });
+    fireEvent.click(screen.getByText(/\[ Update_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Education entry updated successfully!');
+    });
+  });
+
+  it('handles error on update', async () => {
+    server.use(
+      http.put(`${API_URL}/api/v1/educations/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    await waitFor(() => {
+      const editBtns = screen.getAllByText('edit');
+      fireEvent.click(editBtns[0]);
+    });
+    
+    fireEvent.click(screen.getByText(/\[ Update_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
   it('handles error on save', async () => {
     server.use(
       http.post(`${API_URL}/api/v1/educations`, () => {
@@ -132,7 +169,8 @@ describe('ManageEducation Component', () => {
     );
 
     renderWithProviders(<ManageEducation />);
-    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Err Title' } });
+    const titleInput = await screen.findByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'Err Title' } });
     fireEvent.click(screen.getByText(/\[ Add_Entry \]/i));
 
     await waitFor(() => {
