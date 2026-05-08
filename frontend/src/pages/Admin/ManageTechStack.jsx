@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useGetTechStackQuery, useAddTechStackMutation, useUpdateTechStackMutation } from '../../store/apiSlice';
 import toast from 'react-hot-toast';
-import { useGetTechStackQuery, useAddTechStackMutation } from '../../store/apiSlice';
 
 function TechStackForm({ initialStack, onSave, isAdding }) {
   const [formData, setFormData] = useState({
@@ -21,7 +21,8 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
       languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
       databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean),
       infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean),
-      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean)
+      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean),
+      _ids: initialStack._ids
     });
   };
 
@@ -65,24 +66,25 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
 export default function ManageTechStack() {
   const { data: stack, isLoading } = useGetTechStackQuery();
   const [addTechStack, { isLoading: isAdding }] = useAddTechStackMutation();
+  const [updateTechStack] = useUpdateTechStackMutation();
 
   const handleSave = async (payload) => {
     try {
-      // The backend expects one request per stack type
-      const types = ['LANGUAGES', 'DATABASES', 'INFRASTRUCTURE', 'MESSAGING'];
-      const requests = types.map(type => {
-        const techKey = type.toLowerCase();
-        return addTechStack({
-          stackType: type,
-          technologies: payload[techKey] || []
-        }).unwrap();
-      });
-      
-      await Promise.all(requests);
-      toast.success('Tech Stack updated successfully!');
+      const ids = payload._ids || {};
+      const promises = Object.entries(payload).map(([key, technologies]) => {
+        if (key === '_ids') return null;
+        const requestBody = { stackType: key.toUpperCase(), technologies };
+        if (ids[key]) {
+          return updateTechStack({ id: ids[key], ...requestBody }).unwrap();
+        } else {
+          return addTechStack(requestBody).unwrap();
+        }
+      }).filter(Boolean);
+      await Promise.all(promises);
+      toast.success('Tech Stack saved successfully!');
     } catch (err) {
       console.error('Failed to update Tech Stack', err);
-      toast.error('Failed to update Tech Stack');
+      toast.error('Failed to save Tech Stack.');
     }
   };
 

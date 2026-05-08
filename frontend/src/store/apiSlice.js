@@ -66,7 +66,8 @@ export const apiSlice = createApi({
           languages: [],
           databases: [],
           infrastructure: [],
-          messaging: []
+          messaging: [],
+          _ids: {}
         };
         
         if (Array.isArray(response)) {
@@ -74,6 +75,7 @@ export const apiSlice = createApi({
             const key = stack.stackType.toLowerCase();
             if (result[key] !== undefined && stack.technologies) {
               result[key] = stack.technologies;
+              result._ids[key] = stack.id;
             }
           });
         }
@@ -111,13 +113,15 @@ export const apiSlice = createApi({
           projects: { title: '', subtitle: '' },
           experience: { title: '', subtitle: '' },
           education: { title: '', subtitle: '' },
-          contact: { title: '', subtitle: '' }
+          contact: { title: '', subtitle: '' },
+          _ids: {}
         };
         if (Array.isArray(response)) {
           response.forEach(content => {
             const key = content.sectionType.toLowerCase();
             if (result[key] && content.sectionContent) {
               result[key] = content.sectionContent;
+              result._ids[key] = content.id;
             }
           });
         }
