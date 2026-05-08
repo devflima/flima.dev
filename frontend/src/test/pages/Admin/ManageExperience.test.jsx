@@ -39,4 +39,26 @@ describe('ManageExperience Component', () => {
       expect(toast.success).toHaveBeenCalledWith('Experience added successfully!');
     });
   });
+
+  it('handles edit and delete', async () => {
+    renderWithProviders(<ManageExperience />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Mock Corp')).toBeInTheDocument();
+    });
+
+    // Edit
+    const editBtn = screen.getByText('edit');
+    fireEvent.click(editBtn);
+    expect(screen.getByText(/Edit Experience: Mock Corp/i)).toBeInTheDocument();
+
+    // Delete
+    const deleteBtn = screen.getByText('delete');
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    fireEvent.click(deleteBtn);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Experience deleted successfully!');
+    });
+  });
 });

@@ -123,7 +123,30 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
         </div>
         <div
           class="grid grid-cols-1 md:grid-cols-2 gap-6"
-        />
+        >
+          <div
+            class="border border-surface-container-highest bg-surface-container p-6 group hover:border-secondary-container transition-colors duration-300"
+          >
+            <div
+              class="flex justify-between items-start mb-4"
+            >
+              <span
+                class="material-symbols-outlined text-3xl text-secondary-container group-hover:glow-border-sm transition-all"
+              />
+              <div
+                class="font-code-snippet text-[10px] text-surface-variant uppercase tracking-widest"
+              />
+            </div>
+            <h3
+              class="font-headline-sm text-headline-sm text-on-surface mb-2"
+            >
+              Mock Cert
+            </h3>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant"
+            />
+          </div>
+        </div>
       </section>
     </div>
   </main>

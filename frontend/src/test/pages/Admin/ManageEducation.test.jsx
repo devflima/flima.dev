@@ -66,7 +66,7 @@ describe('ManageEducation Component', () => {
     });
 
     // Delete
-    const deleteBtn = screen.getByText('delete');
+    const deleteBtn = screen.getAllByText('delete')[0];
     vi.spyOn(window, 'confirm').mockReturnValue(true);
     fireEvent.click(deleteBtn);
 
@@ -90,5 +90,19 @@ describe('ManageEducation Component', () => {
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith('Education entry added successfully!');
     });
+  });
+
+  it('loads certification data for editing', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Mock Cert')).toBeInTheDocument();
+    });
+
+    const editBtns = screen.getAllByText('edit');
+    fireEvent.click(editBtns[1]); // The second one is the cert
+
+    expect(screen.getByDisplayValue('Mock Specialty')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Skill1')).toBeInTheDocument();
   });
 });

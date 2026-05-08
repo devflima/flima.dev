@@ -57,4 +57,20 @@ describe('ManageProjects Component', () => {
     
     expect(screen.getByText(/Add New Project/i)).toBeInTheDocument();
   });
+
+  it('handles delete', async () => {
+    renderWithProviders(<ManageProjects />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Mock Project')).toBeInTheDocument();
+    });
+
+    const deleteBtn = screen.getByText('delete');
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    fireEvent.click(deleteBtn);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Project deleted successfully!');
+    });
+  });
 });

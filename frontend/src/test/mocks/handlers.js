@@ -68,6 +68,17 @@ export const handlers = [
         specialization: "Mock Specialization",
         architectures: ["Arch1", "Arch2"],
         colorClass: "primary"
+      },
+      {
+        id: "2",
+        typeEducation: "CERTIFICATION",
+        degree: "Certification",
+        title: "Mock Cert",
+        institution: "Mock Institution",
+        period: "2020",
+        specialization: "Mock Specialty",
+        skills: ["Skill1"],
+        colorClass: "secondary"
       }
     ]);
   }),
@@ -166,6 +177,15 @@ export const handlers = [
         subject: "Contact",
         timestamp: new Date().toISOString(),
         statusMessage: "UNREAD"
+      },
+      {
+        id: "m2",
+        username: "Jane Smith",
+        email: "jane@example.com",
+        message: "Replying to you",
+        subject: "Re: Inquiry",
+        timestamp: new Date().toISOString(),
+        statusMessage: "REPLIED"
       }
     ]);
   }),

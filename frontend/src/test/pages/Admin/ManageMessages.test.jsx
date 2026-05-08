@@ -50,4 +50,31 @@ describe('ManageMessages Component', () => {
       expect(toast.success).toHaveBeenCalledWith('Reply sent successfully!');
     });
   });
+
+  it('handles message deletion', async () => {
+    renderWithProviders(<ManageMessages />);
+    
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('John Doe'));
+    });
+
+    const deleteBtn = screen.getByText('delete');
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    fireEvent.click(deleteBtn);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Message deleted successfully!');
+    });
+  });
+
+  it('shows replied state correctly', async () => {
+    renderWithProviders(<ManageMessages />);
+    
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('Jane Smith'));
+    });
+
+    expect(screen.getByText(/Already_Replied/i)).toBeInTheDocument();
+    expect(screen.getByText(/Already_Replied/i)).toBeDisabled();
+  });
 });

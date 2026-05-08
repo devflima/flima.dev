@@ -36,4 +36,22 @@ describe('ManageContent Component', () => {
       expect(toast.success).toHaveBeenCalledWith('Page Content saved successfully!');
     });
   });
+
+  it('submits with N/A defaults for empty fields', async () => {
+    renderWithProviders(<ManageContent />);
+    
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('MOCK_ARCHITECTING DISTRIBUTED SYSTEMS.')).toBeInTheDocument();
+    });
+
+    // Clear a field
+    fireEvent.change(screen.getByDisplayValue('MOCK_ARCHITECTING DISTRIBUTED SYSTEMS.'), { target: { value: '' } });
+    
+    const saveButton = screen.getByText(/\[ Save_Content \]/i);
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Page Content saved successfully!');
+    });
+  });
 });
