@@ -28,6 +28,8 @@ spec:
         - secretRef:
             name: backend-secrets
         env:
+        - name: JAVA_OPTS
+          value: "-Xmx350m -Xms128m -XX:+UseG1GC"
         - name: JWT_PRIVATE_KEY_LOCATION
           value: /deployments/config/jwt/privateKey.pk8
         - name: JWT_PUBLIC_KEY_LOCATION
