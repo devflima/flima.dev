@@ -1,33 +1,31 @@
 import { useState } from 'react';
-import { useGetPageContentQuery, useAddPageContentMutation } from '../../store/apiSlice';
+import { useGetPageContentQuery, useAddPageContentMutation, useUpdatePageContentMutation } from '../../store/apiSlice';
+import { toast } from 'react-toastify';
+
 
 function ContentForm({ initialContent, onSave, isAdding }) {
   const [formData, setFormData] = useState({
-    homeTitle: initialContent.home?.title || '',
-    homeSubtitle: initialContent.home?.subtitle || '',
-    projectsTitle: initialContent.projects?.title || '',
-    projectsSubtitle: initialContent.projects?.subtitle || '',
-    experienceTitle: initialContent.experience?.title || '',
-    experienceSubtitle: initialContent.experience?.subtitle || '',
-    educationTitle: initialContent.education?.title || '',
-    educationSubtitle: initialContent.education?.subtitle || '',
-    contactTitle: initialContent.contact?.title || '',
-    contactSubtitle: initialContent.contact?.subtitle || ''
+    home: { title: initialContent.home?.content?.title || '', subtitle: initialContent.home?.content?.subtitle || '' },
+    projects: { title: initialContent.projects?.content?.title || '', subtitle: initialContent.projects?.content?.subtitle || '' },
+    experience: { title: initialContent.experience?.content?.title || '', subtitle: initialContent.experience?.content?.subtitle || '' },
+    education: { title: initialContent.education?.content?.title || '', subtitle: initialContent.education?.content?.subtitle || '' },
+    contact: { title: initialContent.contact?.content?.title || '', subtitle: initialContent.contact?.content?.subtitle || '' }
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const [section, field] = name.split('.');
+    setFormData(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      home: { title: formData.homeTitle, subtitle: formData.homeSubtitle },
-      projects: { title: formData.projectsTitle, subtitle: formData.projectsSubtitle },
-      experience: { title: formData.experienceTitle, subtitle: formData.experienceSubtitle },
-      education: { title: formData.educationTitle, subtitle: formData.educationSubtitle },
-      contact: { title: formData.contactTitle, subtitle: formData.contactSubtitle }
+      home: { id: initialContent.home?.id, content: formData.home },
+      projects: { id: initialContent.projects?.id, content: formData.projects },
+      experience: { id: initialContent.experience?.id, content: formData.experience },
+      education: { id: initialContent.education?.id, content: formData.education },
+      contact: { id: initialContent.contact?.id, content: formData.contact }
     });
   };
 
@@ -40,13 +38,13 @@ function ContentForm({ initialContent, onSave, isAdding }) {
             <label htmlFor="homeTitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Title</span>
             </label>
-            <input id="homeTitle" type="text" name="homeTitle" value={formData.homeTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <input id="homeTitle" type="text" name="home.title" value={formData.home.title} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
           </div>
           <div className="space-y-2">
             <label htmlFor="homeSubtitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Subtitle</span>
             </label>
-            <textarea id="homeSubtitle" name="homeSubtitle" value={formData.homeSubtitle} onChange={handleChange} rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="homeSubtitle" name="home.subtitle" value={formData.home.subtitle} onChange={handleChange} rows="3" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -58,13 +56,13 @@ function ContentForm({ initialContent, onSave, isAdding }) {
             <label htmlFor="projectsTitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Title</span>
             </label>
-            <input id="projectsTitle" type="text" name="projectsTitle" value={formData.projectsTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <input id="projectsTitle" type="text" name="projects.title" value={formData.projects.title} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
           </div>
           <div className="space-y-2">
             <label htmlFor="projectsSubtitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Subtitle</span>
             </label>
-            <textarea id="projectsSubtitle" name="projectsSubtitle" value={formData.projectsSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="projectsSubtitle" name="projects.subtitle" value={formData.projects.subtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -76,13 +74,13 @@ function ContentForm({ initialContent, onSave, isAdding }) {
             <label htmlFor="experienceTitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Title</span>
             </label>
-            <input id="experienceTitle" type="text" name="experienceTitle" value={formData.experienceTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <input id="experienceTitle" type="text" name="experience.title" value={formData.experience.title} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
           </div>
           <div className="space-y-2">
             <label htmlFor="experienceSubtitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Subtitle</span>
             </label>
-            <textarea id="experienceSubtitle" name="experienceSubtitle" value={formData.experienceSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="experienceSubtitle" name="experience.subtitle" value={formData.experience.subtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -94,13 +92,13 @@ function ContentForm({ initialContent, onSave, isAdding }) {
             <label htmlFor="educationTitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Title</span>
             </label>
-            <input id="educationTitle" type="text" name="educationTitle" value={formData.educationTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <input id="educationTitle" type="text" name="education.title" value={formData.education.title} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
           </div>
           <div className="space-y-2">
             <label htmlFor="educationSubtitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Subtitle</span>
             </label>
-            <textarea id="educationSubtitle" name="educationSubtitle" value={formData.educationSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="educationSubtitle" name="education.subtitle" value={formData.education.subtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -112,13 +110,13 @@ function ContentForm({ initialContent, onSave, isAdding }) {
             <label htmlFor="contactTitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Title</span>
             </label>
-            <input id="contactTitle" type="text" name="contactTitle" value={formData.contactTitle} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
+            <input id="contactTitle" type="text" name="contact.title" value={formData.contact.title} onChange={handleChange} className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none" />
           </div>
           <div className="space-y-2">
             <label htmlFor="contactSubtitle" className="font-label-mono text-label-mono text-surface-variant">
               <span>Subtitle</span>
             </label>
-            <textarea id="contactSubtitle" name="contactSubtitle" value={formData.contactSubtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
+            <textarea id="contactSubtitle" name="contact.subtitle" value={formData.contact.subtitle} onChange={handleChange} rows="2" className="w-full bg-surface-container-lowest border border-surface-container-highest focus:border-primary-container text-on-background font-code-snippet p-2 outline-none resize-none"></textarea>
           </div>
         </div>
       </div>
@@ -137,12 +135,23 @@ function ContentForm({ initialContent, onSave, isAdding }) {
 export default function ManageContent() {
   const { data: content, isLoading } = useGetPageContentQuery();
   const [addPageContent, { isLoading: isAdding }] = useAddPageContentMutation();
+  const [updatePageContent] = useUpdatePageContentMutation();
 
   const handleSave = async (payload) => {
     try {
-      await addPageContent(payload).unwrap();
-    } catch {
-      console.error('Failed to update Page Content');
+      const promises = Object.entries(payload).map(([key, data]) => {
+        const requestBody = { sectionType: key.toUpperCase(), sectionContent: data.content };
+        if (data.id) {
+          return updatePageContent({ id: data.id, ...requestBody }).unwrap();
+        } else {
+          return addPageContent(requestBody).unwrap();
+        }
+      });
+      await Promise.all(promises);
+      toast.success('Page Content saved successfully!');
+    } catch (err) {
+      console.error('Failed to update Page Content', err);
+      toast.error('Failed to save Page Content.');
     }
   };
 

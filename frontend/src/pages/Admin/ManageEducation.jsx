@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useGetEducationQuery, useAddEducationMutation, useUpdateEducationMutation, useDeleteEducationMutation } from '../../store/apiSlice';
+import { toast } from 'react-toastify';
+
 
 export default function ManageEducation() {
   const { data: education = [], isLoading } = useGetEducationQuery();
@@ -17,21 +19,31 @@ export default function ManageEducation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...formData };
-    if (payload.type === 'degree') {
-      payload.architectures = typeof payload.architectures === 'string' ? payload.architectures.split(',').map(a => a.trim()).filter(Boolean) : payload.architectures;
-    }
+    
+    // Map frontend specific fields to backend expected fields
+    const payload = { 
+      typeEducation: formData.type,
+      degree: formData.degree,
+      title: formData.title,
+      institution: formData.institution,
+      period: formData.period,
+      specialization: formData.concentration || formData.description, // concentration or description goes to specialization
+      architectures: typeof formData.architectures === 'string' ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) : formData.architectures,
+      skills: formData.thesis ? [formData.thesis] : formData.issued ? [formData.issued] : [] // map thesis or issued to skills as an array
+    };
 
     try {
       if (isEditing) {
-        await updateEducation(payload).unwrap();
+        await updateEducation({ id: formData.id, ...payload }).unwrap();
+        toast.success('Education updated successfully!');
       } else {
-        delete payload.id;
         await addEducation(payload).unwrap();
+        toast.success('Education added successfully!');
       }
       resetForm();
     } catch (err) {
       console.error('Failed to save education', err);
+      toast.error('Failed to save Education.');
     }
   };
 
@@ -47,8 +59,10 @@ export default function ManageEducation() {
   const handleDelete = async (id) => {
     try {
       await deleteEducation(id).unwrap();
+      toast.success('Education deleted successfully!');
     } catch (err) {
       console.error('Failed to delete education', err);
+      toast.error('Failed to delete Education.');
     }
   };
 
