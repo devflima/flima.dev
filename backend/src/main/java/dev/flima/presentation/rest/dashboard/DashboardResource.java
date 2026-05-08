@@ -2,8 +2,6 @@ package dev.flima.presentation.rest.dashboard;
 
 import dev.flima.application.dashboard.dtos.DashboardDTO;
 import dev.flima.domain.users.Role;
-import dev.flima.infrastructure.dashboard.VisitorCountPanacheEntity;
-import dev.flima.infrastructure.messages.MessagePanacheEntity;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -17,7 +15,7 @@ import java.util.UUID;
 
 @Path("/dashboardData")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({Role.Labels.OWNER})
+@RolesAllowed({ Role.Labels.OWNER })
 public class DashboardResource {
 
     @Inject
@@ -46,9 +44,11 @@ public class DashboardResource {
         long days = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis);
         long hours = java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis) % 24;
         long minutes = java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
-        
-        if (days > 0) return String.format("%dd %dh", days, hours);
-        if (hours > 0) return String.format("%dh %dm", hours, minutes);
+
+        if (days > 0)
+            return String.format("%dd %dh", days, hours);
+        if (hours > 0)
+            return String.format("%dh %dm", hours, minutes);
         return String.format("%dm", minutes);
     }
 }
