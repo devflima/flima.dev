@@ -3,6 +3,9 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 import ManageProjects from '../../../pages/Admin/ManageProjects';
 import { renderWithProviders } from '../../utils';
 import toast from 'react-hot-toast';
+import { server } from '../../mocks/server';
+import { http, HttpResponse } from 'msw';
+import { API_URL } from '../../../config';
 
 // Mock toast
 vi.mock('react-hot-toast', () => ({
@@ -58,6 +61,21 @@ describe('ManageProjects Component', () => {
     expect(screen.getByText(/Add New Project/i)).toBeInTheDocument();
   });
 
+  it('handles edit mode', async () => {
+    renderWithProviders(<ManageProjects />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('Mock Project')).toBeInTheDocument();
+    });
+
+    const editBtn = screen.getByText('edit');
+    fireEvent.click(editBtn);
+
+    expect(screen.getByText(/Edit Project: Mock Project/i)).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Mock Project')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Mock Subtitle')).toBeInTheDocument();
+  });
+
   it('handles delete', async () => {
     renderWithProviders(<ManageProjects />);
     
@@ -71,6 +89,30 @@ describe('ManageProjects Component', () => {
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith('Project deleted successfully!');
+    });
+  });
+
+  it('handles error on submit', async () => {
+    server.use(
+      http.post(`${API_URL}/api/v1/projects`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageProjects />);
+    
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Err Proj' } });
+    fireEvent.change(screen.getByPlaceholderText('Subtitle'), { target: { value: 'Sub' } });
+    fireEvent.change(screen.getByPlaceholderText('Icon (e.g. code, terminal)'), { target: { value: 'code' } });
+    fireEvent.change(screen.getByPlaceholderText('Description'), { target: { value: 'Desc' } });
+    fireEvent.change(screen.getByPlaceholderText('Technologies (comma separated)'), { target: { value: 'React' } });
+    fireEvent.change(screen.getByPlaceholderText('Code Snippet'), { target: { value: 'err' } });
+
+    const addButton = screen.getByText(/\[ Add_Project ]/i);
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
     });
   });
 });

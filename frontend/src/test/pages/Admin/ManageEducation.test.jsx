@@ -105,4 +105,20 @@ describe('ManageEducation Component', () => {
     expect(screen.getByDisplayValue('Mock Specialty')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Skill1')).toBeInTheDocument();
   });
+
+  it('toggles between degree and certification fields', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    const select = screen.getByLabelText(/^Type$/i);
+    
+    // Switch to cert
+    fireEvent.change(select, { target: { value: 'cert' } });
+    expect(screen.getByPlaceholderText('Description')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Degree Type (e.g. BS, MS)')).not.toBeInTheDocument();
+
+    // Switch back to degree
+    fireEvent.change(select, { target: { value: 'degree' } });
+    expect(screen.getByPlaceholderText('Degree Type (e.g. BS, MS)')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Description')).not.toBeInTheDocument();
+  });
 });
