@@ -1,7 +1,36 @@
 import { http, HttpResponse } from 'msw';
 import { API_URL } from '../../config';
 
+let stats = {
+  id: "1",
+  yearsExperience: "08",
+  systemDeployed: "40+",
+  uptimeSLA: "99.9%",
+  commitsLogged: "12k",
+  status: "ACTIVE",
+  objective: "Building the next gen"
+};
+
 export const handlers = [
+  http.get(`${API_URL}/api/v1/stats`, () => {
+    return HttpResponse.json([stats]);
+  }),
+  http.post(`${API_URL}/api/v1/stats`, async ({ request }) => {
+    const body = await request.json();
+    stats = { ...body, id: "1" };
+    return HttpResponse.json(stats);
+  }),
+  http.put(`${API_URL}/api/v1/stats/:id`, async ({ request }) => {
+    const body = await request.json();
+    stats = body;
+    return HttpResponse.json(stats);
+  }),
+  http.get(`${API_URL}/api/v1/dashboardData`, () => {
+    return HttpResponse.json({
+      totalVisitors: 120,
+      uptime: "99.99%"
+    });
+  }),
   // Mock Auth for Login Test
   http.post(`${API_URL}/api/v1/auth`, () => {
     return HttpResponse.json({ token: 'mock-admin-token' });
@@ -168,26 +197,20 @@ export const handlers = [
 
   // Mock Messages Admin
   http.get(`${API_URL}/api/v1/messages`, () => {
-    return HttpResponse.json([
-      {
-        id: "m1",
-        username: "John Doe",
-        email: "john@example.com",
-        message: "Hello project!",
-        subject: "Contact",
-        timestamp: new Date().toISOString(),
-        statusMessage: "UNREAD"
-      },
-      {
-        id: "m2",
-        username: "Jane Smith",
-        email: "jane@example.com",
-        message: "Replying to you",
-        subject: "Re: Inquiry",
-        timestamp: new Date().toISOString(),
-        statusMessage: "REPLIED"
-      }
-    ]);
+    const msgs = [
+      { id: "m1", username: "John Doe", email: "john@example.com", message: "Hello project!", subject: "Contact", timestamp: "2024-01-01T10:00:00Z", statusMessage: "UNREAD" },
+      { id: "m2", username: "Jane Smith", email: "jane@example.com", message: "Replying to you", subject: "Re: Inquiry", timestamp: "2024-01-01T11:00:00Z", statusMessage: "REPLIED" },
+      { id: "m3", username: "User 3", email: "u3@test.com", message: "Msg 3", subject: "S3", timestamp: "2024-01-01T12:00:00Z", statusMessage: "UNREAD" },
+      { id: "m4", username: "User 4", email: "u4@test.com", message: "Msg 4", subject: "S4", timestamp: "2024-01-01T13:00:00Z", statusMessage: "UNREAD" },
+      { id: "m5", username: "User 5", email: "u5@test.com", message: "Msg 5", subject: "S5", timestamp: "2024-01-01T14:00:00Z", statusMessage: "UNREAD" },
+      { id: "m6", username: "User 6", email: "u6@test.com", message: "Msg 6", subject: "S6", timestamp: "2024-01-01T15:00:00Z", statusMessage: "UNREAD" },
+      { id: "m7", username: "User 7", email: "u7@test.com", message: "Msg 7", subject: "S7", timestamp: "2024-01-01T16:00:00Z", statusMessage: "UNREAD" },
+      { id: "m8", username: "User 8", email: "u8@test.com", message: "Msg 8", subject: "S8", timestamp: "2024-01-01T17:00:00Z", statusMessage: "UNREAD" },
+      { id: "m9", username: "User 9", email: "u9@test.com", message: "Msg 9", subject: "S9", timestamp: "2024-01-01T18:00:00Z", statusMessage: "UNREAD" },
+      { id: "m10", username: "User 10", email: "u10@test.com", message: "Msg 10", subject: "S10", timestamp: "2024-01-01T19:00:00Z", statusMessage: "UNREAD" },
+      { id: "m11", username: "User 11", email: "u11@test.com", message: "Msg 11", subject: "S11", timestamp: "2024-01-01T20:00:00Z", statusMessage: "UNREAD" }
+    ];
+    return HttpResponse.json(msgs);
   }),
   http.post(`${API_URL}/api/v1/messages/read/:id`, () => {
     return new HttpResponse(null, { status: 202 });

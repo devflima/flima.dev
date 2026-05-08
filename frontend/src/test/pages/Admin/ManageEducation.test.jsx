@@ -1,9 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import ManageEducation from '../../../pages/Admin/ManageEducation';
 import { renderWithProviders } from '../../utils';
 import toast from 'react-hot-toast';
-import { vi } from 'vitest';
+import { server } from '../../mocks/server';
+import { http, HttpResponse } from 'msw';
+import { API_URL } from '../../../config';
 
 // Mock toast
 vi.mock('react-hot-toast', () => ({
@@ -120,5 +122,40 @@ describe('ManageEducation Component', () => {
     fireEvent.change(select, { target: { value: 'degree' } });
     expect(screen.getByPlaceholderText('Degree Type (e.g. BS, MS)')).toBeInTheDocument();
     expect(screen.queryByPlaceholderText('Description')).not.toBeInTheDocument();
+  });
+
+  it('handles error on save', async () => {
+    server.use(
+      http.post(`${API_URL}/api/v1/educations`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Err Title' } });
+    fireEvent.click(screen.getByText(/\[ Add_Entry \]/i));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+  });
+
+  it('handles error on delete', async () => {
+    server.use(
+      http.delete(`${API_URL}/api/v1/educations/:id`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
+
+    renderWithProviders(<ManageEducation />);
+    await waitFor(() => {
+      const deleteBtn = screen.getAllByText('delete')[0];
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      fireEvent.click(deleteBtn);
+    });
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
   });
 });
