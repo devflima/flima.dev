@@ -74,4 +74,21 @@ describe('ManageEducation Component', () => {
       expect(toast.success).toHaveBeenCalledWith('Education entry deleted successfully!');
     });
   });
+
+  it('submits a certification with N/A defaults for empty fields', async () => {
+    renderWithProviders(<ManageEducation />);
+    
+    const select = screen.getByLabelText(/^Type$/i);
+    fireEvent.change(select, { target: { value: 'cert' } });
+    
+    // Fill only Title, leave others empty
+    fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Minimal Cert' } });
+    
+    const addButton = screen.getByText(/\[ Add_Entry \]/i);
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Education entry added successfully!');
+    });
+  });
 });

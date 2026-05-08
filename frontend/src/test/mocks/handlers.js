@@ -128,4 +128,54 @@ export const handlers = [
   http.delete(`${API_URL}/api/v1/educations/:id`, () => {
     return new HttpResponse(null, { status: 204 });
   }),
+
+  // Mock Projects Mutations
+  http.post(`${API_URL}/api/v1/projects`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: 'new-id', ...body }, { status: 201 });
+  }),
+  http.put(`${API_URL}/api/v1/projects/:id`, async ({ request, params }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+  http.delete(`${API_URL}/api/v1/projects/:id`, () => {
+    return new HttpResponse(null, { status: 204 });
+  }),
+
+  // Mock Experiences Mutations
+  http.post(`${API_URL}/api/v1/experiences`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: 'new-id', ...body }, { status: 201 });
+  }),
+  http.put(`${API_URL}/api/v1/experiences/:id`, async ({ request, params }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: params.id, ...body });
+  }),
+  http.delete(`${API_URL}/api/v1/experiences/:id`, () => {
+    return new HttpResponse(null, { status: 204 });
+  }),
+
+  // Mock Messages Admin
+  http.get(`${API_URL}/api/v1/messages`, () => {
+    return HttpResponse.json([
+      {
+        id: "m1",
+        username: "John Doe",
+        email: "john@example.com",
+        message: "Hello project!",
+        subject: "Contact",
+        timestamp: new Date().toISOString(),
+        statusMessage: "UNREAD"
+      }
+    ]);
+  }),
+  http.post(`${API_URL}/api/v1/messages/read/:id`, () => {
+    return new HttpResponse(null, { status: 202 });
+  }),
+  http.post(`${API_URL}/api/v1/messages/:id`, async ({ request }) => {
+    return new HttpResponse(null, { status: 202 });
+  }),
+  http.delete(`${API_URL}/api/v1/messages/:id`, () => {
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];

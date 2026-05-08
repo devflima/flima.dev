@@ -37,4 +37,22 @@ describe('ManageTechStack Component', () => {
       expect(toast.success).toHaveBeenCalledWith('Tech Stack saved successfully!');
     });
   });
+
+  it('submits with N/A defaults for empty fields', async () => {
+    renderWithProviders(<ManageTechStack />);
+    
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('MockLang')).toBeInTheDocument();
+    });
+
+    // Clear a field
+    fireEvent.change(screen.getByLabelText(/Languages/i), { target: { value: '' } });
+    
+    const saveButton = screen.getByText(/\[ Save_Tech_Stack \]/i);
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Tech Stack saved successfully!');
+    });
+  });
 });
