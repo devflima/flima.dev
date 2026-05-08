@@ -172,7 +172,7 @@ export const handlers = [
   http.post(`${API_URL}/api/v1/messages/read/:id`, () => {
     return new HttpResponse(null, { status: 202 });
   }),
-  http.post(`${API_URL}/api/v1/messages/:id`, async ({ request }) => {
+  http.post(`${API_URL}/api/v1/messages/:id`, () => {
     return new HttpResponse(null, { status: 202 });
   }),
   http.delete(`${API_URL}/api/v1/messages/:id`, () => {
