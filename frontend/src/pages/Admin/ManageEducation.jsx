@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import { useGetEducationQuery, useAddEducationMutation, useUpdateEducationMutation, useDeleteEducationMutation } from '../../store/apiSlice';
+import toast from 'react-hot-toast';
+
 
 export default function ManageEducation() {
   const { data: education = [], isLoading } = useGetEducationQuery();
@@ -18,17 +19,17 @@ export default function ManageEducation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      typeEducation: formData.type === 'degree' ? 'DEGREE' : 'CERTIFICATION',
-      degree: formData.degree || (formData.type === 'cert' ? 'Certification' : ''),
-      title: formData.title,
+    // Map frontend specific fields to backend expected fields
+    const payload = { 
+      typeEducation: formData.type === 'cert' ? 'CERTIFICATION' : 'DEGREE',
+      degree: formData.degree || (formData.type === 'cert' ? 'Certification' : 'N/A'),
+      title: formData.title || 'N/A',
       institution: formData.institution || formData.issued || 'N/A',
       period: formData.period || 'N/A',
       specialization: formData.concentration || formData.description || 'N/A',
-      skills: formData.description ? [formData.description] : ['General'], // Fallback for mandatory field
-      architectures: typeof formData.architectures === 'string' 
-        ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) 
-        : (Array.isArray(formData.architectures) ? formData.architectures : ['Standard'])
+      architectures: (typeof formData.architectures === 'string' && formData.architectures.trim()) ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) : ['N/A'],
+      skills: formData.thesis ? [formData.thesis] : formData.issued ? [formData.issued] : ['N/A']
+    };
     };
 
     try {

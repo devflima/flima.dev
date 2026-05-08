@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { useGetTechStackQuery, useAddTechStackMutation, useUpdateTechStackMutation } from '../../store/apiSlice';
 import toast from 'react-hot-toast';
-import { useGetTechStackQuery, useAddTechStackMutation } from '../../store/apiSlice';
 
 function TechStackForm({ initialStack, onSave, isAdding }) {
   const [formData, setFormData] = useState({
-    languages: initialStack.languages?.join(', ') || '',
-    databases: initialStack.databases?.join(', ') || '',
-    infrastructure: initialStack.infrastructure?.join(', ') || '',
-    messaging: initialStack.messaging?.join(', ') || ''
+    languages: initialStack.languages?.technologies?.join(', ') || '',
+    databases: initialStack.databases?.technologies?.join(', ') || '',
+    infrastructure: initialStack.infrastructure?.technologies?.join(', ') || '',
+    messaging: initialStack.messaging?.technologies?.join(', ') || ''
   });
 
   const handleChange = (e) => {
@@ -18,10 +18,10 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
-      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
-      databases: formData.databases.split(',').map(s => s.trim()).filter(Boolean),
-      infrastructure: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean),
-      messaging: formData.messaging.split(',').map(s => s.trim()).filter(Boolean)
+      languages: { id: initialStack.languages?.id, technologies: formData.languages.split(',').map(s => s.trim()).filter(Boolean) },
+      databases: { id: initialStack.databases?.id, technologies: formData.databases.split(',').map(s => s.trim()).filter(Boolean) },
+      infrastructure: { id: initialStack.infrastructure?.id, technologies: formData.infrastructure.split(',').map(s => s.trim()).filter(Boolean) },
+      messaging: { id: initialStack.messaging?.id, technologies: formData.messaging.split(',').map(s => s.trim()).filter(Boolean) }
     });
   };
 
@@ -65,24 +65,27 @@ function TechStackForm({ initialStack, onSave, isAdding }) {
 export default function ManageTechStack() {
   const { data: stack, isLoading } = useGetTechStackQuery();
   const [addTechStack, { isLoading: isAdding }] = useAddTechStackMutation();
+  const [updateTechStack] = useUpdateTechStackMutation();
 
   const handleSave = async (payload) => {
     try {
-      // The backend expects one request per stack type
-      const types = ['LANGUAGES', 'DATABASES', 'INFRASTRUCTURE', 'MESSAGING'];
-      const requests = types.map(type => {
-        const techKey = type.toLowerCase();
-        return addTechStack({
-          stackType: type,
-          technologies: payload[techKey] || []
-        }).unwrap();
-      });
-      
-      await Promise.all(requests);
-      toast.success('Tech Stack updated successfully!');
+    try {
+      const promises = Object.entries(payload).map(([key, data]) => {
+        if (key === '_ids') return null;
+        const requestBody = { stackType: key.toUpperCase(), technologies: data };
+        const ids = payload._ids || {};
+        if (ids[key]) {
+          return updateTechStack({ id: ids[key], ...requestBody }).unwrap();
+        } else {
+          return addTechStack(requestBody).unwrap();
+        }
+      }).filter(Boolean);
+      await Promise.all(promises);
+      toast.success('Tech Stack saved successfully!');
     } catch (err) {
       console.error('Failed to update Tech Stack', err);
-      toast.error('Failed to update Tech Stack');
+      toast.error('Failed to save Tech Stack.');
+    }
     }
   };
 
