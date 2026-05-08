@@ -155,7 +155,6 @@ export default function ManageContent() {
       console.error('Failed to update Page Content', err);
       toast.error('Failed to save Page Content.');
     }
-    }
   };
 
   if (isLoading) {

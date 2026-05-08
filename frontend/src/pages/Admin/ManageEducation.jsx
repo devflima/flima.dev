@@ -57,8 +57,6 @@ export default function ManageEducation() {
     if (!window.confirm('Are you sure you want to delete this education entry?')) return;
     try {
       await deleteEducation(id).unwrap();
-    try {
-      await deleteEducation(id).unwrap();
       toast.success('Education entry deleted successfully!');
     } catch (err) {
       console.error('Failed to delete education', err);

@@ -70,7 +70,6 @@ export default function ManageTechStack() {
 
   const handleSave = async (payload) => {
     try {
-    try {
       const ids = payload._ids || {};
       const promises = Object.entries(payload).map(([key, technologies]) => {
         if (key === '_ids') return null;
