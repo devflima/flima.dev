@@ -15,7 +15,7 @@ spec:
       labels:
         app: flima-backend
       annotations:
-        rollout-trigger: "2026-05-08-v2"
+        rollout-trigger: "2026-05-08-v3"
     spec:
       automountServiceAccountToken: false
       containers:
@@ -30,6 +30,8 @@ spec:
         env:
         - name: JAVA_OPTS
           value: "-Xmx640m -Xms256m -XX:+UseG1GC"
+        - name: QUARKUS_SMALLRYE_REACTIVE_MESSAGING_HEALTH_ENABLED
+          value: "false"
         - name: JWT_PRIVATE_KEY_LOCATION
           value: /deployments/config/jwt/privateKey.pk8
         - name: JWT_PUBLIC_KEY_LOCATION
