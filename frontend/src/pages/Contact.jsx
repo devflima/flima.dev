@@ -27,9 +27,10 @@ export default function Contact() {
 
     try {
       const payload = {
-        ...formData,
-        timestamp: new Date().toISOString(),
-        status: 'unread'
+        username: formData.user_name,
+        email: formData.user_email,
+        subject: formData.title_header,
+        message: formData.message_body,
       };
 
       await addMessage(payload).unwrap();
