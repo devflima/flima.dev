@@ -15,7 +15,7 @@ spec:
       labels:
         app: flima-backend
       annotations:
-        rollout-trigger: "2026-05-06"
+        rollout-trigger: "2026-05-08-v2"
     spec:
       automountServiceAccountToken: false
       containers:
