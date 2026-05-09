@@ -38,14 +38,17 @@ spec:
           httpGet:
             path: /q/health/live
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 45
           periodSeconds: 15
+          timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /q/health/ready
             port: 8080
-          initialDelaySeconds: 20
+          initialDelaySeconds: 30
           periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
         volumeMounts:
         - name: jwt-keys
           mountPath: /deployments/config/jwt
