@@ -55,6 +55,8 @@ public class RepliedMessageUseCase {
 
             messageProducer.sendMessage(myMessage);
         } catch (Exception e) {
+            java.util.logging.Logger.getLogger(RepliedMessageUseCase.class.getName())
+                .severe("Failed to reply message: " + e.getClass().getName() + " - " + e.getMessage());
             throw new BusinessRuleException(messages.getString("message.trying.reply"));
         }
 
