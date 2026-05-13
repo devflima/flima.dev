@@ -1,14 +1,10 @@
 package dev.flima.infrastructure.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.flima.application.messages.dtos.request.MessageDTORequest;
 import dev.flima.application.messages.usecases.PersistMessageUseCase;
 import dev.flima.domain.messages.Message;
 import dev.flima.domain.messages.MessageProducerPort;
-import dev.flima.infrastructure.messages.MessagePanacheEntity;
-import dev.flima.infrastructure.messages.MessageRepositoryImpl;
 import io.quarkus.logging.Log;
 import io.smallrye.common.annotation.Blocking;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -35,6 +31,7 @@ public class ContactMessagingAdapter implements MessageProducerPort {
         try {
             String json = objectMapper.writeValueAsString(message);
             contactEmitter.send(json);
+            Log.infof("Message sent to Kafka topic 'contact-messages' for %s", message.getEmail());
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error serializing message", e);
         }
@@ -54,6 +51,7 @@ public class ContactMessagingAdapter implements MessageProducerPort {
                     messageReceive.getMessage()
             );
 
+            Log.infof("Processing message from Kafka for %s <%s>", message.getUsername(), message.getEmail());
             persistMessageUseCase.execute(message);
         } catch (JsonProcessingException e) {
             Log.error("Falha ao processar mensagem. Enviando para DLQ: " + messagePayload, e);

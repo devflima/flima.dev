@@ -1,5 +1,6 @@
 package dev.flima.infrastructure.dashboard;
 
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -65,7 +66,7 @@ public class VisitorFilter implements ContainerRequestFilter {
             }
         } catch (Exception e) {
             // Silently fail to not break the main application flow
-            System.err.println("Failed to increment visitor count: " + e.getMessage());
+            Log.warnf("Failed to increment visitor count: %s", e.getMessage());
         }
     }
 
