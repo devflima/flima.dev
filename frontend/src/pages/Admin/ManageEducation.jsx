@@ -18,19 +18,44 @@ export default function ManageEducation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Map frontend specific fields to backend expected fields
+    const isCert = formData.type === 'cert';
+
+    let degreeVal = formData.degree;
+    if (!degreeVal) {
+      degreeVal = isCert ? 'Certification' : 'N/A';
+    }
+
+    const titleVal = formData.title || 'N/A';
+    const institutionVal = isCert ? 'N/A' : (formData.institution || 'N/A');
+    const periodVal = isCert ? (formData.issued || 'N/A') : (formData.period || 'N/A');
+    const specializationVal = formData.concentration || formData.description || 'N/A';
+
+    let architecturesVal = ['N/A'];
+    if (typeof formData.architectures === 'string' && formData.architectures.trim()) {
+      const parsedArchs = formData.architectures.split(',').map(a => a.trim()).filter(Boolean);
+      if (parsedArchs.length > 0) {
+        architecturesVal = parsedArchs;
+      }
+    }
+
+    let skillsVal = ['N/A'];
+    if (isCert) {
+      skillsVal = [formData.icon || 'verified'];
+    } else if (formData.thesis) {
+      skillsVal = [formData.thesis];
+    }
+
     const payload = { 
-      typeEducation: formData.type === 'cert' ? 'CERTIFICATION' : 'DEGREE',
-      degree: formData.degree || (formData.type === 'cert' ? 'Certification' : 'N/A'),
-      title: formData.title || 'N/A',
-      institution: formData.type === 'cert' ? 'N/A' : (formData.institution || 'N/A'),
-      period: formData.type === 'cert' ? (formData.issued || 'N/A') : (formData.period || 'N/A'),
-      specialization: formData.concentration || formData.description || 'N/A',
-      architectures: (typeof formData.architectures === 'string' && formData.architectures.trim()) ? formData.architectures.split(',').map(a => a.trim()).filter(Boolean) : ['N/A'],
-      skills: formData.type === 'cert' ? [formData.icon || 'verified'] : (formData.thesis ? [formData.thesis] : ['N/A'])
+      typeEducation: isCert ? 'CERTIFICATION' : 'DEGREE',
+      degree: degreeVal,
+      title: titleVal,
+      institution: institutionVal,
+      period: periodVal,
+      specialization: specializationVal,
+      architectures: architecturesVal,
+      skills: skillsVal
     };
-    if (payload.architectures.length === 0) payload.architectures = ['N/A'];
-    if (payload.skills.length === 0) payload.skills = ['N/A'];
+
     try {
       if (isEditing) {
         await updateEducation({ id: formData.id, ...payload }).unwrap();
@@ -47,19 +72,24 @@ export default function ManageEducation() {
   };
 
   const handleEdit = (item) => {
+    const isCert = item.typeEducation === 'CERTIFICATION';
+
+    const safeStr = (val) => (!val || val === 'N/A') ? '' : val;
+    const safeFirstSkill = safeStr(item.skills?.[0]);
+
     setFormData({
       id: item.id,
-      type: item.typeEducation === 'CERTIFICATION' ? 'cert' : 'degree',
-      degree: item.degree === 'N/A' ? '' : (item.degree || ''),
-      title: item.title === 'N/A' ? '' : (item.title || ''),
-      institution: item.institution === 'N/A' ? '' : (item.institution || ''),
-      period: item.period === 'N/A' ? '' : (item.period || ''),
-      concentration: item.typeEducation === 'DEGREE' ? (item.specialization === 'N/A' ? '' : item.specialization) : '',
-      description: item.typeEducation === 'CERTIFICATION' ? (item.specialization === 'N/A' ? '' : item.specialization) : '',
-      thesis: item.typeEducation === 'DEGREE' ? (item.skills?.[0] === 'N/A' ? '' : (item.skills?.[0] || '')) : '',
-      issued: item.typeEducation === 'CERTIFICATION' ? (item.period === 'N/A' ? '' : (item.period || '')) : '',
-      architectures: item.architectures && item.architectures[0] !== 'N/A' ? item.architectures.join(', ') : '',
-      icon: item.typeEducation === 'CERTIFICATION' ? (item.skills?.[0] !== 'N/A' ? (item.skills?.[0] || 'verified') : 'verified') : (item.icon || 'school'),
+      type: isCert ? 'cert' : 'degree',
+      degree: safeStr(item.degree),
+      title: safeStr(item.title),
+      institution: safeStr(item.institution),
+      period: safeStr(item.period),
+      concentration: isCert ? '' : safeStr(item.specialization),
+      description: isCert ? safeStr(item.specialization) : '',
+      thesis: isCert ? '' : safeFirstSkill,
+      issued: isCert ? safeStr(item.period) : '',
+      architectures: (item.architectures && item.architectures[0] !== 'N/A') ? item.architectures.join(', ') : '',
+      icon: isCert ? (safeFirstSkill || 'verified') : (item.icon || 'school'),
       colorClass: item.colorClass || 'primary'
     });
     setIsEditing(true);
