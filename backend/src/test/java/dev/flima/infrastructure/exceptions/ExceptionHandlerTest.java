@@ -28,4 +28,21 @@ class ExceptionHandlerTest {
                 .body("status", is(404))
                 .body("timestamp", notNullValue());
     }
+
+    @Test
+    @DisplayName("Should cover DatabaseExceptionHandler logging lines directly")
+    void testDatabaseExceptionHandler() {
+        DatabaseExceptionHandler handler = new DatabaseExceptionHandler();
+        
+        // 1. ConstraintViolationException
+        org.hibernate.exception.ConstraintViolationException cve = new org.hibernate.exception.ConstraintViolationException("duplicate", null, "uk_name");
+        jakarta.persistence.PersistenceException pe1 = new jakarta.persistence.PersistenceException(cve);
+        jakarta.ws.rs.core.Response res1 = handler.toResponse(pe1);
+        org.junit.jupiter.api.Assertions.assertEquals(409, res1.getStatus());
+
+        // 2. Generic PersistenceException
+        jakarta.persistence.PersistenceException pe2 = new jakarta.persistence.PersistenceException("generic error");
+        jakarta.ws.rs.core.Response res2 = handler.toResponse(pe2);
+        org.junit.jupiter.api.Assertions.assertEquals(500, res2.getStatus());
+    }
 }
