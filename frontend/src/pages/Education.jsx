@@ -14,6 +14,14 @@ export default function Education() {
 
   if (!education) return null;
 
+  const parseCertificationTitle = (fullTitle) => {
+    const match = fullTitle.match(/(.*)\s*\((.*?)\)$/);
+    if (match) {
+      return { title: match[1].trim(), origin: match[2].trim() };
+    }
+    return { title: fullTitle, origin: '' };
+  };
+
   return (
     <main className="flex-grow pt-[120px] pb-24 px-6 md:px-12 w-full max-w-[1000px] mx-auto">
       <h1 className="font-headline-xl text-[40px] md:text-[64px] text-on-surface tracking-tighter font-black mb-4">
@@ -68,16 +76,33 @@ export default function Education() {
             <span className="material-symbols-outlined text-secondary-container">verified</span><span>CERTIFICATIONS_&_MODULES</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {education.filter(e => e.typeEducation === 'CERTIFICATION').map(cert => (
-              <div key={cert.id} className="border border-surface-container-highest bg-surface-container p-6 group hover:border-secondary-container transition-colors duration-300">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="material-symbols-outlined text-3xl text-secondary-container group-hover:glow-border-sm transition-all">{cert.icon}</span>
-                  <div className="font-code-snippet text-[10px] text-surface-variant uppercase tracking-widest">{cert.issued}</div>
+            {education.filter(e => e.typeEducation === 'CERTIFICATION').map(cert => {
+              const parsed = parseCertificationTitle(cert.title);
+              return (
+              <div key={cert.id} className="border border-surface-container-highest bg-surface-container-lowest max-w-4xl w-full flex flex-col group hover:border-secondary-container transition-colors duration-300">
+                {/* Terminal Header */}
+                <div className="flex items-center px-4 py-2 bg-surface-container border-b border-surface-container-highest group-hover:bg-surface-container-high transition-colors">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-error"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#f1c40f]"></div>
+                    <div className="w-3 h-3 rounded-full bg-primary-container"></div>
+                  </div>
+                  <div className="mx-auto font-label-mono text-label-mono text-on-surface-variant opacity-70 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[16px] text-secondary-container">{cert.icon}</span>
+                    {parsed.origin || 'CERTIFICATE'}
+                  </div>
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-2">{cert.title}</h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">{cert.description}</p>
+                
+                {/* Terminal Body */}
+                <div className="p-6 md:p-8 flex-grow flex flex-col">
+                  <div className="flex justify-between items-start mb-4 gap-4">
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface break-words">{parsed.title}</h3>
+                    <div className="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap">ISSUED: {cert.issued}</div>
+                  </div>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-auto">{cert.description}</p>
+                </div>
               </div>
-            ))}
+            )})}
           </div>
         </section>
       </div>

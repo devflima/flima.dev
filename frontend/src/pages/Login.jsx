@@ -41,9 +41,9 @@ export default function Login() {
         </div>
         
         <div className="p-8">
-          <h1 className="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary-container">lock</span>
-            {' ADMIN_AUTH_REQUIRED'}
+          <h1 className="font-headline-md text-[24px] md:text-headline-md leading-tight text-on-background mb-6 flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary-container shrink-0">lock</span>
+            <span className="break-all">ADMIN_AUTH_REQUIRED</span>
           </h1>
           
           {error && (

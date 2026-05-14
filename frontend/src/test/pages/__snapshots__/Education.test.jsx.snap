@@ -125,26 +125,54 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
           class="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           <div
-            class="border border-surface-container-highest bg-surface-container p-6 group hover:border-secondary-container transition-colors duration-300"
+            class="border border-surface-container-highest bg-surface-container-lowest max-w-4xl w-full flex flex-col group hover:border-secondary-container transition-colors duration-300"
           >
             <div
-              class="flex justify-between items-start mb-4"
+              class="flex items-center px-4 py-2 bg-surface-container border-b border-surface-container-highest group-hover:bg-surface-container-high transition-colors"
             >
-              <span
-                class="material-symbols-outlined text-3xl text-secondary-container group-hover:glow-border-sm transition-all"
-              />
               <div
-                class="font-code-snippet text-[10px] text-surface-variant uppercase tracking-widest"
+                class="flex gap-2"
+              >
+                <div
+                  class="w-3 h-3 rounded-full bg-error"
+                />
+                <div
+                  class="w-3 h-3 rounded-full bg-[#f1c40f]"
+                />
+                <div
+                  class="w-3 h-3 rounded-full bg-primary-container"
+                />
+              </div>
+              <div
+                class="mx-auto font-label-mono text-label-mono text-on-surface-variant opacity-70 flex items-center gap-2"
+              >
+                <span
+                  class="material-symbols-outlined text-[16px] text-secondary-container"
+                />
+                CERTIFICATE
+              </div>
+            </div>
+            <div
+              class="p-6 md:p-8 flex-grow flex flex-col"
+            >
+              <div
+                class="flex justify-between items-start mb-4 gap-4"
+              >
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface break-words"
+                >
+                  Mock Cert
+                </h3>
+                <div
+                  class="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap"
+                >
+                  ISSUED: 
+                </div>
+              </div>
+              <p
+                class="font-body-sm text-body-sm text-on-surface-variant mt-auto"
               />
             </div>
-            <h3
-              class="font-headline-sm text-headline-sm text-on-surface mb-2"
-            >
-              Mock Cert
-            </h3>
-            <p
-              class="font-body-sm text-body-sm text-on-surface-variant"
-            />
           </div>
         </div>
       </section>

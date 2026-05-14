@@ -71,7 +71,7 @@ export default function Contact() {
         {/* Terminal Body */}
         <div className="p-8 md:p-12 space-y-12">
           <div>
-            <h1 className="font-headline-xl text-headline-xl text-on-background mb-4">
+            <h1 className="font-headline-xl text-[40px] md:text-headline-xl break-words leading-tight text-on-background mb-4">
               {pageContent?.contact?.title || 'INITIATE_CONTACT'}
             </h1>
             <p className="font-body-base text-body-base text-on-surface-variant max-w-xl">
@@ -149,35 +149,35 @@ export default function Contact() {
               <div className="font-label-mono text-label-mono text-on-surface-variant border-b border-surface-container-highest pb-2 mb-2">
                 {'// DIRECT_LINKS'}
               </div>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://github.com/devflima" target="_blank" rel="noopener noreferrer">
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-secondary-container">code</span>
-                  <div>
-                    <div className="font-label-mono text-label-mono text-on-background">GitHub</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">github.com/backend_arch</div>
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors gap-4" href="https://github.com/devflima" target="_blank" rel="noopener noreferrer">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
+                  <span className="material-symbols-outlined text-secondary-container flex-shrink-0">code</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-label-mono text-label-mono text-on-background truncate">GitHub</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant truncate">github.com/backend_arch</div>
                   </div>
                 </div>
-                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
+                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors flex-shrink-0">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="https://www.linkedin.com/in/felipe-lima-19873a14b/" target="_blank" rel="noopener noreferrer">
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-secondary-container">work</span>
-                  <div>
-                    <div className="font-label-mono text-label-mono text-on-background">LinkedIn</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">linkedin.com/in/backend_arch</div>
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors gap-4" href="https://www.linkedin.com/in/felipe-lima-19873a14b/" target="_blank" rel="noopener noreferrer">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
+                  <span className="material-symbols-outlined text-secondary-container flex-shrink-0">work</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-label-mono text-label-mono text-on-background truncate">LinkedIn</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant truncate">linkedin.com/in/backend_arch</div>
                   </div>
                 </div>
-                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
+                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors flex-shrink-0">arrow_outward</span>
               </a>
-              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors" href="mailto:contato@flima.dev">
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-secondary-container">mail</span>
-                  <div>
-                    <div className="font-label-mono text-label-mono text-on-background">Email</div>
-                    <div className="font-code-snippet text-code-snippet text-on-surface-variant">sysadmin@backend.local</div>
+              <a className="group flex items-center justify-between p-4 border border-surface-container-highest bg-surface-container-low hover:border-secondary-container transition-colors gap-4" href="mailto:contato@flima.dev">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
+                  <span className="material-symbols-outlined text-secondary-container flex-shrink-0">mail</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-label-mono text-label-mono text-on-background truncate">Email</div>
+                    <div className="font-code-snippet text-code-snippet text-on-surface-variant truncate">sysadmin@backend.local</div>
                   </div>
                 </div>
-                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors">arrow_outward</span>
+                <span className="material-symbols-outlined text-on-surface-variant group-hover:text-secondary-container transition-colors flex-shrink-0">arrow_outward</span>
               </a>
 
               {/* Terminal Output Mockup */}
