@@ -148,7 +148,9 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
               >
                 <span
                   class="material-symbols-outlined text-[16px] text-secondary-container"
-                />
+                >
+                  Skill1
+                </span>
                 CERTIFICATE
               </div>
             </div>
@@ -172,7 +174,9 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
               </div>
               <p
                 class="font-body-sm text-body-sm text-on-surface-variant mt-auto"
-              />
+              >
+                Mock Specialty
+              </p>
             </div>
           </div>
         </div>
