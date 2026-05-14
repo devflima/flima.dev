@@ -97,7 +97,7 @@ export default function Education() {
                 <div className="p-6 md:p-8 flex-grow flex flex-col">
                   <div className="flex justify-between items-start mb-4 gap-4">
                     <h3 className="font-headline-sm text-headline-sm text-on-surface break-words">{parsed.title}</h3>
-                    <div className="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap">ISSUED: {cert.issued}</div>
+                    <div className="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap">ISSUED: {cert.period}</div>
                   </div>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mt-auto">{cert.description}</p>
                 </div>

@@ -167,6 +167,7 @@ exports[`Education Page Regression > matches DOM snapshot when loaded 1`] = `
                   class="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap"
                 >
                   ISSUED: 
+                  2020
                 </div>
               </div>
               <p
