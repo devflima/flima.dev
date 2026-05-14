@@ -44,5 +44,10 @@ class ExceptionHandlerTest {
         jakarta.persistence.PersistenceException pe2 = new jakarta.persistence.PersistenceException("generic error");
         jakarta.ws.rs.core.Response res2 = handler.toResponse(pe2);
         org.junit.jupiter.api.Assertions.assertEquals(500, res2.getStatus());
+
+        // 3. Nested ConstraintViolationException
+        jakarta.persistence.PersistenceException pe3 = new jakarta.persistence.PersistenceException(new RuntimeException(cve));
+        jakarta.ws.rs.core.Response res3 = handler.toResponse(pe3);
+        org.junit.jupiter.api.Assertions.assertEquals(409, res3.getStatus());
     }
 }

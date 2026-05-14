@@ -83,4 +83,21 @@ class MessageUseCasesTest {
         RepliedMessageDTORequest request = new RepliedMessageDTORequest("reply@example.com", "sub", "reply text");
         assertThrows(BusinessRuleException.class, () -> useCase.execute(id, request));
     }
+
+    @Test
+    @DisplayName("Should test RepliedMessageUseCase throws when already replied")
+    void testRepliedMessageUseCaseAlreadyReplied() {
+        MessageRepository repo = Mockito.mock(MessageRepository.class);
+        MessageProducerPort port = Mockito.mock(MessageProducerPort.class);
+        Mailer mailer = Mockito.mock(Mailer.class);
+
+        UUID id = UUID.randomUUID();
+        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.REPLIED);
+        Mockito.when(repo.getById(id)).thenReturn(Optional.of(originalMessage));
+
+        RepliedMessageUseCase useCase = new RepliedMessageUseCase(repo, port, mailer);
+
+        RepliedMessageDTORequest request = new RepliedMessageDTORequest("reply@example.com", "sub", "reply text");
+        assertThrows(BusinessRuleException.class, () -> useCase.execute(id, request));
+    }
 }
