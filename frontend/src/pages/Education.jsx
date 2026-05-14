@@ -88,7 +88,7 @@ export default function Education() {
                     <div className="w-3 h-3 rounded-full bg-primary-container"></div>
                   </div>
                   <div className="mx-auto font-label-mono text-label-mono text-on-surface-variant opacity-70 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[16px] text-secondary-container">{cert.icon}</span>
+                    <span className="material-symbols-outlined text-[16px] text-secondary-container">{(cert.skills?.[0] !== 'N/A' ? cert.skills?.[0] : null) || cert.icon || 'verified'}</span>
                     {parsed.origin || 'CERTIFICATE'}
                   </div>
                 </div>
@@ -99,7 +99,7 @@ export default function Education() {
                     <h3 className="font-headline-sm text-headline-sm text-on-surface break-words">{parsed.title}</h3>
                     <div className="font-code-snippet text-[10px] text-primary-container uppercase tracking-widest border border-primary-container/30 px-2 py-1 bg-primary-container/5 whitespace-nowrap">ISSUED: {cert.period}</div>
                   </div>
-                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-auto">{cert.description}</p>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant mt-auto">{(cert.specialization !== 'N/A' ? cert.specialization : null) || cert.description}</p>
                 </div>
               </div>
             )})}
