@@ -3,9 +3,8 @@ package dev.flima.application.messages.usecases;
 import dev.flima.application.messages.dtos.request.MessageDTORequest;
 import dev.flima.domain.messages.Message;
 import dev.flima.domain.messages.MessageProducerPort;
-import dev.flima.domain.messages.MessageRepository;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class CreateMessageUseCase {
@@ -25,6 +24,8 @@ public class CreateMessageUseCase {
         );
 
         messageProducer.sendMessage(message);
+        Log.infof("Contact message received from %s <%s>: %s", messageDTO.username(), messageDTO.email(), messageDTO.subject());
     }
 
 }
+

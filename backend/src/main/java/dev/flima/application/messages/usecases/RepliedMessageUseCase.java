@@ -7,11 +7,11 @@ import dev.flima.domain.messages.Message;
 import dev.flima.domain.messages.MessageProducerPort;
 import dev.flima.domain.messages.MessageRepository;
 import dev.flima.domain.messages.StatusMessage;
+import io.quarkus.logging.Log;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -54,9 +54,9 @@ public class RepliedMessageUseCase {
             ));
 
             messageProducer.sendMessage(myMessage);
+            Log.infof("Reply sent successfully to %s for message %s", request.email(), id);
         } catch (Exception e) {
-            java.util.logging.Logger.getLogger(RepliedMessageUseCase.class.getName())
-                .severe("Failed to reply message: " + e.getClass().getName() + " - " + e.getMessage());
+            Log.errorf(e, "Failed to reply message %s: %s", id, e.getMessage());
             throw new BusinessRuleException(messages.getString("message.trying.reply"));
         }
 
@@ -66,3 +66,4 @@ public class RepliedMessageUseCase {
     }
 
 }
+

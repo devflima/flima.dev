@@ -1,6 +1,7 @@
 package dev.flima.infrastructure.exceptions;
 
 import dev.flima.presentation.rest.dto.ErrorResponse;
+import io.quarkus.logging.Log;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -16,6 +17,7 @@ public class ConstraintViolationExceptionHandler implements ExceptionMapper<Cons
                 .map(v -> v.getPropertyPath() + ": " + v.getMessage())
                 .toList();
 
+        Log.warnf("Validation failed: %s", details);
         return Response.status(400)
                 .entity(ErrorResponse.of("Validation failed", 400, details))
                 .build();

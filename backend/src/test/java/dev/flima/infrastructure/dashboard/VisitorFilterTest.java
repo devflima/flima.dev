@@ -78,4 +78,16 @@ class VisitorFilterTest {
         VisitorCountPanacheEntity entity = em.find(VisitorCountPanacheEntity.class, VISITOR_ID);
         assertThat(entity.count, is(0L));
     }
+
+    @Test
+    @DisplayName("Should silently catch exception and log warning")
+    void shouldCatchExceptionAndLogWarning() throws java.io.IOException {
+        VisitorFilter filter = new VisitorFilter();
+        jakarta.ws.rs.container.ContainerRequestContext ctx = org.mockito.Mockito.mock(jakarta.ws.rs.container.ContainerRequestContext.class);
+        org.mockito.Mockito.when(ctx.getMethod()).thenReturn("GET");
+        org.mockito.Mockito.when(ctx.getUriInfo()).thenThrow(new RuntimeException("Simulated exception"));
+        
+        filter.filter(ctx);
+        // Should complete silently without throwing exception
+    }
 }

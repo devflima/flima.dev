@@ -53,4 +53,13 @@ class ContactMessagingAdapterTest {
                     org.junit.jupiter.api.Assertions.assertTrue(found, "Message not found in Kafka topic: " + uniqueUser);
                 });
     }
+
+    @Test
+    @DisplayName("Should process incoming message payload successfully")
+    void shouldProcessContactResponseSuccessfully() {
+        String payload = "{\"username\":\"unit_tester\",\"email\":\"unit@example.com\",\"subject\":\"Test Subject\",\"message\":\"Test Message\"}";
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> {
+            contactMessagingAdapter.processContactResponse(payload);
+        });
+    }
 }

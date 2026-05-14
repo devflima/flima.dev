@@ -8,6 +8,7 @@ import dev.flima.domain.security.TokenGenerator;
 import dev.flima.domain.users.Password;
 import dev.flima.domain.users.User;
 import dev.flima.domain.users.UserRepository;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ResourceBundle;
@@ -32,10 +33,12 @@ public class LoginUseCase {
 
 
         if(!passwordHasher.verify(new Password(loginDTO.password().password()), new Password(user.getPassword().password()))) {
+            Log.warnf("Failed login attempt for user: %s", loginDTO.username());
             throw new EntityNotFoundException(messages.getString("auth.login_failed"));
         }
 
         String token = tokenGenerator.generateToken(user.getUsername(), user.getRole().name());
+        Log.infof("User '%s' authenticated successfully", user.getUsername());
 
         return new LoginDTOResponse(
                 user.getUsername(),
