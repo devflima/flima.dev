@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -14,9 +16,9 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-slate-950/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-800 flat no shadows">
-      <div className="flex justify-between items-center px-12 h-16 w-full max-w-[1440px] mx-auto">
+      <div className="flex justify-between items-center px-6 md:px-12 h-16 w-full max-w-[1440px] mx-auto">
         <div className="text-xl font-black text-[#00FF41] tracking-widest font-mono">
-          <Link to="/">
+          <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
             <img src="/logo.svg" alt="logo" className="h-4 w-auto" />
           </Link>
         </div>
@@ -41,10 +43,38 @@ export default function Navbar() {
         <Link to="/contact" className="hidden md:block font-mono text-sm border border-outline-variant px-4 py-2 text-on-surface hover:border-[#00FF41] hover:text-[#00FF41] transition-colors duration-200 bg-surface-container">
           [ Execute_Contact ]
         </Link>
-        <button className="md:hidden text-[#00FF41]">
-          <span className="material-symbols-outlined">menu</span>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-[#00FF41] p-2 flex items-center justify-center">
+          <span className="material-symbols-outlined">{isMobileMenuOpen ? 'close' : 'menu'}</span>
         </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-slate-950 border-b border-slate-800 flex flex-col font-mono uppercase tracking-tighter text-sm shadow-xl">
+          {links.map((link) => {
+            const isActive = currentPath === link.path || (link.path === '/admin' && currentPath.startsWith('/admin'));
+            return (
+              <Link
+                key={link.name}
+                to={link.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`p-4 border-b border-slate-900 ${
+                  isActive ? "text-[#00FF41] bg-slate-900/50" : "text-slate-500 hover:text-[#00FF41] hover:bg-slate-900/30"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+          <Link 
+            to="/contact" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-4 text-[#00FF41] hover:bg-slate-900/50 font-bold"
+          >
+            [ Execute_Contact ]
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }

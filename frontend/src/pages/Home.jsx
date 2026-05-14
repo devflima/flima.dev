@@ -100,7 +100,7 @@ export default function Home() {
             tech_stack.sh
           </div>
         </div>
-        <div className="p-6 md:p-8 font-code-snippet text-code-snippet text-on-surface-variant leading-relaxed">
+        <div className="p-6 md:p-8 font-code-snippet text-code-snippet text-on-surface-variant leading-relaxed break-words whitespace-pre-wrap">
           <span className="text-primary-container">sysadmin@backend:~$</span> cat core_stack.json <br />
           {'{'} <br />
           &nbsp;&nbsp;<span className="text-secondary-container">"languages"</span>: {JSON.stringify(techStack?.languages || ["Gol"])}, <br />
