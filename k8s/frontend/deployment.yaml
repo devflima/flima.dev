@@ -20,7 +20,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: flima-frontend
-        image: ghcr.io/devflima/flima.dev:1.0.3
+        image: ghcr.io/devflima/flima.dev:1.0.4
         imagePullPolicy: Always
         ports:
         - containerPort: 80
