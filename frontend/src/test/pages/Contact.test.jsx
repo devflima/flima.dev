@@ -19,6 +19,10 @@ describe('Contact Page Integration', () => {
     fireEvent.change(bodyInput, { target: { name: 'message_body', value: 'Testing contact flow' } });
     fireEvent.change(titleInput, { target: { name: 'title_header', value: 'Test Subject' } });
     
+    // Check LGPD Consent
+    const lgpdCheckbox = screen.getByRole('checkbox', { name: /Li e aceito a Política de Privacidade/i });
+    fireEvent.click(lgpdCheckbox);
+    
     // Submit
     fireEvent.click(submitBtn);
     

@@ -33,7 +33,8 @@ class ContactMessagingAdapterTest {
                 uniqueUser,
                 "tester@example.com",
                 "Subject",
-                "Body"
+                "Body",
+                true
         );
 
         // Act

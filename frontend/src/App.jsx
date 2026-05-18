@@ -8,6 +8,8 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 
+import PrivacyPolicy from './pages/PrivacyPolicy';
+
 // Admin
 import AdminLayout from './pages/Admin/AdminLayout';
 import Dashboard from './pages/Admin/Dashboard';
@@ -20,6 +22,8 @@ import ManageTechStack from './pages/Admin/ManageTechStack';
 import ManageContent from './pages/Admin/ManageContent';
 
 import { Toaster } from 'react-hot-toast';
+
+import CookieBanner from './components/CookieBanner';
 
 function App() {
   return (
@@ -49,6 +53,7 @@ function App() {
           <Route path="/experience" element={<Experience />} />
           <Route path="/education" element={<Education />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
           <Route path="/login" element={<Login />} />
 
@@ -67,6 +72,7 @@ function App() {
           </Route>
         </Routes>
       </Layout>
+      <CookieBanner />
     </Router>
   );
 }

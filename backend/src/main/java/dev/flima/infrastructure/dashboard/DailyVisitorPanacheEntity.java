@@ -8,22 +8,22 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "daily_visitors")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"ip_address", "visit_date"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"visitor_id", "visit_date"}))
 public class DailyVisitorPanacheEntity {
     @Id
     public UUID id;
 
-    @jakarta.persistence.Column(name = "ip_address")
-    public String ipAddress;
+    @jakarta.persistence.Column(name = "visitor_id")
+    public String visitorId;
 
     @jakarta.persistence.Column(name = "visit_date")
     public LocalDate visitDate;
 
     public DailyVisitorPanacheEntity() {}
 
-    public DailyVisitorPanacheEntity(String ipAddress, LocalDate visitDate) {
+    public DailyVisitorPanacheEntity(String visitorId, LocalDate visitDate) {
         this.id = UUID.randomUUID();
-        this.ipAddress = ipAddress;
+        this.visitorId = visitorId;
         this.visitDate = visitDate;
     }
 }

@@ -20,5 +20,9 @@ public record MessageDTORequest (
 
         @NotNull(message = "{message.message.not_null}")
         @NotBlank(message = "{message.message.not_null}")
-        String message
+        String message,
+
+        @NotNull(message = "O aceite da política de privacidade é obrigatório.")
+        @jakarta.validation.constraints.AssertTrue(message = "Você deve concordar com a política de privacidade para enviar a mensagem.")
+        Boolean lgpdConsent
 ){}

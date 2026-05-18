@@ -10,6 +10,10 @@ export const apiSlice = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
+      const visitorId = localStorage.getItem('visitor_id');
+      if (visitorId) {
+        headers.set('X-Visitor-Id', visitorId);
+      }
       return headers;
     }
   }),
@@ -83,9 +87,6 @@ export const apiSlice = createApi({
         return result;
       }
     }),
-    // The backend uses a list of stacks, but the frontend treats it as one object.
-    // For now, let's just add/update functionality is complex due to structure diff.
-    // I will add a simple mutation that matches the structure for now.
     addTechStack: builder.mutation({
       query: (stack) => ({
         url: '/api/v1/stacks',
@@ -147,7 +148,7 @@ export const apiSlice = createApi({
 
     // Dashboard
     getDashboardData: builder.query({
-      query: () => '/api/v1/dashboardData', // No backend equivalent yet?
+      query: () => '/api/v1/dashboardData',
       providesTags: ['Dashboard'],
     }),
 
@@ -243,6 +244,10 @@ export const apiSlice = createApi({
       query: () => '/api/v1/messages',
       providesTags: ['Messages'],
     }),
+    getMessagesCount: builder.query({
+      query: () => '/api/v1/messages/count',
+      providesTags: ['Messages'],
+    }),
     addMessage: builder.mutation({
       query: (msg) => ({
         url: '/api/v1/messages',
@@ -302,6 +307,7 @@ export const {
   useUpdateEducationMutation,
   useDeleteEducationMutation,
   useGetMessagesQuery,
+  useGetMessagesCountQuery,
   useAddMessageMutation,
   useUpdateMessageStatusMutation,
   useDeleteMessageMutation,
