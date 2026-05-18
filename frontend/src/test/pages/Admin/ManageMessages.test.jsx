@@ -77,8 +77,8 @@ describe('ManageMessages Component', () => {
       fireEvent.click(screen.getByText('Jane Smith'));
     });
 
-    expect(screen.getByText(/Already_Replied/i)).toBeInTheDocument();
-    expect(screen.getByText(/Already_Replied/i)).toBeDisabled();
+    expect(screen.getByText(/REPLY_HISTORY/i)).toBeInTheDocument();
+    expect(screen.queryByText(/COMPOSE_REPLY/i)).not.toBeInTheDocument();
   });
 
   it('handles pagination', async () => {

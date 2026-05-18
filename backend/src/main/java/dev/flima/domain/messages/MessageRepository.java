@@ -10,4 +10,5 @@ public interface MessageRepository {
     Optional<Message> getById(UUID id);
     List<Message> getAll();
     void remove(Message message);
+    long count();
 }

@@ -29,6 +29,7 @@ public class MessageResource {
     private final DeleteMessaUseCase deleteMessageUseCase;
     private final RepliedMessageUseCase repliedMessageUseCase;
     private final ReadMessageUseCase readMessageUseCase;
+    private final GetMessagesCountUseCase getMessagesCountUseCase;
 
     public MessageResource(
             CreateMessageUseCase createMessageUseCase,
@@ -36,7 +37,8 @@ public class MessageResource {
             GetAllMessageUseCase getAllMessageUseCase,
             DeleteMessaUseCase deleteMessageUseCase,
             RepliedMessageUseCase repliedMessageUseCase,
-            ReadMessageUseCase readMessageUseCase
+            ReadMessageUseCase readMessageUseCase,
+            GetMessagesCountUseCase getMessagesCountUseCase
     ) {
         this.createMessageUseCase = createMessageUseCase;
         this.getMessageUseCase = getMessageUseCase;
@@ -44,6 +46,7 @@ public class MessageResource {
         this.deleteMessageUseCase = deleteMessageUseCase;
         this.repliedMessageUseCase = repliedMessageUseCase;
         this.readMessageUseCase = readMessageUseCase;
+        this.getMessagesCountUseCase = getMessagesCountUseCase;
     }
 
     @POST
@@ -58,6 +61,13 @@ public class MessageResource {
     public Response getById(@PathParam("id") UUID id) {
         MessageDTOResponse response = getMessageUseCase.execute(id);
         return Response.status(Response.Status.OK).entity(response).build();
+    }
+
+    @GET
+    @Path("/count")
+    public Response count() {
+        long count = getMessagesCountUseCase.execute();
+        return Response.status(Response.Status.OK).entity(count).build();
     }
 
     @GET

@@ -27,6 +27,9 @@ public class MessageRepositoryImpl implements MessageRepository, PanacheReposito
         entity.message = message.getMessage();
         entity.timestamp = message.getTimestamp();
         entity.statusMessage = message.getStatusMessage();
+        entity.lgpdConsent = message.isLgpdConsent();
+        entity.replyText = message.getReplyText();
+        entity.replyTimestamp = message.getReplyTimestamp();
 
         persist(entity);
     }
@@ -44,6 +47,9 @@ public class MessageRepositoryImpl implements MessageRepository, PanacheReposito
         entity.subject = message.getSubject();
         entity.message = message.getMessage();
         entity.statusMessage = message.getStatusMessage();
+        entity.lgpdConsent = message.isLgpdConsent();
+        entity.replyText = message.getReplyText();
+        entity.replyTimestamp = message.getReplyTimestamp();
     }
 
     @Override
@@ -61,7 +67,10 @@ public class MessageRepositoryImpl implements MessageRepository, PanacheReposito
                 entity.subject,
                 entity.message,
                 entity.timestamp,
-                entity.statusMessage
+                entity.statusMessage,
+                entity.lgpdConsent,
+                entity.replyText,
+                entity.replyTimestamp
         ));
     }
 
@@ -75,7 +84,10 @@ public class MessageRepositoryImpl implements MessageRepository, PanacheReposito
                         entity.subject,
                         entity.message,
                         entity.timestamp,
-                        entity.statusMessage
+                        entity.statusMessage,
+                        entity.lgpdConsent,
+                        entity.replyText,
+                        entity.replyTimestamp
                 ))
                 .toList();
     }
@@ -89,5 +101,10 @@ public class MessageRepositoryImpl implements MessageRepository, PanacheReposito
         }
 
         delete(entity);
+    }
+
+    @Override
+    public long count() {
+        return findAll().count();
     }
 }
