@@ -199,7 +199,7 @@ export const handlers = [
   http.get(`${API_URL}/api/v1/messages`, () => {
     const msgs = [
       { id: "m1", username: "John Doe", email: "john@example.com", message: "Hello project!", subject: "Contact", timestamp: "2024-01-01T10:00:00Z", statusMessage: "UNREAD" },
-      { id: "m2", username: "Jane Smith", email: "jane@example.com", message: "Replying to you", subject: "Re: Inquiry", timestamp: "2024-01-01T11:00:00Z", statusMessage: "REPLIED" },
+      { id: "m2", username: "Jane Smith", email: "jane@example.com", message: "Replying to you", subject: "Re: Inquiry", timestamp: "2024-01-01T11:00:00Z", statusMessage: "REPLIED", replyText: "This is a reply history.", replyTimestamp: "2024-01-02T10:00:00Z" },
       { id: "m3", username: "User 3", email: "u3@test.com", message: "Msg 3", subject: "S3", timestamp: "2024-01-01T12:00:00Z", statusMessage: "UNREAD" },
       { id: "m4", username: "User 4", email: "u4@test.com", message: "Msg 4", subject: "S4", timestamp: "2024-01-01T13:00:00Z", statusMessage: "UNREAD" },
       { id: "m5", username: "User 5", email: "u5@test.com", message: "Msg 5", subject: "S5", timestamp: "2024-01-01T14:00:00Z", statusMessage: "UNREAD" },
@@ -211,6 +211,9 @@ export const handlers = [
       { id: "m11", username: "User 11", email: "u11@test.com", message: "Msg 11", subject: "S11", timestamp: "2024-01-01T20:00:00Z", statusMessage: "UNREAD" }
     ];
     return HttpResponse.json(msgs);
+  }),
+  http.get(`${API_URL}/api/v1/messages/count`, () => {
+    return HttpResponse.json(11);
   }),
   http.post(`${API_URL}/api/v1/messages/read/:id`, () => {
     return new HttpResponse(null, { status: 202 });

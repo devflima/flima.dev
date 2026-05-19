@@ -1,0 +1,444 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 101,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "1": { "color": "green", "index": 0, "text": "UP" },
+                "0": { "color": "red", "index": 1, "text": "DOWN" }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": { "color": "red", "index": 2, "text": "DOWN" }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "match": "empty",
+                "result": { "color": "red", "index": 3, "text": "DOWN" }
+              },
+              "type": "special"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "expr": "up{job=\"quarkus-backend\"}",
+          "range": false
+        }
+      ],
+      "title": "Quarkus Backend API",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 102,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "1": { "color": "green", "index": 0, "text": "UP" },
+                "0": { "color": "red", "index": 1, "text": "DOWN" }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": { "color": "red", "index": 2, "text": "DOWN" }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "match": "empty",
+                "result": { "color": "red", "index": 3, "text": "DOWN" }
+              },
+              "type": "special"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "expr": "health_postgres",
+          "range": false
+        }
+      ],
+      "title": "PostgreSQL Database",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 103,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "1": { "color": "green", "index": 0, "text": "UP" },
+                "0": { "color": "red", "index": 1, "text": "DOWN" }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": { "color": "red", "index": 2, "text": "DOWN" }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "match": "empty",
+                "result": { "color": "red", "index": 3, "text": "DOWN" }
+              },
+              "type": "special"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "expr": "health_kafka",
+          "range": false
+        }
+      ],
+      "title": "Kafka Barramento",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 104,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "1": { "color": "green", "index": 0, "text": "UP" },
+                "0": { "color": "red", "index": 1, "text": "DOWN" }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": { "color": "red", "index": 2, "text": "DOWN" }
+              },
+              "type": "special"
+            },
+            {
+              "options": {
+                "match": "empty",
+                "result": { "color": "red", "index": 3, "text": "DOWN" }
+              },
+              "type": "special"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "expr": "health_frontend",
+          "range": false
+        }
+      ],
+      "title": "React Frontend UI",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 3
+      },
+      "id": 201,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "process_cpu_usage * 100",
+          "legendFormat": "CPU Processo (%)"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "system_cpu_usage * 100",
+          "legendFormat": "CPU Sistema (%)"
+        }
+      ],
+      "title": "Uso de CPU ao Longo do Tempo",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "sum(rate(http_server_requests_seconds_count[1m]))",
+          "legendFormat": "Requests/sec"
+        }
+      ],
+      "title": "Throughput Global HTTP",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "sum(rate(http_server_requests_seconds_sum[1m])) / sum(rate(http_server_requests_seconds_count[1m]))",
+          "legendFormat": "Avg Latency"
+        }
+      ],
+      "title": "Latência Média HTTP (s)",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "sum by (uri, status) (rate(http_server_requests_seconds_count[1m])) > 0",
+          "legendFormat": "{{uri}} ({{status}})"
+        }
+      ],
+      "title": "Taxa de Requisições por Rota HTTP",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "jvm_memory_used_bytes{area=\"heap\"}",
+          "legendFormat": "Heap Usado"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "expr": "jvm_memory_max_bytes{area=\"heap\"}",
+          "legendFormat": "Heap Máximo"
+        }
+      ],
+      "title": "Consumo de Memória Heap (JVM)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["quarkus", "jvm", "health"],
+  "style": "dark",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "title": "Quarkus Backend Observability",
+  "uid": "flima-quarkus-dash",
+  "version": 8
+}

@@ -20,7 +20,8 @@ class MessageValidationTest {
                 "",
                 "invalid",
                 "",
-                ""
+                "",
+                false
         );
 
         given()
@@ -34,6 +35,7 @@ class MessageValidationTest {
                 .body("details", hasItem(is("create.messageDTO.username: Username is required.")))
                 .body("details", hasItem(is("create.messageDTO.email: Please provide a valid email address.")))
                 .body("details", hasItem(is("create.messageDTO.subject: Subject is required to send a message.")))
-                .body("details", hasItem(is("create.messageDTO.message: Message body cannot be empty.")));
+                .body("details", hasItem(is("create.messageDTO.message: Message body cannot be empty.")))
+                .body("details", hasItem(is("create.messageDTO.lgpdConsent: Você deve concordar com a política de privacidade para enviar a mensagem.")));
     }
 }

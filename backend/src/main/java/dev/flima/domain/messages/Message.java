@@ -12,10 +12,13 @@ public class Message {
     private String message;
     private LocalDateTime timestamp;
     private StatusMessage statusMessage;
+    private boolean lgpdConsent;
+    private String replyText;
+    private LocalDateTime replyTimestamp;
 
     public Message() {}
 
-    public Message(String username, String email, String message, String subject) {
+    public Message(String username, String email, String message, String subject, boolean lgpdConsent) {
         this.id = UUID.randomUUID();
         this.username = username;
         this.email = email;
@@ -23,9 +26,10 @@ public class Message {
         this.subject = subject;
         this.timestamp = LocalDateTime.now();
         this.statusMessage = StatusMessage.UNREAD;
+        this.lgpdConsent = lgpdConsent;
     }
 
-    public Message(UUID id, String username, String email, String message, String subject, LocalDateTime timestamp, StatusMessage statusMessage) {
+    public Message(UUID id, String username, String email, String message, String subject, LocalDateTime timestamp, StatusMessage statusMessage, boolean lgpdConsent, String replyText, LocalDateTime replyTimestamp) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -33,6 +37,9 @@ public class Message {
         this.subject = subject;
         this.timestamp = timestamp;
         this.statusMessage = statusMessage;
+        this.lgpdConsent = lgpdConsent;
+        this.replyText = replyText;
+        this.replyTimestamp = replyTimestamp;
     }
 
     public UUID getId() {
@@ -89,5 +96,29 @@ public class Message {
 
     public void setStatusMessage(StatusMessage statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+    public boolean isLgpdConsent() {
+        return lgpdConsent;
+    }
+
+    public void setLgpdConsent(boolean lgpdConsent) {
+        this.lgpdConsent = lgpdConsent;
+    }
+
+    public String getReplyText() {
+        return replyText;
+    }
+
+    public void setReplyText(String replyText) {
+        this.replyText = replyText;
+    }
+
+    public LocalDateTime getReplyTimestamp() {
+        return replyTimestamp;
+    }
+
+    public void setReplyTimestamp(LocalDateTime replyTimestamp) {
+        this.replyTimestamp = replyTimestamp;
     }
 }

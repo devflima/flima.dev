@@ -1,0 +1,18 @@
+{
+  "queries": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Infinity"
+      },
+      "type": "json",
+      "source": "url",
+      "url": "http://host.docker.internal:5173/health.json",
+      "parser": "uql",
+      "uql": "parse-json | project \"status\""
+    }
+  ],
+  "from": "now-15m",
+  "to": "now"
+}

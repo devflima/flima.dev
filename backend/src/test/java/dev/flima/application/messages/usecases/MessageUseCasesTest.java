@@ -28,7 +28,7 @@ class MessageUseCasesTest {
         MessageProducerPort port = Mockito.mock(MessageProducerPort.class);
         CreateMessageUseCase useCase = new CreateMessageUseCase(port);
 
-        useCase.execute(new MessageDTORequest("user", "test@example.com", "sub", "msg"));
+        useCase.execute(new MessageDTORequest("user", "test@example.com", "sub", "msg", true));
 
         Mockito.verify(port).sendMessage(ArgumentMatchers.any(Message.class));
     }
@@ -39,7 +39,7 @@ class MessageUseCasesTest {
         MessageRepository repo = Mockito.mock(MessageRepository.class);
         PersistMessageUseCase useCase = new PersistMessageUseCase(repo);
 
-        useCase.execute(new Message("user", "test@example.com", "sub", "msg"));
+        useCase.execute(new Message("user", "test@example.com", "sub", "msg", true));
 
         Mockito.verify(repo).save(ArgumentMatchers.any(Message.class));
     }
@@ -52,7 +52,7 @@ class MessageUseCasesTest {
         Mailer mailer = Mockito.mock(Mailer.class);
 
         UUID id = UUID.randomUUID();
-        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.UNREAD);
+        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.UNREAD, true, null, null);
         Mockito.when(repo.getById(id)).thenReturn(Optional.of(originalMessage));
 
         RepliedMessageUseCase useCase = new RepliedMessageUseCase(repo, port, mailer);
@@ -60,7 +60,6 @@ class MessageUseCasesTest {
         useCase.execute(id, new RepliedMessageDTORequest("reply@example.com", "sub", "reply text"));
 
         Mockito.verify(mailer).send(ArgumentMatchers.any(Mail.class));
-        Mockito.verify(port).sendMessage(ArgumentMatchers.any(Message.class));
         Mockito.verify(repo).modify(ArgumentMatchers.any(Message.class));
         assertEquals(StatusMessage.REPLIED, originalMessage.getStatusMessage());
     }
@@ -73,7 +72,7 @@ class MessageUseCasesTest {
         Mailer mailer = Mockito.mock(Mailer.class);
 
         UUID id = UUID.randomUUID();
-        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.UNREAD);
+        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.UNREAD, true, null, null);
         Mockito.when(repo.getById(id)).thenReturn(Optional.of(originalMessage));
 
         Mockito.doThrow(new RuntimeException("Mailer error")).when(mailer).send(ArgumentMatchers.any(Mail.class));
@@ -92,7 +91,7 @@ class MessageUseCasesTest {
         Mailer mailer = Mockito.mock(Mailer.class);
 
         UUID id = UUID.randomUUID();
-        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.REPLIED);
+        Message originalMessage = new Message(id, "user", "test@example.com", "msg", "sub", LocalDateTime.now(), StatusMessage.REPLIED, true, null, null);
         Mockito.when(repo.getById(id)).thenReturn(Optional.of(originalMessage));
 
         RepliedMessageUseCase useCase = new RepliedMessageUseCase(repo, port, mailer);

@@ -19,8 +19,9 @@ public class CreateMessageUseCase {
         Message message = new Message(
                 messageDTO.username(),
                 messageDTO.email(),
+                messageDTO.message(),
                 messageDTO.subject(),
-                messageDTO.message()
+                messageDTO.lgpdConsent()
         );
 
         messageProducer.sendMessage(message);

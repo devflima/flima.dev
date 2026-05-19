@@ -1,0 +1,3 @@
+ALTER TABLE messages ADD COLUMN lgpd_consent BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE messages ADD COLUMN reply_text TEXT;
+ALTER TABLE messages ADD COLUMN reply_timestamp TIMESTAMP;

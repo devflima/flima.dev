@@ -12,5 +12,8 @@ public record MessageDTOResponse(
         String message,
         String subject,
         LocalDateTime timestamp,
-        StatusMessage statusMessage
+        StatusMessage statusMessage,
+        boolean lgpdConsent,
+        String replyText,
+        LocalDateTime replyTimestamp
 ) {}

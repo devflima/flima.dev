@@ -42,26 +42,28 @@ public class VisitorFilter implements ContainerRequestFilter {
                 }
                 totalHits.count++;
 
-                // 2. Unique Daily Visitors
-                String ip = requestContext.getHeaderString("X-Forwarded-For");
-                if (ip == null || ip.isEmpty()) {
-                    // Fallback to direct remote address if no proxy header
-                    // In Quarkus/JAX-RS we might need to inject HttpFacade or use Vertx request
-                    // But for now, we'll try to get it from context if possible
-                    ip = "unknown"; 
-                } else {
-                    ip = ip.split(",")[0].trim();
-                }
+                // 2. Unique Daily Visitors (LGPD Compliant - Requires Consent Cookie)
+                String visitorIdStr = requestContext.getHeaderString("X-Visitor-Id");
+                
+                // If the user hasn't accepted cookies, they won't send X-Visitor-Id.
+                // We respect their privacy and skip creating a unique visitor record.
+                if (visitorIdStr != null && !visitorIdStr.trim().isEmpty()) {
+                    try {
+                        String visitorId = visitorIdStr.trim();
+                        LocalDate today = LocalDate.now();
+                        
+                        Long count = (Long) em.createQuery("SELECT COUNT(v) FROM daily_visitors v WHERE v.visitorId = :visitorId AND v.visitDate = :today")
+                                .setParameter("visitorId", visitorId)
+                                .setParameter("today", today)
+                                .getSingleResult();
 
-                LocalDate today = LocalDate.now();
-                Long count = (Long) em.createQuery("SELECT COUNT(v) FROM daily_visitors v WHERE v.ipAddress = :ip AND v.visitDate = :today")
-                        .setParameter("ip", ip)
-                        .setParameter("today", today)
-                        .getSingleResult();
-
-                if (count == 0) {
-                    DailyVisitorPanacheEntity uniqueVisitor = new DailyVisitorPanacheEntity(ip, today);
-                    em.persist(uniqueVisitor);
+                        if (count == 0) {
+                            DailyVisitorPanacheEntity uniqueVisitor = new DailyVisitorPanacheEntity(visitorId, today);
+                            em.persist(uniqueVisitor);
+                        }
+                    } catch (Exception e) {
+                        Log.warnf("Invalid visitor ID format or db error: %s", e.getMessage());
+                    }
                 }
             }
         } catch (Exception e) {

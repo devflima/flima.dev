@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 import { BrowserRouter } from 'react-router-dom';
 
-export function renderWithProviders(ui, { route = '/' } = {}) {
-  globalThis.history.pushState({}, 'Test page', route);
+export function renderWithProviders(ui, { route = '/', state = {} } = {}) {
+  globalThis.history.pushState(state, 'Test page', route);
 
   function Wrapper({ children }) {
     return (

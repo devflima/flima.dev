@@ -42,4 +42,13 @@ public class MessagePanacheEntity {
     @NotNull
     public StatusMessage statusMessage;
 
+    @Column(name = "lgpd_consent", nullable = false)
+    public boolean lgpdConsent;
+
+    @Column(name = "reply_text")
+    public String replyText;
+
+    @Column(name = "reply_timestamp")
+    public LocalDateTime replyTimestamp;
+
 }

@@ -39,13 +39,6 @@ public class RepliedMessageUseCase {
             throw new BusinessRuleException(messages.getString("message.invalid_status_for_reply"));
         }
 
-        Message myMessage = new Message(
-                "flima.dev",
-                request.email(),
-                String.format("Response payload for: %s", message.getSubject()),
-                request.message()
-        );
-
         try {
             mailer.send(Mail.withText(
                     request.email(),
@@ -53,7 +46,6 @@ public class RepliedMessageUseCase {
                     request.message()
             ));
 
-            messageProducer.sendMessage(myMessage);
             Log.infof("Reply sent successfully to %s for message %s", request.email(), id);
         } catch (Exception e) {
             Log.errorf(e, "Failed to reply message %s: %s", id, e.getMessage());
@@ -61,6 +53,8 @@ public class RepliedMessageUseCase {
         }
 
         message.setStatusMessage(StatusMessage.REPLIED);
+        message.setReplyText(request.message());
+        message.setReplyTimestamp(java.time.LocalDateTime.now());
 
         messageRepository.modify(message);
     }

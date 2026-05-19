@@ -12,7 +12,7 @@ export const options = {
   },
 };
 
-const BASE_URL = 'https://flima.dev'; // Altere para seu domínio ou IP
+const BASE_URL = 'http://host.docker.internal:8080'; // Roteamento Docker -> Host nativo
 
 export default function loadTest() {
   // Teste da Home
@@ -22,7 +22,7 @@ export default function loadTest() {
   });
 
   // Teste da API de Projetos (se estiver pública)
-  const resApi = http.get(`${BASE_URL}/api/v1/projects`);
+  const resApi = http.get(`${BASE_URL}/api/v1/contacts`);
   check(resApi, {
     'api status is 200': (r) => r.status === 200,
   });

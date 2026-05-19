@@ -15,6 +15,22 @@ vi.mock('react-hot-toast', () => ({
   },
 }));
 
+let mockLocationState = null;
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: () => {
+      const loc = actual.useLocation();
+      return {
+        ...loc,
+        state: mockLocationState || loc.state
+      };
+    },
+  };
+});
+
 describe('ManageMessages Component', () => {
   it('renders and lists messages', async () => {
     renderWithProviders(<ManageMessages />);
@@ -77,8 +93,8 @@ describe('ManageMessages Component', () => {
       fireEvent.click(screen.getByText('Jane Smith'));
     });
 
-    expect(screen.getByText(/Already_Replied/i)).toBeInTheDocument();
-    expect(screen.getByText(/Already_Replied/i)).toBeDisabled();
+    expect(screen.getByText(/REPLY_HISTORY/i)).toBeInTheDocument();
+    expect(screen.queryByText(/COMPOSE_REPLY/i)).not.toBeInTheDocument();
   });
 
   it('handles pagination', async () => {
@@ -141,5 +157,17 @@ describe('ManageMessages Component', () => {
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalled();
     });
+  });
+
+  it('automatically selects message from location state', async () => {
+    mockLocationState = { selectedMessageId: 'm11' };
+    renderWithProviders(<ManageMessages />);
+
+    await waitFor(() => {
+      expect(screen.getByText('COMPOSE_REPLY')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'User 11' })).toBeInTheDocument();
+    });
+
+    mockLocationState = null;
   });
 });

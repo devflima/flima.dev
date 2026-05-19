@@ -21,7 +21,8 @@ class MessageResourceTest {
                 "visitor",
                 "visitor@example.com",
                 "Hello",
-                "This is a test message"
+                "This is a test message",
+                true
         );
 
         given()
@@ -61,6 +62,17 @@ class MessageResourceTest {
         given()
                 .when()
                 .get("/api/v1/messages")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("Should get total message count when authenticated as OWNER")
+    @TestSecurity(user = "admin", roles = Role.Labels.OWNER)
+    void shouldGetTotalMessagesCountAsOwner() {
+        given()
+                .when()
+                .get("/api/v1/messages/count")
                 .then()
                 .statusCode(200);
     }

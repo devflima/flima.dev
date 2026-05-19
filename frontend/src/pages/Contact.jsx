@@ -3,7 +3,7 @@ import { useAddMessageMutation, useGetPageContentQuery } from '../store/apiSlice
 
 export default function Contact() {
   const { data: pageContent, isLoading: isLoadingContent } = useGetPageContentQuery();
-  const [formData, setFormData] = useState({ user_name: '', user_email: '', title_header: '', message_body: '' });
+  const [formData, setFormData] = useState({ user_name: '', user_email: '', title_header: '', message_body: '', lgpdConsent: false });
   const [status, setStatus] = useState('idle'); // idle, success, error
   const [cooldown, setCooldown] = useState(0);
 
@@ -18,7 +18,8 @@ export default function Contact() {
   }, [cooldown]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -31,12 +32,13 @@ export default function Contact() {
         email: formData.user_email,
         subject: formData.title_header,
         message: formData.message_body,
+        lgpdConsent: formData.lgpdConsent
       };
 
       await addMessage(payload).unwrap();
 
       setStatus('success');
-      setFormData({ user_name: '', user_email: '', title_header: '', message_body: '' });
+      setFormData({ user_name: '', user_email: '', title_header: '', message_body: '', lgpdConsent: false });
       setCooldown(60); // 60 seconds cooldown to prevent spam
 
       setTimeout(() => setStatus('idle'), 5000);
@@ -117,6 +119,21 @@ export default function Contact() {
                   <span className="absolute left-3 top-4 font-code-snippet text-code-snippet text-on-surface-variant">&gt;</span>
                   <textarea id="message_body" required name="message_body" value={formData.message_body} onChange={handleChange} className="w-full bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0 text-on-background font-code-snippet text-code-snippet pl-8 py-3 outline-none transition-colors resize-none" placeholder="Enter payload data..." rows="5"></textarea>
                 </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <input 
+                  type="checkbox" 
+                  id="lgpdConsent" 
+                  name="lgpdConsent" 
+                  required 
+                  checked={formData.lgpdConsent} 
+                  onChange={handleChange}
+                  className="mt-1 shrink-0 cursor-pointer accent-primary-container"
+                />
+                <label htmlFor="lgpdConsent" className="font-code-snippet text-xs text-on-surface-variant cursor-pointer">
+                  Li e aceito a <a href="/privacy" className="text-primary-container hover:underline" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>. Autorizo a coleta dos meus dados inseridos acima para a finalidade exclusiva de retorno e contato.
+                </label>
               </div>
 
               {status === 'success' && (
