@@ -12,6 +12,7 @@ export default function ManageMessages() {
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasAutoSelected, setHasAutoSelected] = useState(false);
   const messagesPerPage = 10;
 
   // Filter out any leftover replies from the old system (from flima.dev)
@@ -21,29 +22,27 @@ export default function ManageMessages() {
   const sortedMessages = [...receivedMessages].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   useEffect(() => {
-    if (location.state?.selectedMessageId && sortedMessages.length > 0) {
+    if (location.state?.selectedMessageId && sortedMessages.length > 0 && !hasAutoSelected) {
       const msg = sortedMessages.find(m => m.id === location.state.selectedMessageId);
-      if (msg && (!replyingTo || replyingTo.id !== msg.id)) {
-        const timer = setTimeout(() => {
-          setReplyingTo(msg);
-          setReplyText('');
-          
-          // mark as read if unread
-          if (msg.statusMessage === 'UNREAD') {
-            updateMessageStatus({ id: msg.id, type: 'read' }).catch(err => console.error('Failed to mark read', err));
-          }
-          
-          // Calculate page
-          const index = sortedMessages.findIndex(m => m.id === msg.id);
-          if (index !== -1) {
-            const page = Math.floor(index / messagesPerPage) + 1;
-            setCurrentPage(page);
-          }
-        }, 0);
-        return () => clearTimeout(timer);
+      if (msg) {
+        setHasAutoSelected(true);
+        setReplyingTo(msg);
+        setReplyText('');
+        
+        // mark as read if unread
+        if (msg.statusMessage === 'UNREAD') {
+          updateMessageStatus({ id: msg.id, type: 'read' }).catch(err => console.error('Failed to mark read', err));
+        }
+        
+        // Calculate page
+        const index = sortedMessages.findIndex(m => m.id === msg.id);
+        if (index !== -1) {
+          const page = Math.floor(index / messagesPerPage) + 1;
+          setCurrentPage(page);
+        }
       }
     }
-  }, [location.state, sortedMessages, replyingTo, updateMessageStatus]);
+  }, [location.state, sortedMessages, hasAutoSelected, updateMessageStatus]);
 
   const handleReplyClick = async (msg) => {
     setReplyingTo(msg);

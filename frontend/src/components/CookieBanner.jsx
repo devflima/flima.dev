@@ -6,18 +6,29 @@ export default function CookieBanner() {
     return !consent;
   });
 
+  const generateUUID = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
   useEffect(() => {
     const consent = localStorage.getItem('lgpd_cookie_consent');
     if (consent === 'accepted' && !localStorage.getItem('visitor_id')) {
       // Ensure visitor_id is set if accepted but missing
-      localStorage.setItem('visitor_id', crypto.randomUUID());
+      localStorage.setItem('visitor_id', generateUUID());
     }
   }, []);
 
   const handleAccept = () => {
     localStorage.setItem('lgpd_cookie_consent', 'accepted');
     if (!localStorage.getItem('visitor_id')) {
-      localStorage.setItem('visitor_id', crypto.randomUUID());
+      localStorage.setItem('visitor_id', generateUUID());
     }
     setIsVisible(false);
   };
