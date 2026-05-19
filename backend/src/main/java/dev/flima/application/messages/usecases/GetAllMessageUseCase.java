@@ -26,7 +26,10 @@ public class GetAllMessageUseCase {
                         message.getMessage(),
                         message.getSubject(),
                         message.getTimestamp(),
-                        message.getStatusMessage()
+                        message.getStatusMessage(),
+                        message.isLgpdConsent(),
+                        message.getReplyText(),
+                        message.getReplyTimestamp()
                 ))
                 .toList();
     }

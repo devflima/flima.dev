@@ -47,8 +47,9 @@ public class ContactMessagingAdapter implements MessageProducerPort {
             Message message = new Message(
                     messageReceive.getUsername(),
                     messageReceive.getEmail(),
+                    messageReceive.getMessage(),
                     messageReceive.getSubject(),
-                    messageReceive.getMessage()
+                    messageReceive.isLgpdConsent()
             );
 
             Log.infof("Processing message from Kafka for %s <%s>", message.getUsername(), message.getEmail());

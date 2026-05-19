@@ -32,7 +32,10 @@ public class GetMessageUseCase {
                 message.getMessage(),
                 message.getSubject(),
                 message.getTimestamp(),
-                message.getStatusMessage()
+                message.getStatusMessage(),
+                message.isLgpdConsent(),
+                message.getReplyText(),
+                message.getReplyTimestamp()
         );
     }
 
