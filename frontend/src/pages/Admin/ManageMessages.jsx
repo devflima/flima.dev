@@ -25,21 +25,23 @@ export default function ManageMessages() {
     if (location.state?.selectedMessageId && sortedMessages.length > 0 && !hasAutoSelected) {
       const msg = sortedMessages.find(m => m.id === location.state.selectedMessageId);
       if (msg) {
-        setHasAutoSelected(true);
-        setReplyingTo(msg);
-        setReplyText('');
-        
-        // mark as read if unread
-        if (msg.statusMessage === 'UNREAD') {
-          updateMessageStatus({ id: msg.id, type: 'read' }).catch(err => console.error('Failed to mark read', err));
-        }
-        
-        // Calculate page
-        const index = sortedMessages.findIndex(m => m.id === msg.id);
-        if (index !== -1) {
-          const page = Math.floor(index / messagesPerPage) + 1;
-          setCurrentPage(page);
-        }
+        setTimeout(() => {
+          setHasAutoSelected(true);
+          setReplyingTo(msg);
+          setReplyText('');
+          
+          // mark as read if unread
+          if (msg.statusMessage === 'UNREAD') {
+            updateMessageStatus({ id: msg.id, type: 'read' }).catch(err => console.error('Failed to mark read', err));
+          }
+          
+          // Calculate page
+          const index = sortedMessages.findIndex(m => m.id === msg.id);
+          if (index !== -1) {
+            const page = Math.floor(index / messagesPerPage) + 1;
+            setCurrentPage(page);
+          }
+        }, 0);
       }
     }
   }, [location.state, sortedMessages, hasAutoSelected, updateMessageStatus]);
