@@ -3,6 +3,7 @@ package dev.flima.application.experiences.usecases;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.experience.Experience;
 import dev.flima.domain.experience.ExperienceRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -20,6 +21,7 @@ public class DeleteExperienceUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "experiences-cache")
     public void execute(UUID id) {
         Experience experience = experienceRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("experience.not_found")));

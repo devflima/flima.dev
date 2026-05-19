@@ -2,6 +2,7 @@ package dev.flima.application.projects.usecases;
 
 import dev.flima.application.projects.dtos.response.ProjectDTOResponse;
 import dev.flima.domain.projects.ProjectRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class GetAllProjectsUseCase {
         this.projectRepository = projectRepository;
     }
 
+    @CacheResult(cacheName = "projects-cache")
     public List<ProjectDTOResponse> execute() {
         return projectRepository.getAll().stream()
                 .map(project -> new ProjectDTOResponse(

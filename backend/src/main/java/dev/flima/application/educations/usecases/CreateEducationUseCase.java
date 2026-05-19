@@ -4,6 +4,7 @@ import dev.flima.application.educations.dtos.request.EducationDTORequest;
 import dev.flima.application.educations.dtos.response.CreateEducationDTOResponse;
 import dev.flima.domain.educations.Education;
 import dev.flima.domain.educations.EducationRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -17,6 +18,7 @@ public class CreateEducationUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "educations-cache")
     public CreateEducationDTOResponse execute(EducationDTORequest educationDTO) {
         Education education = new Education(
                 educationDTO.typeEducation(),

@@ -3,6 +3,7 @@ package dev.flima.application.stacks.usecases;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.stacks.Stack;
 import dev.flima.domain.stacks.StackRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -20,6 +21,7 @@ public class DeleteStackUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "stacks-cache")
     public void execute(UUID id) {
         Stack stack = stackRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("stack.not_found")));

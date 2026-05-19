@@ -5,6 +5,7 @@ import dev.flima.application.stacks.dtos.response.StackDTOResponse;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.stacks.Stack;
 import dev.flima.domain.stacks.StackRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -22,6 +23,7 @@ public class UpdateStackUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "stacks-cache")
     public StackDTOResponse execute(UUID id, StackDTORequest stackDTO) {
         Stack stack = stackRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("stack.not_found")));

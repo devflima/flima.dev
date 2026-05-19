@@ -5,6 +5,7 @@ import dev.flima.application.educations.dtos.response.EducationDTOResponse;
 import dev.flima.domain.educations.Education;
 import dev.flima.domain.educations.EducationRepository;
 import dev.flima.domain.exceptions.EntityNotFoundException;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -23,6 +24,7 @@ public class UpdateEducationUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "educations-cache")
     public EducationDTOResponse execute(UUID id, EducationDTORequest educationDTO) {
         Education education = educationRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("education.not_found")));

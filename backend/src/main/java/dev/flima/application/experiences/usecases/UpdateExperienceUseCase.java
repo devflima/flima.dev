@@ -5,6 +5,7 @@ import dev.flima.application.experiences.dtos.response.ExperienceDTOResponse;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.experience.Experience;
 import dev.flima.domain.experience.ExperienceRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -22,6 +23,7 @@ public class UpdateExperienceUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "experiences-cache")
     public ExperienceDTOResponse execute(UUID id, ExperienceDTORequest experienceDTO) {
         Experience experience = experienceRepository.getById(id)
                 .orElseThrow(() -> new EntityNotFoundException(messages.getString("experience.not_found")));

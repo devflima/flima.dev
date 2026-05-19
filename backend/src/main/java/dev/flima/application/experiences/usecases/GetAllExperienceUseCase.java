@@ -3,6 +3,7 @@ package dev.flima.application.experiences.usecases;
 import dev.flima.application.experiences.dtos.response.ExperienceDTOResponse;
 import dev.flima.domain.experience.Experience;
 import dev.flima.domain.experience.ExperienceRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class GetAllExperienceUseCase {
         this.experienceRepository = experienceRepository;
     }
 
+    @CacheResult(cacheName = "experiences-cache")
     public List<ExperienceDTOResponse> execute() {
         List<Experience> experiences = experienceRepository.getAll();
         return experiences.stream()
