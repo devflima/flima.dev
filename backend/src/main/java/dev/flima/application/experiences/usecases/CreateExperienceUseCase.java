@@ -4,6 +4,7 @@ import dev.flima.application.experiences.dtos.request.ExperienceDTORequest;
 import dev.flima.application.experiences.dtos.response.CreateExperienceDTOResponse;
 import dev.flima.domain.experience.Experience;
 import dev.flima.domain.experience.ExperienceRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -17,6 +18,7 @@ public class CreateExperienceUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "experiences-cache")
     public CreateExperienceDTOResponse execute(ExperienceDTORequest experienceDTO) {
         Experience experience = new Experience(
                 experienceDTO.title(),

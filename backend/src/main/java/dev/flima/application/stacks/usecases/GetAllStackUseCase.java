@@ -3,6 +3,7 @@ package dev.flima.application.stacks.usecases;
 import dev.flima.application.stacks.dtos.response.StackDTOResponse;
 import dev.flima.domain.stacks.Stack;
 import dev.flima.domain.stacks.StackRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class GetAllStackUseCase {
         this.stackRepository = stackRepository;
     }
 
+    @CacheResult(cacheName = "stacks-cache")
     public List<StackDTOResponse> execute() {
         List<Stack> stacks = stackRepository.getAll();
 

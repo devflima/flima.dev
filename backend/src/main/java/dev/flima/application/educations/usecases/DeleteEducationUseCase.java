@@ -3,6 +3,7 @@ package dev.flima.application.educations.usecases;
 import dev.flima.domain.educations.Education;
 import dev.flima.domain.educations.EducationRepository;
 import dev.flima.domain.exceptions.EntityNotFoundException;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -21,6 +22,7 @@ public class DeleteEducationUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "educations-cache")
     public void execute(UUID id) {
         Education education = educationRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("education.not_found")));

@@ -4,6 +4,7 @@ import dev.flima.application.stacks.dtos.request.StackDTORequest;
 import dev.flima.application.stacks.dtos.response.CreateStackDTOResponse;
 import dev.flima.domain.stacks.Stack;
 import dev.flima.domain.stacks.StackRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -17,6 +18,7 @@ public class CreateStackUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "stacks-cache")
     public CreateStackDTOResponse execute(StackDTORequest stackDTO) {
         Stack stack = new Stack(stackDTO.stackType(), stackDTO.technologies());
 

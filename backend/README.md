@@ -1,66 +1,70 @@
-# portfolio-flima-dev
+# flima.dev — Quarkus Portfolio Backend API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+High-performance, reactive, and secure Java API designed with the **Quarkus** framework. This system exposes endpoints to public clients and a secure set of CRUD endpoints to the portfolio administration dashboard.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+---
 
-## Running the application in dev mode
+## 🛠️ Tech Stack & Key Extensions
 
-You can run your application in dev mode that enables live coding using:
+- **Framework**: Quarkus v3.34+
+- **Persistence**: Hibernate ORM (Panache), PostgreSQL, Flyway (for schema migrations)
+- **Caching**: Quarkus Cache (Redis Client backing)
+- **Security**: SmallRye JWT (Role-Based Access Control)
+- **Asynchronous Messaging**: SmallRye Reactive Messaging with Apache Kafka
+- **Rate-Limiting**: Bucket4j (Quarkiverse extension)
+- **Observability**: Micrometer Registry Prometheus & SmallRye Health Probes
 
-```shell script
-./mvnw quarkus:dev
+---
+
+## ⚙️ Configuration & Environment
+
+The application configuration resides in `src/main/resources/application.properties`. 
+
+### Key Profiles
+* **Prod (Default)**: Leverages Kubernetes service discovery (`redis-service`, `postgres-db`, `kafka-service`). Requires environment variables for secrets.
+* **Dev (`%dev`)**: Pre-configured for local developer machine setup (`localhost` targets).
+* **Test (`%test`)**: Disables caching (`quarkus.cache.enabled=false`), uses an in-memory H2/PostgreSQL mapping, and mocks SMTP using Quarkus Mailer.
+
+---
+
+## 📦 Cache Management Strategy (Redis)
+
+To ensure high-performance response times on public routes, we use caching:
+- Public lists (Experiences, Educations, Projects, Stacks) are annotated with `@CacheResult(cacheName = "...")` to cache results directly in Redis.
+- Administrative mutation operations (Create, Update, Delete) are annotated with `@CacheInvalidateAll(cacheName = "...")` to instantly wipe outdated cache records upon admin updates.
+
+---
+
+## 🧪 Testing Suite
+
+We maintain a high-quality test suite containing unit, integration, and transactional boundary tests.
+
+### Running Backend Tests
+
+Run the surefire testing suite:
+```bash
+./mvnw clean test
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### Advanced Testing Patterns
+* **Mock Mailbox**: Email dispatches are verified in integration tests using Quarkus' built-in `MockMailbox` API instead of hitting real SMTP servers.
+* **Kafka Integration**: Kafka events are tested in-memory or using Testcontainers (`StrimziKafkaContainer`) to mock asynchronous pub-sub structures.
 
-## Packaging and running the application
+---
 
-The application can be packaged using:
+## ⚡ Packaging and Production JVM Settings
 
-```shell script
-./mvnw package
+### JVM Resource Configuration
+In Kubernetes deployments, the JVM is strictly limited to prevent memory spikes on connection spikes:
+```yaml
+env:
+  - name: JAVA_OPTS
+    value: "-XX:+UseG1GC -Xms256m -Xmx512m -XX:MaxRAMPercentage=75.0"
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
+### Building the Package
+To compile and package the application as an Über-jar:
+```bash
 ./mvnw package -Dquarkus.package.jar.type=uber-jar
 ```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/portfolio-flima-dev-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+The compiled runner will be located at `target/*-runner.jar`.

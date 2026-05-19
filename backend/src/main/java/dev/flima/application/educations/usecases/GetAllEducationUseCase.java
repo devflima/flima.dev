@@ -2,6 +2,7 @@ package dev.flima.application.educations.usecases;
 
 import dev.flima.application.educations.dtos.response.EducationDTOResponse;
 import dev.flima.domain.educations.EducationRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class GetAllEducationUseCase {
         this.educationRepository = educationRepository;
     }
 
+    @CacheResult(cacheName = "educations-cache")
     public List<EducationDTOResponse> execute() {
         return educationRepository.getAll().stream()
                 .map(education -> new EducationDTOResponse(

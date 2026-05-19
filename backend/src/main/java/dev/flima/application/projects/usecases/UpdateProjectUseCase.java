@@ -5,6 +5,7 @@ import dev.flima.application.projects.dtos.response.ProjectDTOResponse;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.projects.Project;
 import dev.flima.domain.projects.ProjectRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -22,6 +23,7 @@ public class UpdateProjectUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "projects-cache")
     public ProjectDTOResponse execute(UUID id, ProjectDTORequest projectDTO) {
         Project project = projectRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("project.not_found")));

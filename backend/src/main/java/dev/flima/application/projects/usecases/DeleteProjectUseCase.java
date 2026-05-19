@@ -3,6 +3,7 @@ package dev.flima.application.projects.usecases;
 import dev.flima.domain.exceptions.EntityNotFoundException;
 import dev.flima.domain.projects.Project;
 import dev.flima.domain.projects.ProjectRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -20,6 +21,7 @@ public class DeleteProjectUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "projects-cache")
     public void execute(UUID id) {
         Project project = this.projectRepository.getById(id)
                         .orElseThrow(() -> new EntityNotFoundException(messages.getString("project.not_found")));

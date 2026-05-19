@@ -4,6 +4,7 @@ import dev.flima.application.projects.dtos.request.ProjectDTORequest;
 import dev.flima.application.projects.dtos.response.CreateProjectDTOResponse;
 import dev.flima.domain.projects.Project;
 import dev.flima.domain.projects.ProjectRepository;
+import io.quarkus.cache.CacheInvalidateAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
@@ -17,6 +18,7 @@ public class CreateProjectUseCase {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "projects-cache")
     public CreateProjectDTOResponse execute(ProjectDTORequest projectDTO) {
         Project project = new Project(
                 projectDTO.title(),
