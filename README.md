@@ -27,7 +27,7 @@ graph TD
 2. **Backend (`/backend`)**: A Quarkus (Java 21) REST API. Features proactive resource constraints (`JAVA_OPTS`), Flyway migration pipelines, custom rate-limiting (`Bucket4j`), and secure JWT token generation for the admin dashboard.
 3. **Caching Layer (`k8s/redis`)**: Redis caching built with Quarkus Cache extension to optimize public endpoints (Experiences, Educations, Projects, Stacks) with automatic write-through cache invalidation.
 4. **Messaging & Mailer**: Uses Apache Kafka for decoupling inbound contact messages. An asynchronous consumer picks up the messages and dispatches SMTP emails to the site owner.
-5. **Observability Stack (`k8s/monitoring`)**: Built-in Prometheus scraping config mapping metrics to a Grafana dashboard for real-time memory, CPU, HTTP requests, and Kafka latency metrics.
+5. **Observability Stack (`monitoring/`)**: Built-in Prometheus scraping config mapping metrics to a Grafana dashboard for real-time memory, CPU, HTTP requests, and Kafka latency metrics.
 
 ---
 
@@ -92,7 +92,7 @@ The production environment is managed using **ArgoCD** (GitOps), sourcing manife
 - `/k8s/kafka`: Local Kafka cluster broker configurations.
 - `/k8s/backend`: Quarkus API deployment with Probes and JVM Heap limit configurations.
 - `/k8s/frontend`: Nginx-wrapped SPA client.
-- `/k8s/monitoring`: Prometheus configuration and Grafana dashboards.
+- `/monitoring`: Prometheus configuration and Grafana dashboards.
 
 ### Updating Versions (GitOps Trigger)
 To trigger a new rolling update in the cluster, update the image versions inside:
