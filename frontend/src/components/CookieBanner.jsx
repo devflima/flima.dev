@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 
 export default function CookieBanner() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => {
+    const consent = localStorage.getItem('lgpd_cookie_consent');
+    return !consent;
+  });
 
   useEffect(() => {
     const consent = localStorage.getItem('lgpd_cookie_consent');
-    if (!consent) {
-      setIsVisible(true);
-    } else if (consent === 'accepted' && !localStorage.getItem('visitor_id')) {
+    if (consent === 'accepted' && !localStorage.getItem('visitor_id')) {
       // Ensure visitor_id is set if accepted but missing
       localStorage.setItem('visitor_id', crypto.randomUUID());
     }
